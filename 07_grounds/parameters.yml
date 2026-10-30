@@ -1,0 +1,21 @@
+- index: dialogue-v1
+  grounds_model: gpt-4.1-mini
+  grounds_system: You classify the grounds people give for their views. Be conservative.
+  grounds_prompt: |
+    Below is something said by member(s) of the public, and points extracted from it. For EACH
+    numbered point, say what it rests on in this text:
+      personal_experience     the speaker's own experience ("when I rang the council...")
+      others_experience       experience of people the speaker knows (family, friends, clients)
+      professional_knowledge  the speaker's job or expertise, drawn on for THIS point (a job mentioned
+                              elsewhere does not count)
+      principle               a value, belief or general reasoning, with no experience given
+      public_example          a news story, scandal or well-known case
+      project_materials       the videos, case studies or project presentations
+      unclear
+    Return JSON: {"bases": [{"n": 1, "basis": "principle"}, ...]} with one entry per point.
+
+    TEXT
+    <<UNIT>>
+
+    POINTS
+    <<POINTS>>

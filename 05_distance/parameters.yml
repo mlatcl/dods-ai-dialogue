@@ -1,0 +1,6 @@
+- index: dialogue-v1
+  group_field: group
+  min_mass: 1
+  n_perm: 999
+  seed: 42
+  mds_components: 2

@@ -1,0 +1,228 @@
+# =============================================================================
+# Dialogue analysis — 03_vq vector quantisation (CIP-001A)
+# =============================================================================
+#
+# Fine codebook on packed phrase embeddings. Each cluster is a cell of nearby
+# phrases. 04_grain then finds lenses (broader themes) on those centroids.
+#
+# Stores
+# ------
+#   parameters  ./parameters.yml         (n_vq, seed, kmeans, walk knobs)
+#   input       ../info/records.parquet  (packed phrases + embeddings)
+#   output      ../info/codebook.parquet (centroids, exemplars, cluster_ids, walk)
+# Knobs live in parameters.yml, not cache.
+# =============================================================================
+
+referia_config_version: 2
+title: "AI dialogue formats — VQ codebook (k=40 analogue)"
+description: >
+  K-means vector quantisation of the packed phrase embeddings. Clusters are
+  fine semantic cells; 04_grain reads the codebook as its grain. A Brownian
+  walk of 2-D projections shows centres and 1-SD extent.
+date: 2026-10-22
+
+display:
+  layout: side_by_side
+
+parameters:
+  type: yaml
+  directory: .
+  filename: parameters.yml
+  index: index
+  select: dialogue-v1
+
+input:
+  type: parquet
+  index: Name
+  filename: records.parquet
+  directory: ../info
+
+output:
+  type: parquet
+  index: Name
+  filename: codebook.parquet
+  directory: ../info
+  strict_columns: false
+  columns:
+    - cluster_ids
+    - codebook_embeddings
+    - codebook_phrases
+    - vq_mass
+    - vq_spec
+    - n_vq
+    - vq_inertia
+    - vq_n_phrases
+
+viewer:
+  - liquid: |
+      ## Paper reconstruction
+
+      Independent reconstruction of the 40-cluster topic space. Tweaks:
+      `parameters.yml` (`n_vq`, seed).
+
+      > To identify the main topics raised by participants, we used
+      > OpenAI’s text-embedding-3-large model to embed extracted
+      > points, and grouped these into 40 clusters using k-means
+      > (k=40; seed 42).
+
+      This stage is the k=40 analogue (VQ codebook). Lens grouping is
+      `04_grain`.
+
+  - liquid: |
+      ## Store status
+
+      **Parameters** `{% if store_status.parameters.exists %}{{ store_status.parameters.path }}{% else %}absent — ./parameters.yml{% endif %}`
+
+      **Input** `{% if store_status.input.exists %}{{ store_status.input.path }} · {{ store_status.input.size_human }}{% else %}absent — run 02_embed pack{% endif %}`
+
+      **Output** `{% if store_status.output.exists %}{{ store_status.output.path }} · {{ store_status.output.mtime }} · {{ store_status.output.size_human }}{% else %}absent — Fit VQ writes codebook.parquet{% endif %}`
+
+  - liquid: |
+      ## Vector quantisation
+
+      One packed corpus row. Phrase embeddings sit in a high-dimensional
+      space. **VQ** (k-means) builds a codebook of `n_vq` **clusters**:
+      each cluster is a fine cell of nearby phrases, not a theme. The
+      next stage, **04_grain**, reads those centroids and finds
+      **lenses** — broader thematic readings of the cells.
+
+      Parameters say `n_vq: 40` (Jess analogue). If the codebook was
+      fit under a different knob you will see that cell count here
+      (recently 64). Fit VQ overwrites `codebook.parquet`.
+
+      `Q` is the one-hot map phrase → cluster. Grain writes `R`
+      (cluster → lens). Phrase-level lens membership is `QR`. Document
+      histograms in 05 still count phrases, even when 04 treats each
+      cluster as one geometric point.
+
+      ### Projection walk
+
+      The figure is a **Brownian walk of 2-D planes** in the leading-variance
+      PCA subspace (not a static PCA scatter, and not the ambient 3072-d
+      vectors). Diamonds are codebook **centres** (size ~ √mass). Grey
+      ellipses are the **1-SD extent** of member phrases in the current
+      plane. **Play** / **Pause** run the walk. When linger is on, the
+      step length is `speed / √v` where `v` is variance captured by the
+      current plane, so high-variance views linger.
+
+  - type: PlotlyFigure
+    field: vq_spec
+    size:
+      mode: container
+      observe: true
+      aspect_ratio: 4/3
+
+  - type: Section
+    title: VQ parameters
+    entries:
+      - type: BoundedIntText
+        field: n_vq
+        args:
+          description: Codebook size (clamped to n phrases)
+          min: 2
+          max: 256
+      - type: BoundedIntText
+        field: seed
+        args:
+          description: VQ k-means seed
+          min: 0
+          max: 999999
+      - type: BoundedFloatText
+        field: vq_walk_speed
+        args:
+          description: Brownian step (Stiefel tangent noise)
+          min: 0.01
+          max: 1.0
+          step: 0.01
+      - type: BoundedIntText
+        field: vq_walk_frames
+        args:
+          description: Walk frames
+          min: 8
+          max: 120
+      - type: BoundedIntText
+        field: vq_walk_subspace
+        args:
+          description: PCA subspace dimension q
+          min: 2
+          max: 24
+      - type: Checkbox
+        field: vq_walk_linger
+        args:
+          description: Linger in high-variance planes
+      - type: PopulateButton
+        field: _fit_vq
+        args:
+          description: Fit VQ (overwrites codebook)
+          target: vq_spec
+          compute:
+            function: subject_vq_fit
+            field:
+              - cluster_ids
+              - codebook_embeddings
+              - codebook_phrases
+              - vq_mass
+              - vq_spec
+              - n_vq
+              - vq_inertia
+              - vq_n_phrases
+            refresh: true
+            row_args:
+              embeddings: embeddings
+              phrases: phrases
+              n_vq: n_vq
+              seed: seed
+              kmeans_init: kmeans_init
+              kmeans_n_init: kmeans_n_init
+              kmeans_max_iter: kmeans_max_iter
+              vq_walk_speed: vq_walk_speed
+              vq_walk_frames: vq_walk_frames
+              vq_walk_subspace: vq_walk_subspace
+              vq_walk_linger: vq_walk_linger
+            args:
+              force_refit: true
+
+review:
+  - type: precompute
+    specifications:
+      - function: named_store_status
+        field: store_status
+        refresh: true
+      - function: subject_vq_fit
+        field:
+          - cluster_ids
+          - codebook_embeddings
+          - codebook_phrases
+          - vq_mass
+          - vq_spec
+          - n_vq
+          - vq_inertia
+          - vq_n_phrases
+        refresh: true
+        row_args:
+          embeddings: embeddings
+          phrases: phrases
+          n_vq: n_vq
+          seed: seed
+          kmeans_init: kmeans_init
+          kmeans_n_init: kmeans_n_init
+          kmeans_max_iter: kmeans_max_iter
+          vq_walk_speed: vq_walk_speed
+          vq_walk_frames: vq_walk_frames
+          vq_walk_subspace: vq_walk_subspace
+          vq_walk_linger: vq_walk_linger
+          cluster_ids: cluster_ids
+          vq_spec: vq_spec
+          codebook_embeddings: codebook_embeddings
+          codebook_phrases: codebook_phrases
+          vq_mass: vq_mass
+          vq_inertia: vq_inertia
+        args:
+          force_refit: false
+
+  - type: Markdown
+    liquid: |
+      **Codebook** {{ n_vq }} cells from {{ vq_n_phrases }} phrases.
+      Inertia {{ vq_inertia }}.
+
+  - type: SaveButton

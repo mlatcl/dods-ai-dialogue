@@ -1,0 +1,146 @@
+# =============================================================================
+# Dialogue analysis — siding: extract kind reconstruction (CIP-001F)
+# =============================================================================
+#
+# Not a numbered pipeline stage. Reads info/phrases.yml; writes
+# info/kind_check.yml. Does not change extract, pack, or grain.
+# =============================================================================
+
+referia_config_version: 2
+title: "AI dialogue formats — siding: extract kind check"
+description: >
+  Off the main line. Five-fold bag-of-words reconstruction of concern /
+  benefit / condition labels from phrase text (tf-idf + logistic
+  regression). Chance vs collapse vs consistent. Does not rerun extract.
+date: 2026-10-29
+
+display:
+  layout: side_by_side
+
+parameters:
+  type: yaml
+  directory: .
+  filename: parameters.yml
+  index: index
+  select: dialogue-v1
+
+# Tiny one-row store. Do not load records.parquet (embeddings) for this check.
+input:
+  type: yaml
+  filename: constants.yml
+  directory: ../info
+  index: index
+  select: dialogue-v1
+
+output:
+  type: yaml
+  filename: kind_check.yml
+  directory: ../info
+  index: index
+  strict_columns: false
+  columns:
+    - kind_check
+    - kind_confusion
+    - kind_coefs
+    - kind_flags
+    - kind_check_md
+    - n_kind_phrases
+    - store_status
+
+viewer:
+  - liquid: |
+      ## Paper reconstruction
+
+      **Not in the paper.** Pipeline siding: can a bag-of-words model
+      recover extract kinds (concern / benefit / condition) from phrase
+      text? Independent check on this extract, not an experiment to
+      hand back as hers.
+
+  - liquid: |
+      ## Store status
+
+      **Output** `{% if store_status.output.exists %}{{ store_status.output.path }} · {{ store_status.output.mtime }} · {{ store_status.output.size_human }}{% else %}absent — Run the check to write kind_check.yml{% endif %}`
+
+  - liquid: |
+      ## What this page is
+
+      A **siding**, not stage 12. This page does **not** load the
+      embedding pack. **Run kind check** reads `phrases.yml` then fits
+      a bag-of-words classifier with 5-fold stratified
+      cross-validation and asks whether those labels are reconstructable
+      from the phrase text.
+
+      **What you should see** after the button: accuracy vs majority /
+      shuffled-label / (if enough documents) document-grouped baselines;
+      per-kind F1; a confusion matrix; optional n-gram weights; flags.
+      On this extract there are about 11k phrases, kinds nearly even
+      (concern / benefit / condition). Chance is ~0.33. Useful
+      consistency is well above that and below 0.95.
+
+      This does not change 02_embed. Do not paste phrase text into git.
+      Out-of-fold errors are listed as `phrase_id`s only.
+
+  - type: PopulateButton
+    field: _run_kind_check
+    args:
+      description: Run 5-fold kind check
+      target: kind_check_md
+      compute: &kind_compute
+        function: run_kind_reconstruction
+        field:
+          - kind_check
+          - kind_confusion
+          - kind_coefs
+          - kind_flags
+          - kind_check_md
+          - n_kind_phrases
+        refresh: true
+        row_args:
+          n_folds: n_folds
+          seed: seed
+          model: model
+          ngram_min: ngram_min
+          ngram_max: ngram_max
+          min_df: min_df
+          max_features: max_features
+          C: C
+          verified_only: verified_only
+
+review:
+  - type: precompute
+    specifications:
+      - function: named_store_status
+        field: store_status
+        refresh: true
+
+  - type: Dropdown
+    field: model
+    args:
+      description: Linear family (same question)
+      options: ["logreg", "nb", "linearsvc"]
+
+  - type: BoundedIntText
+    field: n_folds
+    args:
+      description: Stratified folds
+      min: 2
+      max: 10
+
+  - type: BoundedIntText
+    field: seed
+    args:
+      description: CV shuffle seed
+      min: 0
+      max: 999999
+
+  - type: Checkbox
+    field: verified_only
+    args:
+      description: Drop unverified quotes (quote_support < 0.8)
+
+  - type: Markdown
+    field: kind_check_md
+    liquid: |
+      {{ kind_check_md }}
+
+  - type: SaveButton

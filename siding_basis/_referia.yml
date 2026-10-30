@@ -1,0 +1,165 @@
+# =============================================================================
+# Dialogue analysis — siding: Part B basis reconstruction (CIP-001F)
+# =============================================================================
+#
+# Not a numbered pipeline stage. Joins info/grounds.yml onto phrases.yml;
+# writes info/basis_check.yml. Does not change 07_grounds coding.
+# =============================================================================
+
+referia_config_version: 2
+title: "AI dialogue formats — siding: grounds experience check"
+description: >
+  Off the main line. Five-fold bag-of-words reconstruction of the paper's
+  Part B coding: experience (personal + others) versus rest, from quote
+  plus phrase. Seven-way bases remain a diagnostic. Does not rerun
+  Classify all.
+date: 2026-10-30
+
+display:
+  layout: side_by_side
+
+parameters:
+  type: yaml
+  directory: .
+  filename: parameters.yml
+  index: index
+  select: dialogue-v1
+
+# Tiny one-row store. Do not load records.parquet (embeddings) for this check.
+input:
+  type: yaml
+  filename: constants.yml
+  directory: ../info
+  index: index
+  select: dialogue-v1
+
+output:
+  type: yaml
+  filename: basis_check.yml
+  directory: ../info
+  index: index
+  strict_columns: false
+  columns:
+    - basis_check
+    - basis_confusion
+    - basis_coefs
+    - basis_flags
+    - basis_check_md
+    - n_basis_phrases
+    - store_status
+
+viewer:
+  - liquid: |
+      ## Paper reconstruction
+
+      **Not in the paper.** Pipeline siding: can a linear model recover
+      experience vs rest from quote plus phrase? Independent check on
+      this 07 coding, not an experiment to hand back as hers.
+
+  - liquid: |
+      ## Store status
+
+      **Output** `{% if store_status.output.exists %}{{ store_status.output.path }} · {{ store_status.output.mtime }} · {{ store_status.output.size_human }}{% else %}absent — Run the check to write basis_check.yml{% endif %}`
+
+  - liquid: |
+      ## What this page is
+
+      A **siding**, not stage 12. This page does **not** load the
+      embedding pack. **Run the check** joins `grounds.yml` onto
+      `phrases.yml` by `phrase_id`.
+
+      Default question is the paper's: can a linear model recover
+      **experience vs rest** from the point's **quote plus phrase**?
+      Seven-way phrase BoW is the wrong classifier for this coding —
+      82% of labelled points are `principle`, so raw 5-fold accuracy
+      loses to the majority baseline even when the minorities have
+      some signal. Keep seven-way as a diagnostic of dump classes.
+
+      **Run 07_grounds Classify all + Save first.** A one-row
+      `grounds.yml` is a single Classify, not the unit-level coding.
+      Chance is **balanced accuracy versus 0.5**, not raw accuracy
+      versus the 86% `other` majority. A 0.79 vs 0.50 run is above
+      chance even if accuracy sits next to majority. Quote-plus-unit
+      is closer to what Classify saw; it still is not the LLM.
+
+      This does not change 07_grounds. Do not paste phrase text into git.
+      Out-of-fold errors are listed as `phrase_id`s only.
+
+  - type: PopulateButton
+    field: _run_basis_check
+    args:
+      description: Run 5-fold experience check
+      target: basis_check_md
+      compute: &basis_compute
+        function: run_basis_reconstruction
+        field:
+          - basis_check
+          - basis_confusion
+          - basis_coefs
+          - basis_flags
+          - basis_check_md
+          - n_basis_phrases
+        refresh: true
+        row_args:
+          n_folds: n_folds
+          seed: seed
+          model: model
+          label_mode: label_mode
+          text_source: text_source
+          ngram_min: ngram_min
+          ngram_max: ngram_max
+          min_df: min_df
+          max_features: max_features
+          C: C
+          verified_only: verified_only
+
+review:
+  - type: precompute
+    specifications:
+      - function: named_store_status
+        field: store_status
+        refresh: true
+
+  - type: Dropdown
+    field: label_mode
+    args:
+      description: Label (paper question first)
+      options: ["experience", "seven"]
+
+  - type: Dropdown
+    field: text_source
+    args:
+      description: Text the linear model sees
+      options: ["quote_and_phrase", "quote", "quote_and_unit", "phrase"]
+
+  - type: Dropdown
+    field: model
+    args:
+      description: Linear family (same question)
+      options: ["logreg", "nb", "linearsvc"]
+
+  - type: BoundedIntText
+    field: n_folds
+    args:
+      description: Stratified folds
+      min: 2
+      max: 10
+
+  - type: BoundedIntText
+    field: seed
+    args:
+      description: CV shuffle seed
+      min: 0
+      max: 999999
+
+  - type: Checkbox
+    field: verified_only
+    args:
+      description: Drop unverified quotes (quote_support < 0.8)
+
+  - type: Markdown
+    field: basis_check_md
+    liquid: |
+      {{ basis_check_md }}
+
+  - type: SaveButton

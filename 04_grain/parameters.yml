@@ -1,0 +1,27 @@
+- index: dialogue-v1
+  sigma2_mode: fixed
+  sigma2: 0.01
+  em_accept: 40
+  em_preview: 20
+  n_exemplars: 8
+  cluster_method: mppca
+  n_clusters: 8
+  seed: 42
+  kmeans_init: k-means++
+  kmeans_n_init: 10
+  kmeans_max_iter: 300
+  agglo_linkage: average
+  agglo_metric: cosine
+  lens_weight: uniform
+  label_model: gpt-4.1-mini
+  label_prompt: |
+    Below are short phrases that members of the public said about technology
+    used by local councils. Some are worries, some are hoped-for benefits,
+    some are conditions. Name the shared TOPIC — not whether it is a worry
+    or a benefit.
+    Return JSON with keys label and description.
+    label: 3–6 word English topic title — not an id, hash, list, sentiment
+    tag, or '?'.
+    description: ONE English sentence explaining what the phrases share.
+    Phrases:
+    <<PHRASES>>

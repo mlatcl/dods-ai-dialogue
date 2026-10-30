@@ -1,0 +1,43 @@
+.DS_Store
+.venv/
+.venv-vibesafe/
+__pycache__/
+*.pyc
+.llm_cache/
+*.db
+*.db-shm
+*.db-wal
+.env
+.env.*
+*.parquet
+
+# Local overlay: facilitator names identify the study
+local.yml
+
+# Transcripts and catalog with identifying filenames / names
+files/**/*.docx
+files/**/*.pdf
+files/**/*.zip
+info/documents.yml
+info/chunks.yml
+info/phrases.yml
+info/grounds.yml
+info/turns.yml
+info/document_distance.yml
+info/part_a.yml
+info/sequence.yml
+info/analysis_multiverse.yml
+info/scores.yml
+info/*.parquet
+
+# Per-stage caches and listing scores
+**/_chunk_cache.yml.gz
+**/_extract_cache.yml.gz
+**/_grounds_cache.yml.gz
+**/_turns_cache.yml.gz
+**/_listing_scores.yml
+**/*_cache.yml.gz
+
+# Notebooks with run outputs
+**/.ipynb_checkpoints/
+**/assessment.ipynb

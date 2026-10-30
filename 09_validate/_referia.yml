@@ -1,0 +1,103 @@
+# =============================================================================
+# Dialogue analysis — 09 word-list floor (CIP-001E)
+# =============================================================================
+#
+# Transparent experience language in each point's own quote. No model.
+# Own-words recode, hand-check sheets, and kappa vs the main run stay in
+# the public package (05_validation) until a later CIP-001E slice.
+# =============================================================================
+
+referia_config_version: 2
+title: "AI dialogue formats — word-list experience floor"
+description: >
+  Flag quotes that contain first-person / family / work experience
+  language. A floor, not the paper's 17.7 vs 4.1 (that is 07_grounds).
+date: 2026-10-29
+
+display:
+  layout: side_by_side
+
+parameters:
+  type: yaml
+  directory: .
+  filename: parameters.yml
+  index: index
+  select: dialogue-v1
+
+input:
+  type: parquet
+  filename: records.parquet
+  directory: ../info
+  index: Name
+
+output:
+  type: yaml
+  filename: wordlist.yml
+  directory: ../info
+  index: Name
+  strict_columns: false
+  columns:
+    - wordlist_rows
+    - wordlist_md
+    - store_status
+
+viewer:
+  - liquid: |
+      ## Paper reconstruction
+
+      Independent reconstruction of the **word-list** check only.
+      Tweaks: `parameters.yml`.
+
+      > First, we constructed a word list that set out explicit markers
+      > of personal or other experience in supporting quotes. This
+      > provided a model-independent check on the classification.
+
+      The paper’s second check — format-blind recode of a sample of
+      300 — is not this page. Leave it until you want that coding
+      pass.
+
+  - liquid: |
+      ## What this page is
+
+      One corpus row. Transparent regex over each point's **own quote**
+      (first-person / family / work experience language in
+      `parameters.yml`). No model. A **floor** on how often experience
+      language is even present — not the paper's 17.7 vs 4.1 (that is
+      07_grounds, which can code experience without those words, and
+      can refuse them).
+
+      **What you should see:** hit rates by format, optionally crossed
+      with 07 bases when `grounds.yml` exists.
+
+      **Waiting on another stage:** own-words recode (format-blind
+      second coding of labelled spring workshop points) and hand-check
+      sheets. This page is the word-list floor only.
+
+  - type: PopulateButton
+    field: _run_wordlist
+    args:
+      description: Count word-list hits
+      target: wordlist_md
+      compute: &wl_compute
+        function: run_wordlist_floor
+        field:
+          - wordlist_rows
+          - wordlist_md
+        refresh: true
+
+review:
+  - type: precompute
+    specifications:
+      - function: named_store_status
+        field: store_status
+        refresh: true
+      - function: run_wordlist_floor
+        field:
+          - wordlist_rows
+          - wordlist_md
+        refresh: true
+
+  - type: Markdown
+    field: wordlist_md
+    liquid: |
+      {{ wordlist_md }}

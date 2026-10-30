@@ -1,0 +1,10 @@
+- index: dialogue-v1
+  lookbacks:
+  - 1
+  - 2
+  - 3
+  - 5
+  n_shuffles: 500
+  seed: 0
+  labelled_round: spring_2026
+  cross_unit_only: false

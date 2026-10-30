@@ -1,0 +1,118 @@
+# DODS study hub — stages in directory order. Shared stores: ./info/
+# Public configs only. Transcripts and facilitator names stay local.
+
+referia_config_version: 2
+title: "AI dialogue formats — chatbot vs workshop"
+description: >
+  Independent reconstruction of the experiments in “An elicitation
+  fallacy?” for Jess to tweak. Stages 01–11 in glob order. 05 is extra
+  EMD geometry (the paper uses JSD in 06). 11 is the analysis-choice
+  product (not yet run). Sidings are not in the paper.
+date: 2026-10-29
+
+display:
+  layout: inline_list
+  filter_defaults:
+    _sort: sourceDirectory:asc
+
+input:
+  type: yaml_directory
+  index: configPath
+  source:
+    - directory: .
+      glob: "*/_referia.yml"
+      recursive: false
+      include_start_directory: false
+  fields:
+    - title
+    - description
+    - date
+    - referia_config_version
+  store_fields:
+    directory: sourceDirectory
+    filename: sourceFile
+    root: sourceRoot
+  compute:
+    - field: configPath
+      function: render_liquid
+      args:
+        template: >-
+          {% if sourceDirectory == "." %}{{ sourceFile }}{% else %}{{ sourceDirectory }}/{{ sourceFile }}{% endif %}
+      row_args:
+        sourceDirectory: sourceDirectory
+        sourceFile: sourceFile
+    - field: config_url
+      function: render_liquid
+      args:
+        template: "{{ sourceDirectory }}/"
+      row_args:
+        sourceDirectory: sourceDirectory
+    - field: title
+      function: render_liquid
+      args:
+        template: "{{ sourceDirectory }} · {{ title }}"
+      row_args:
+        sourceDirectory: sourceDirectory
+        title: title
+
+output:
+  type: yaml
+  index: configPath
+  filename: _listing_scores.yml
+  directory: .
+  columns:
+    - complete
+
+review:
+  - type: Checkbox
+    field: complete
+    default: false
+    args:
+      description: Done
+  - type: SaveButton
+
+filters:
+  - field: complete
+    type: boolean
+    label: Complete
+  - field: title
+    type: contains
+    label: Title
+
+sort:
+  - field: sourceDirectory
+    order: asc
+
+viewer:
+  - liquid: |
+      Independent reconstruction of the experiments in *An elicitation
+      fallacy?* Tweaks belong in each stage's `parameters.yml`. This is
+      not a replay of the notebook freeze.
+
+      Paper story this pipeline is for: chatbot and workshop sessions
+      elicited similar concerns, benefits, and conditions; workshop
+      contributions were more often grounded in experience.
+
+      Run stages in directory order. Corpus stores live in `info/`.
+      Transcripts stay out of this repo. Fill `local.yml` and
+      `info/documents.yml` from the private working copy.
+
+      1. `01_chunk` — catalog Recollective + workshop DOCX, segment, explode
+      2. `02_embed` — extract concern/benefit/condition phrases, embed, pack
+      3. `03_vq` — vector quantisation (`n_vq: 40` in parameters; check codebook)
+      4. `04_grain` — lenses on the codebook
+      5. `05_distance` — EMD / MDS / tests on format × lens `P`
+      6. `06_compare` — document-weighted CBC, lens shares, JSD (Part A)
+      7. `07_grounds` — Part B basis coding (LLM, one call per unit)
+      8. `08_questions` — chatbot question-type stress test (regex)
+      9. `09_validate` — word-list experience floor (regex)
+      10. `10_sequence` — stories-follow-stories (speaker-turn shuffle)
+      11. `11_multiverse` — analysis-choice product (main-run 07 codes)
+
+      Sidings (not stages): `siding_kind` (extract kinds), `siding_basis`
+      (Part B bases; run 07 Classify all first), `siding_lens` (hard
+      argmax of grain QR, not Name strings).
+
+      Read `GAP.md` before treating 06 output as the published Part A
+      numbers. Chatbot pack `doc_ids` must be conversations, not the two
+      Recollective files.

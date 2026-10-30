@@ -1,0 +1,45 @@
+# Copy to documents.yml (gitignored) and fill from the private store.
+# filename is relative to ../files. group = format so 05_distance
+# compares the two modes. Chatbot Recollective dumps are two files
+# covering many participants — after 01_chunk, pack doc_ids should be
+# participant conversations, not these two files (see GAP.md).
+# strategy must stay named; auto is ambiguous for dialogue_units.
+#
+# Do not put facilitator names or original workshop titles in git.
+
+- Name: chatbot-autumn
+  title: Chatbot transcript (autumn)
+  filename: chatbot/chatbot-autumn.docx
+  reader: docx
+  strategy: docx_chatbot.v1
+  year: 2025
+  technology: ai-local-government
+  format: chatbot
+  group: chatbot
+  round: autumn_2025
+  session_type: chatbot
+
+- Name: chatbot-spring
+  title: Chatbot transcript (spring)
+  filename: chatbot/chatbot-spring.docx
+  reader: docx
+  strategy: docx_chatbot.v1
+  year: 2026
+  technology: ai-local-government
+  format: chatbot
+  group: chatbot
+  round: spring_2026
+  session_type: chatbot
+
+- Name: workshop-spring-breakout-1
+  title: Workshop spring breakout 1
+  filename: workshops/workshop-spring-breakout-1.docx
+  reader: docx
+  strategy: docx_workshop.v1
+  year: 2026
+  technology: ai-local-government
+  format: workshop
+  group: workshop
+  round: spring_2026
+  session_type: breakout
+  facilitator: Facilitator-A

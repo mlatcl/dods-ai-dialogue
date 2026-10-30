@@ -1,0 +1,5 @@
+- index: dialogue-v1
+  min_mass: 1.0
+  n_boot: 2000.0
+  seed: 42.0
+  min_gap: 3.0

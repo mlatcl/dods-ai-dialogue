@@ -1,0 +1,10 @@
+- index: dialogue-v1
+  n_vq: 40
+  seed: 42
+  kmeans_init: k-means++
+  kmeans_n_init: 10
+  kmeans_max_iter: 300
+  vq_walk_speed: 0.08
+  vq_walk_frames: 48
+  vq_walk_subspace: 8
+  vq_walk_linger: true

@@ -1,0 +1,12 @@
+- index: dialogue-v1
+  n_folds: 5
+  seed: 0
+  model: logreg
+  label_mode: experience
+  text_source: quote_and_phrase
+  ngram_min: 1
+  ngram_max: 2
+  min_df: 2
+  max_features: 4000
+  C: 1.0
+  verified_only: true

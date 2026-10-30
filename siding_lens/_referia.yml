@@ -1,0 +1,146 @@
+# =============================================================================
+# Dialogue analysis — siding: hard lens reconstruction (CIP-001F)
+# =============================================================================
+#
+# Grain diagnostic, not a check of Name strings. Hard label = argmax of
+# phrase-level QR. Writes info/lens_check.yml. Does not change 03/04.
+# =============================================================================
+
+referia_config_version: 2
+title: "AI dialogue formats — siding: hard lens check"
+description: >
+  Off the main line. Five-fold bag-of-words reconstruction of the hard
+  grain lens (argmax of phrase-level QR) from phrase text. Asks whether
+  the current lenses are lexical, not whether Name strings are good.
+  Does not rerun VQ or grain.
+date: 2026-10-29
+
+display:
+  layout: side_by_side
+
+parameters:
+  type: yaml
+  directory: .
+  filename: parameters.yml
+  index: index
+  select: dialogue-v1
+
+# Tiny one-row store. Do not load records.parquet (embeddings) for this check.
+input:
+  type: yaml
+  filename: constants.yml
+  directory: ../info
+  index: index
+  select: dialogue-v1
+
+output:
+  type: yaml
+  filename: lens_check.yml
+  directory: ../info
+  index: index
+  strict_columns: false
+  columns:
+    - lens_check
+    - lens_confusion
+    - lens_coefs
+    - lens_flags
+    - lens_check_md
+    - n_lens_phrases
+    - store_status
+
+viewer:
+  - liquid: |
+      ## Paper reconstruction
+
+      **Not in the paper.** Pipeline siding: can phrase text recover
+      hard lens (argmax of QR)? Independent check on this grain, not
+      an experiment to hand back as hers.
+
+  - liquid: |
+      ## Store status
+
+      **Output** `{% if store_status.output.exists %}{{ store_status.output.path }} · {{ store_status.output.mtime }} · {{ store_status.output.size_human }}{% else %}absent — Run the check to write lens_check.yml{% endif %}`
+
+  - liquid: |
+      ## What this page is
+
+      A **siding**, not stage 12. This page does **not** load the
+      embedding pack. **Run lens check** takes phrase text from
+      `phrases.yml` and a **hard** lens per phrase: argmax of `QR`
+      (codebook cell → grain responsibilities). It does **not** score
+      the Name strings you typed in 04_grain.
+
+      **What you should see** after the button: same CV table as the
+      kind siding, on this grain's lens names. Chance is ~1 / n lenses
+      (five topics on the current fit). Near-chance means the lenses
+      are not linearly recoverable from words — geometry, not lexicon.
+      Collapse (≥ 0.95) would mean the grain is mostly cue words.
+
+      Canonical paper numbers stay on the frozen k=40 / 11-lens run.
+      This is a second reading of *this* grain. Do not paste phrase
+      text into git. Out-of-fold errors are `phrase_id`s only.
+
+  - type: PopulateButton
+    field: _run_lens_check
+    args:
+      description: Run 5-fold lens check
+      target: lens_check_md
+      compute: &lens_compute
+        function: run_lens_reconstruction
+        field:
+          - lens_check
+          - lens_confusion
+          - lens_coefs
+          - lens_flags
+          - lens_check_md
+          - n_lens_phrases
+        refresh: true
+        row_args:
+          n_folds: n_folds
+          seed: seed
+          model: model
+          ngram_min: ngram_min
+          ngram_max: ngram_max
+          min_df: min_df
+          max_features: max_features
+          C: C
+          verified_only: verified_only
+
+review:
+  - type: precompute
+    specifications:
+      - function: named_store_status
+        field: store_status
+        refresh: true
+
+  - type: Dropdown
+    field: model
+    args:
+      description: Linear family (same question)
+      options: ["logreg", "nb", "linearsvc"]
+
+  - type: BoundedIntText
+    field: n_folds
+    args:
+      description: Stratified folds
+      min: 2
+      max: 10
+
+  - type: BoundedIntText
+    field: seed
+    args:
+      description: CV shuffle seed
+      min: 0
+      max: 999999
+
+  - type: Checkbox
+    field: verified_only
+    args:
+      description: Drop unverified quotes (quote_support < 0.8)
+
+  - type: Markdown
+    field: lens_check_md
+    liquid: |
+      {{ lens_check_md }}
+
+  - type: SaveButton

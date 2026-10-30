@@ -1,0 +1,5 @@
+- index: dialogue-v1
+  labelled_min_share: 0.5
+  treat_speaker_1_as_facilitator: true
+  # Fill from ../local.yml. Do not commit real facilitator names.
+  facilitator_names: []

@@ -1,0 +1,8 @@
+# Copy to local.yml (gitignored). These names would identify the study.
+# Paste the same list into 01_chunk/parameters.yml and
+# 01_turns/parameters.yml as facilitator_names. Do not commit the filled
+# lists.
+
+facilitator_names:
+  - Alex
+  - Sam

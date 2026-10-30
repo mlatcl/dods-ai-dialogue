@@ -1,0 +1,44 @@
+- index: dialogue-v1
+  phrase_kinds: concern, benefit, condition
+  extract_model: gpt-4.1-mini
+  extract_min_words: 3
+  extract_max_words: 10
+  extract_max_items: 5
+  quote_support_threshold: 0.8
+  extract_prompt: |
+    Extract what members of the public say, faithfully and concisely.
+
+    From this unit, extract short phrases of kind {{ kind }}.
+    Kind readings:
+    - concern: worries, objections, things that could go wrong. A factual
+      remark counts when the worry behind it is clear. Not hoped-for benefits,
+      and not conditions that are not also a worry.
+    - benefit: gains, opportunities, improvements, things that could go better.
+      Not worries or conditions.
+    - condition: what acceptance DEPENDS on — preconditions (only if, as long
+      as), red lines (never for), requirements (there must be), exceptions
+      (fine for X but not Y), or doubts that the technology is needed at all.
+      Write each phrase as what must be true. Not plain worries with no
+      requirement.
+
+    RULES
+    1. Extract only what members of the public say. Ignore a chatbot question
+       shown as context, lines marked [FACILITATOR], facilitator asking or
+       summarising, and project team members explaining their own project.
+    2. Write each item as a short phrase of 3–10 words, in plain general terms.
+    3. Do not use 'AI', 'artificial intelligence', 'algorithm', 'machine
+       learning', 'chatbot' or names of specific projects in the phrase.
+       Describe the underlying point so it could apply to any technology a
+       council might use.
+    4. Do not use the words 'dialogue', 'workshop', 'discussion',
+       'conversation', 'participant' or 'facilitator'.
+    5. After each phrase write ' || ' and then the speaker's exact words that
+       express it (copied exactly from the text, at most 30 words).
+    6. One item per line. No bullets or numbering. At most 5 items.
+
+    If none, reply with exactly {{ sentinel }}.
+
+    Unit:
+    <<TEXT>>
+  embed_model: text-embedding-3-large
+  embed_pca_dim: null
