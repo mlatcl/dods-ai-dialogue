@@ -56,26 +56,39 @@ Read `GAP.md` before treating 06 output as published Part A numbers.
 ## Install
 
 This study is a directory of `_referia.yml` stages. The compute they call
-lives in [referia](https://github.com/lawrennd/referia). Install a release
-that includes the dialogue pipeline (segment, extract, VQ, grounds,
-sequence, multiverse) — that work is going into a new referia release,
-so a current `pip` install is the intended path, not a development
-checkout.
+lives in [referia](https://github.com/lawrennd/referia). Use GitHub
+`main`, not the PyPI package: current `pip install referia` is 0.2.0 and
+does not yet include the dialogue pipeline (segment, extract, VQ,
+grounds, sequence, multiverse).
+
+Referia’s own source install is Poetry from a clone:
+
+```bash
+git clone https://github.com/lawrennd/referia.git
+cd referia
+poetry install --with llm
+```
+
+`--with llm` is required for `02_embed` and `07_grounds`. Stages that
+only read stores can omit it. Those LLM stages also need an API key in
+the environment (for example `OPENAI_API_KEY`).
+
+To install the same GitHub tree into a venv without Poetry:
 
 ```bash
 python3 -m venv .venv
 source .venv/bin/activate
-pip install referia
+pip install "git+https://github.com/lawrennd/referia.git"
 ```
 
-Stages that call an LLM (`02_embed`, `07_grounds`) need an API key in
-the environment (for example `OPENAI_API_KEY`). Stages that only read
-stores do not.
+That pip line does not install referia’s optional LLM group. Add
+`--with llm` via Poetry if you will run extract or grounds.
 
 ## Serve
 
-Clone this repo, fill the private files above, then serve this directory
-as the root:
+This study is many configs, so use root-server mode (`--root`), not
+single-config `--directory`. Default host is `127.0.0.1`, default port
+`8000`.
 
 ```bash
 git clone https://github.com/mlatcl/dods-ai-dialogue.git
@@ -83,7 +96,14 @@ cd dods-ai-dialogue
 cp local.example.yml local.yml
 cp info/documents.example.yml info/documents.yml
 # fill local.yml, documents.yml, and files/ from the private store
-referia serve --root . 
+referia serve --root . --host 127.0.0.1 --port 8000
+```
+
+If referia was installed with Poetry from the clone, run it from that
+checkout:
+
+```bash
+poetry run referia serve --root /path/to/dods-ai-dialogue --host 127.0.0.1 --port 8000
 ```
 
 Open `http://127.0.0.1:8000/`. Each stage is a subdirectory.
