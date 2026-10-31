@@ -1,4 +1,6 @@
 ---
+layout: referia
+permalink: /siding_basis/
 # =============================================================================
 # Dialogue analysis — siding: Part B basis reconstruction (CIP-001F)
 # =============================================================================
@@ -22,7 +24,7 @@ display:
 
 parameters:
   type: yaml
-  directory: .
+  directory: siding_basis
   filename: parameters.yml
   index: index
   select: dialogue-v1
@@ -31,14 +33,14 @@ parameters:
 input:
   type: yaml
   filename: constants.yml
-  directory: ../info
+  directory: info
   index: index
   select: dialogue-v1
 
 output:
   type: yaml
   filename: basis_check.yml
-  directory: ../info
+  directory: info
   index: index
   strict_columns: false
   columns:

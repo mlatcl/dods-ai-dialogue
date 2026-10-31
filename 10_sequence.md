@@ -1,4 +1,6 @@
 ---
+layout: referia
+permalink: /10_sequence/
 # =============================================================================
 # Dialogue analysis — 10 stories-follow-stories (CIP-001E)
 # =============================================================================
@@ -24,7 +26,7 @@ display:
 
 parameters:
   type: yaml
-  directory: .
+  directory: 10_sequence
   filename: parameters.yml
   index: index
   select: dialogue-v1
@@ -32,14 +34,14 @@ parameters:
 input:
   type: yaml
   filename: constants.yml
-  directory: ../info
+  directory: info
   index: index
   select: dialogue-v1
 
 output:
   type: yaml
   filename: sequence.yml
-  directory: ../info
+  directory: info
   index: index
   strict_columns: false
   columns:

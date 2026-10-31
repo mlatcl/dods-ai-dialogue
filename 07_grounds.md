@@ -1,4 +1,6 @@
 ---
+layout: referia
+permalink: /07_grounds/
 # =============================================================================
 # Dialogue analysis — 07 Part B grounds (CIP-001E)
 # =============================================================================
@@ -10,11 +12,11 @@
 #
 # Stores
 # ------
-#   parameters  ./parameters.yml
-#   input       ../info/chunks.yml
-#   data        ../02_embed/_extract_phrases.parquet  (extraction_phrases)
-#   cache       ./_grounds_cache.yml.gz
-#   output      ../info/grounds.yml
+#   parameters  07_grounds/parameters.yml
+#   input       info/chunks.yml
+#   data        02_embed/_extract_phrases.parquet  (extraction_phrases)
+#   cache       07_grounds/_grounds_cache.yml.gz
+#   output      info/grounds.yml
 # Access join on unit_id. row_args maps extraction_phrases → points.
 # =============================================================================
 
@@ -35,7 +37,7 @@ display:
 
 parameters:
   type: yaml
-  directory: .
+  directory: 07_grounds
   filename: parameters.yml
   index: index
   select: dialogue-v1
@@ -43,7 +45,7 @@ parameters:
 input:
   type: yaml
   filename: chunks.yml
-  directory: ../info
+  directory: info
   index: unit_id
   select_columns:
     - unit_id
@@ -63,7 +65,7 @@ input:
 data:
   type: parquet
   filename: _extract_phrases.parquet
-  directory: ../02_embed
+  directory: 02_embed
   index: unit_id
   select_columns:
     - unit_id
@@ -72,7 +74,7 @@ data:
 cache:
   type: yaml
   filename: _grounds_cache.yml.gz
-  directory: .
+  directory: 07_grounds
   index: unit_id
   compress: gzip
   strict_columns: false
@@ -84,7 +86,7 @@ cache:
 output:
   type: yaml
   filename: grounds.yml
-  directory: ../info
+  directory: info
   index: phrase_id
   strict_columns: false
   explode:

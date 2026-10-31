@@ -1,9 +1,11 @@
 ---
+layout: referia
+permalink: /04_grain/
 # =============================================================================
 # Dialogue analysis — 04 subject grain (steps 8–9)
 # =============================================================================
 #
-# Copy of examples/subject_grain_uq/_referia.md, retargeted at shared ../info/.
+# Copy of examples/subject_grain_uq/_referia.md, retargeted at shared info/.
 # Seed fit is CIP-0015 subject_grain_seed_fit (replaces build_records.py Assess).
 # Split / Confirm / Undo / Reset / Name already exist (subject_grain_*).
 #
@@ -12,9 +14,9 @@
 #
 # Stores
 # ------
-#   parameters  ./parameters.yml         (σ², EM, n_exemplars, lens_weight)
-#   input       ../info/codebook.parquet (VQ centroids; CIP-001A)
-#   output      ../info/scores.yml       (R, planes, labels, cluster_ids)
+#   parameters  04_grain/parameters.yml         (σ², EM, n_exemplars, lens_weight)
+#   input       info/codebook.parquet (VQ centroids; CIP-001A)
+#   output      info/scores.yml       (R, planes, labels, cluster_ids)
 # No named cache: seed fit writes output. Skip-if-R-present also requires
 # R rows == codebook m (leftover phrase-level scores do not skip).
 # Knobs must not land in cache or scores; Save writes parameters.yml.
@@ -33,7 +35,7 @@ display:
 
 parameters:
   type: yaml
-  directory: .
+  directory: 04_grain
   filename: parameters.yml
   index: index
   select: dialogue-v1
@@ -42,15 +44,15 @@ input:
   type: parquet
   index: Name
   filename: codebook.parquet
-  directory: ../info
+  directory: info
 
 output:
   type: yaml
   index: Name
   filename: scores.yml
-  directory: ../info
+  directory: info
   # Save writes *_modified / *_created; older scores.yml still has σ² knobs
-  # that now live in ./parameters.yml. strict_columns would 503 on reload.
+  # that now live in 04_grain/parameters.yml. strict_columns would 503 on reload.
   strict_columns: false
   columns:
     - focus_topic
@@ -110,7 +112,7 @@ viewer:
   - liquid: |
       ## Store status
 
-      **Parameters** `{% if store_status.parameters.exists %}{{ store_status.parameters.path }}{% else %}absent — ./parameters.yml{% endif %}`
+      **Parameters** `{% if store_status.parameters.exists %}{{ store_status.parameters.path }}{% else %}absent — 04_grain/parameters.yml{% endif %}`
 
       **Input** `{% if store_status.input.exists %}{{ store_status.input.path }} · {{ store_status.input.size_human }}{% else %}absent — run 03_vq{% endif %}`
 

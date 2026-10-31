@@ -1,11 +1,13 @@
 ---
+layout: referia
+permalink: /
 # DODS study hub — stages in directory order. Shared stores: ./info/
 # Public configs only. Transcripts and facilitator names stay local.
 
 referia_config_version: 2
 title: "AI dialogue formats — chatbot vs workshop"
 description: >
-  Access of the pipeline map (sibling `_referia.md` files as listing
+  Access of the pipeline map (sibling stage markdown pages as listing
   rows). Independent reconstruction of the experiments in “An elicitation
   fallacy?” for Jess to tweak. Stages 01–11 in glob order. 05 is extra
   EMD geometry (the paper uses JSD in 06). 11 is the analysis-choice
@@ -15,21 +17,22 @@ date: 2026-10-29
 display:
   layout: inline_list
   filter_defaults:
-    _sort: sourceDirectory:asc
+    _sort: sourceFile:asc
 
 input:
   type: yaml_directory
   index: configPath
   source:
     - directory: .
-      glob: "*/_referia.md"
+      glob: "*_*.md"
       recursive: false
-      include_start_directory: false
+      include_start_directory: true
   fields:
     - title
     - description
     - date
     - referia_config_version
+    - permalink
   store_fields:
     directory: sourceDirectory
     filename: sourceFile
@@ -46,15 +49,14 @@ input:
     - field: config_url
       function: render_liquid
       args:
-        template: "{{ sourceDirectory }}/"
+        template: "{{ permalink }}"
       row_args:
-        sourceDirectory: sourceDirectory
+        permalink: permalink
     - field: title
       function: render_liquid
       args:
-        template: "{{ sourceDirectory }} · {{ title }}"
+        template: "{{ title }}"
       row_args:
-        sourceDirectory: sourceDirectory
         title: title
 
 output:
@@ -82,7 +84,7 @@ filters:
     label: Title
 
 sort:
-  - field: sourceDirectory
+  - field: sourceFile
     order: asc
 
 viewer:
@@ -91,7 +93,7 @@ viewer:
 
       This hub is **Access** of the pipeline, not of the transcripts.
 
-      **Access.** Data: each sibling `_referia.md`. Loaded as listing
+      **Access.** Data: each sibling stage page (`01_turns.md`, …). Loaded as listing
       rows (`configPath`, `title`, `description`, `sourceDirectory`)
       via a directory glob. Open a row to enter that stage.
 
@@ -139,13 +141,13 @@ viewer:
 
 # AI dialogue formats — chatbot vs workshop
 
-Access of the pipeline map (sibling `_referia.md` files as listing rows). Independent reconstruction of the experiments in “An elicitation fallacy?” for Jess to tweak. Stages 01–11 in glob order. 05 is extra EMD geometry (the paper uses JSD in 06). 11 is the analysis-choice product (not yet run). Sidings are not in the paper.
+Access of the pipeline map (sibling stage markdown pages as listing rows). Independent reconstruction of the experiments in “An elicitation fallacy?” for Jess to tweak. Stages 01–11 in glob order. 05 is extra EMD geometry (the paper uses JSD in 06). 11 is the analysis-choice product (not yet run). Sidings are not in the paper.
 
 ## Access / Assess / Address
 
 This hub is **Access** of the pipeline, not of the transcripts.
 
-**Access.** Data: each sibling `_referia.md`. Loaded as listing
+**Access.** Data: each sibling stage page (`01_turns.md`, …). Loaded as listing
 rows (`configPath`, `title`, `description`, `sourceDirectory`)
 via a directory glob. Open a row to enter that stage.
 

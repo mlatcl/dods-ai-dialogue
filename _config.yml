@@ -1,0 +1,22 @@
+# Jekyll-style site settings for this DODS study.
+# Referia reads `ghub` from this file at the serve root and exposes the
+# keys as constants on every stage page (Liquid: github_edit_url,
+# ghub_organization, ghub_repository, ghub_branch). The header [edit]
+# link is built from those constants plus the current config path.
+# `referia.urls: permalink` addresses pages by YAML permalink, so
+# `01_turns.md` is served at /01_turns/. Path-mode thesis trees leave
+# this unset.
+
+title: "AI dialogue formats — chatbot vs workshop"
+description: >
+  DODS reconstruction of An elicitation fallacy? Exploring the role of
+  AI in public dialogue.
+url: https://github.com/mlatcl/dods-ai-dialogue
+github_username: mlatcl
+ghub:
+  edit: true
+  organization: mlatcl
+  repository: dods-ai-dialogue
+  branch: main
+referia:
+  urls: permalink

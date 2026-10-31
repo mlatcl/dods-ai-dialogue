@@ -6,7 +6,7 @@ Paper: `referia/2026-10-elicitation-dialogue-paper.docx` (“An elicitation fall
 Package: `mlatcl/ai-dialogue-formats` (notebooks are thin `Run` wrappers)
 
 Independent reconstruction of the experiments in the paper, for Jess
-to tweak via each stage’s `parameters.yml`. Each `_referia.md` quotes
+to tweak via each stage’s `parameters.yml`. Each stage page quotes
 the paper sentence it reconstructs.
 
 Do not treat a completed 01–05 run as a reproduction of the published

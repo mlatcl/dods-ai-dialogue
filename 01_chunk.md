@@ -1,4 +1,6 @@
 ---
+layout: referia
+permalink: /01_chunk/
 # =============================================================================
 # Dialogue analysis — 01 catalog, segment, explode (steps 1–3)
 # =============================================================================
@@ -8,12 +10,12 @@
 #
 # Stores
 # ------
-#   parameters    ./parameters.yml           (writable unitisation knobs)
-#   input         ../info/documents.yml      (step 1; hand-written roster)
-#   cache         ./_chunk_cache.yml.gz      (optional units list; deletable
+#   parameters    01_chunk/parameters.yml           (writable unitisation knobs)
+#   input         info/documents.yml      (step 1; hand-written roster)
+#   cache         01_chunk/_chunk_cache.yml.gz      (optional units list; deletable
 #                                            once chunks.yml exists — segment
 #                                            is local, not an LLM call)
-#   output        ../info/chunks.yml         (.yml.gz when the corpus is large)
+#   output        info/chunks.yml         (.yml.gz when the corpus is large)
 #
 # No checkpoints/. Do not keep units in cache *and* full text in output as
 # the long-term pair; gzip if you do persist both (lynguine CIP-0015).
@@ -25,7 +27,7 @@ description: >
   Access (+ Assess grain). Catalog Recollective chatbot dumps and workshop
   DOCX, segment with docx_chatbot.v1 / docx_workshop.v1 (aspect
   dialogue_units), then explode to one chunk row per unit. Serve this
-  config on its own; 02_embed reads ../info/chunks.yml.
+  config on its own; 02_embed reads info/chunks.yml.
 date: 2026-10-29
 
 display:
@@ -34,23 +36,23 @@ display:
 
 parameters:
   type: yaml
-  directory: .
+  directory: 01_chunk
   filename: parameters.yml
   index: index
   select: dialogue-v1
 
-# Step 1 — roster. Optional file_catalog (CIP-0014) can draft this from ../files.
+# Step 1 — roster. Optional file_catalog (CIP-0014) can draft this from files.
 input:
   type: yaml
   filename: documents.yml
-  directory: ../info
+  directory: info
   index: Name
 
 # Step 2 — list-in-one-field on the document row (CIP-0013 contract).
 cache:
   type: yaml
   filename: _chunk_cache.yml.gz
-  directory: .
+  directory: 01_chunk
   index: Name
   compress: gzip
   strict_columns: false
@@ -62,7 +64,7 @@ cache:
 output:
   type: yaml
   filename: chunks.yml
-  directory: ../info
+  directory: info
   index: unit_id
   # Inherit + document_segment extras sit on the exploded YAML; v2 default
   # strict_columns would 503 this config on reload.
@@ -173,7 +175,7 @@ viewer:
       two files. `segment_dialogue_units` stamps `doc_id` as
       `{round}::{participant_id}` on chatbot units and `filename` on
       workshops so later stages weight **110 conversations + 38
-      transcripts**, not the two dump files (see `../GAP.md`).
+      transcripts**, not the two dump files (see `GAP.md`).
 
 review:
   - type: precompute
@@ -206,7 +208,7 @@ review:
           facilitator_names: facilitator_names
         args:
           aspect: dialogue_units
-          root: ../files
+          root: files
 
   - type: Dropdown
     field: strategy
@@ -226,7 +228,7 @@ review:
 
 # AI dialogue formats — catalog, segment, explode
 
-Access (+ Assess grain). Catalog Recollective chatbot dumps and workshop DOCX, segment with docx_chatbot.v1 / docx_workshop.v1 (aspect dialogue_units), then explode to one chunk row per unit. Serve this config on its own; 02_embed reads ../info/chunks.yml.
+Access (+ Assess grain). Catalog Recollective chatbot dumps and workshop DOCX, segment with docx_chatbot.v1 / docx_workshop.v1 (aspect dialogue_units), then explode to one chunk row per unit. Serve this config on its own; 02_embed reads info/chunks.yml.
 
 ## Access / Assess / Address
 

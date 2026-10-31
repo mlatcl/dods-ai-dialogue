@@ -1,4 +1,6 @@
 ---
+layout: referia
+permalink: /siding_kind/
 # =============================================================================
 # Dialogue analysis — siding: extract kind reconstruction (CIP-001F)
 # =============================================================================
@@ -21,7 +23,7 @@ display:
 
 parameters:
   type: yaml
-  directory: .
+  directory: siding_kind
   filename: parameters.yml
   index: index
   select: dialogue-v1
@@ -30,14 +32,14 @@ parameters:
 input:
   type: yaml
   filename: constants.yml
-  directory: ../info
+  directory: info
   index: index
   select: dialogue-v1
 
 output:
   type: yaml
   filename: kind_check.yml
-  directory: ../info
+  directory: info
   index: index
   strict_columns: false
   columns:

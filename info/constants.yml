@@ -2,7 +2,7 @@
 # Stage knobs live in each stage's parameters.yml — Save there does not
 # rewrite this file.
 - index: dialogue-v1
-  files_directory: ../files
+  files_directory: files
   files_glob: "{chatbot,workshops}/*.docx"
   extract_sentinel_concern: NO_CONCERN
   extract_sentinel_benefit: NO_BENEFIT

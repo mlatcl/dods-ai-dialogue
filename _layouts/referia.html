@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>{{ page.title }}</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body { font-family: Georgia, serif; max-width: 42rem; margin: 2rem auto; padding: 0 1.25rem; line-height: 1.5; }
+    .editsection { font-size: 0.75em; font-weight: 400; margin-left: 0.45em; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>{{ page.title }}{% if site.ghub.edit %}
+      <span class="editsection">[<a href="https://github.com/{{ site.ghub.organization }}/{{ site.ghub.repository }}/edit/{{ site.ghub.branch | default: 'main' }}/{{ page.path }}">edit</a>]</span>
+    {% endif %}</h1>
+  </header>
+  <main>
+    {{ content }}
+  </main>
+</body>
+</html>

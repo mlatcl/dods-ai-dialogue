@@ -1,4 +1,6 @@
 ---
+layout: referia
+permalink: /11_multiverse/
 # =============================================================================
 # Dialogue analysis — 11 analysis-choice product (CIP-001E)
 # =============================================================================
@@ -25,7 +27,7 @@ display:
 
 parameters:
   type: yaml
-  directory: .
+  directory: 11_multiverse
   filename: parameters.yml
   index: index
   select: dialogue-v1
@@ -33,14 +35,14 @@ parameters:
 input:
   type: yaml
   filename: constants.yml
-  directory: ../info
+  directory: info
   index: index
   select: dialogue-v1
 
 output:
   type: yaml
   filename: analysis_multiverse.yml
-  directory: ../info
+  directory: info
   index: index
   strict_columns: false
   columns:
