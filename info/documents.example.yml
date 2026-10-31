@@ -1,15 +1,17 @@
 # Copy to documents.yml (gitignored) and fill from the private store.
-# filename is relative to ../files. group = format so 05_distance
-# compares the two modes. Chatbot Recollective dumps are two files
-# covering many participants — after 01_chunk, pack doc_ids should be
-# participant conversations, not these two files (see GAP.md).
-# strategy must stay named; auto is ambiguous for dialogue_units.
+# filename is relative to ../files.
 #
-# Do not put facilitator names or original workshop titles in git.
+# Scheme: kebab-case inside a field, underscores between fields,
+# general → specific left to right.
+#   {format}_{round}_{session}.docx
+#   {format}_{round}_{session}_{facilitator}.docx
+# Facilitator is omitted on chatbot files. Workshop facilitator is an
+# opaque id (f01, f02, …); the name map lives in ../local.yml.
+# Do not put facilitator names or original Recollective titles in git.
 
-- Name: chatbot-autumn
-  title: Chatbot transcript (autumn)
-  filename: chatbot/chatbot-autumn.docx
+- Name: chatbot_autumn-2025_recollective
+  title: chatbot_autumn-2025_recollective
+  filename: chatbot/chatbot_autumn-2025_recollective.docx
   reader: docx
   strategy: docx_chatbot.v1
   year: 2025
@@ -19,9 +21,9 @@
   round: autumn_2025
   session_type: chatbot
 
-- Name: chatbot-spring
-  title: Chatbot transcript (spring)
-  filename: chatbot/chatbot-spring.docx
+- Name: chatbot_spring-2026_recollective
+  title: chatbot_spring-2026_recollective
+  filename: chatbot/chatbot_spring-2026_recollective.docx
   reader: docx
   strategy: docx_chatbot.v1
   year: 2026
@@ -31,9 +33,9 @@
   round: spring_2026
   session_type: chatbot
 
-- Name: workshop-spring-breakout-1
-  title: Workshop spring breakout 1
-  filename: workshops/workshop-spring-breakout-1.docx
+- Name: workshop_spring-2026_breakout-1_f01
+  title: workshop_spring-2026_breakout-1_f01
+  filename: workshops/workshop_spring-2026_breakout-1_f01.docx
   reader: docx
   strategy: docx_workshop.v1
   year: 2026
@@ -42,4 +44,17 @@
   group: workshop
   round: spring_2026
   session_type: breakout
-  facilitator: Facilitator-A
+  facilitator: f01
+
+- Name: workshop_spring-2026_carousel-c1_f02
+  title: workshop_spring-2026_carousel-c1_f02
+  filename: workshops/workshop_spring-2026_carousel-c1_f02.docx
+  reader: docx
+  strategy: docx_workshop.v1
+  year: 2026
+  technology: ai-local-government
+  format: workshop
+  group: workshop
+  round: spring_2026
+  session_type: carousel
+  facilitator: f02

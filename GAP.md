@@ -20,7 +20,7 @@ numbers until the P0 items are closed.
 | Chatbot Participant headings | 111 unique (87 autumn, 24 spring) | heading regex on the two Recollective dumps |
 | Chatbot conversations with ≥4-word answers | **110** (`autumn_2025::{pid}` × 86 + `spring_2026::{pid}` × 24) | `01_chunk` after line-split + `min_unit_words: 4` |
 | Units kept | **2013** (1003 chatbot, 1010 workshop) | matches paper D3 / `too_short` keep count |
-| Workshop DOCX | 38 (17 autumn, 21 spring; 32 breakout, 6 carousel) | `files/workshops/` |
+| Workshop DOCX | 38 (17 autumn, 21 spring; 31 breakout, 7 carousel) | `files/workshops/` (`workshop_{round}_{session}_{f0N}.docx`) |
 | Paper `[XXX]` chatbot transcripts | fill **110** conversations with analysable answers (111 headings; 112 was a heading-only guess) | D5 / `round::{participant_id}` |
 | Paper `[XXX]` workshop transcripts | fill **38** | one file = one document |
 

@@ -3,17 +3,16 @@
 A [DODS](https://github.com/mlatcl/dods) study: chatbot versus in-person
 workshop as elicitation formats.
 
-This repository is the independent reconstruction, in chained referia
-stages, of the experiments in *An elicitation fallacy? Exploring the
-role of AI in public dialogue*. It is for the domain researcher to
-tweak. Each stage’s `_referia.yml` quotes the paper sentence it
-reconstructs. If reconstructed numbers support the paper’s story, we
-stop.
+This repository encodes the data science analysis in *An elicitation fallacy? Exploring the
+role of AI in public dialogue*. It uses the DODS approach to data analysis to enable the pipeline to be analysed and rerun easily. 
 
-The paper’s story: the two formats elicited similar distributions of
-issues and conditions; contributions grounded in personal experience
-were more frequent in the workshop; chatbot contributions were typically
-grounded in general principles; there is some indication that
+The paper focusses on two approaches to public dialogue, one driven by
+on line chatbots, the otherthrough in person discussion. The aim of
+the analysis is to understand whether formats elicited similar
+distributions of issues and conditions. The analysis suggests
+contributions grounded in personal experience were more frequent in
+the workshop whereas chatbot contributions were typically grounded in
+general principles. There is also some indication that
 experience-grounded workshop contributions follow each other.
 
 ## What is public, what is not
@@ -22,11 +21,12 @@ This repo holds the analysis: configs, prompts, parameters, the gap map,
 and placeholder catalog shape.
 
 Transcripts, facilitator names, quotes, embeddings, LLM caches, and
-derived stores that contain them stay out of git. Serve those from a
-private working copy. Copy `local.example.yml` to `local.yml` and paste the same name
-list into `01_chunk/parameters.yml` and `01_turns/parameters.yml`. Copy
-`info/documents.example.yml` to `info/documents.yml` and fill filenames
-from the private store. Put DOCX under `files/chatbot/` and
+derived stores that contain them are not stored, they would need to be
+provided by a private working copy. Copy `local.example.yml` to
+`local.yml` and paste the same name list into
+`01_chunk/parameters.yml` and `01_turns/parameters.yml`. Copy
+`info/documents.example.yml` to `info/documents.yml` and fill
+filenames from the private store. Put DOCX under `files/chatbot/` and
 `files/workshops/`.
 
 Do not commit `local.yml`, `info/documents.yml`, or anything under
@@ -53,15 +53,40 @@ Sidings (not in the paper): `siding_kind`, `siding_basis`, `siding_lens`.
 
 Read `GAP.md` before treating 06 output as published Part A numbers.
 
-## Serve
+## Install
+
+This study is a directory of `_referia.yml` stages. The compute they call
+lives in [referia](https://github.com/lawrennd/referia). Install a release
+that includes the dialogue pipeline (segment, extract, VQ, grounds,
+sequence, multiverse) — that work is going into a new referia release,
+so a current `pip` install is the intended path, not a development
+checkout.
 
 ```bash
-# from a private working copy that has files/ and filled local names
-referia serve --root /path/to/this/study --port 8003
+python3 -m venv .venv
+source .venv/bin/activate
+pip install referia
 ```
 
-The live reconstruction currently sits under the private referia root,
-not this clone. This clone is the public analysis package.
+Stages that call an LLM (`02_embed`, `07_grounds`) need an API key in
+the environment (for example `OPENAI_API_KEY`). Stages that only read
+stores do not.
+
+## Serve
+
+Clone this repo, fill the private files above, then serve this directory
+as the root:
+
+```bash
+git clone https://github.com/mlatcl/dods-ai-dialogue.git
+cd dods-ai-dialogue
+cp local.example.yml local.yml
+cp info/documents.example.yml info/documents.yml
+# fill local.yml, documents.yml, and files/ from the private store
+referia serve --root . 
+```
+
+Open `http://127.0.0.1:8000/`. Each stage is a subdirectory.
 
 ## Related
 

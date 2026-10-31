@@ -15,20 +15,14 @@ __pycache__/
 local.yml
 
 # Transcripts and catalog with identifying filenames / names
-files/**/*.docx
-files/**/*.pdf
-files/**/*.zip
-info/documents.yml
-info/chunks.yml
-info/phrases.yml
-info/grounds.yml
-info/turns.yml
-info/document_distance.yml
-info/part_a.yml
-info/sequence.yml
-info/analysis_multiverse.yml
-info/scores.yml
-info/*.parquet
+files/chatbot/*
+!files/chatbot/.gitkeep
+files/workshops/*
+!files/workshops/.gitkeep
+files/originals/
+info/*
+!info/constants.yml
+!info/documents.example.yml
 
 # Per-stage caches and listing scores
 **/_chunk_cache.yml.gz
