@@ -1,3 +1,4 @@
+---
 # =============================================================================
 # Dialogue analysis — 08 question-type stress test (CIP-001E)
 # =============================================================================
@@ -125,3 +126,42 @@ review:
     field: question_type_md
     liquid: |
       {{ question_type_md }}
+---
+
+# AI dialogue formats — chatbot question types
+
+Assess bot questions, Address the Part B confound. Share of chatbot units whose preceding bot question matches each pattern (experience, example, why, safeguards, …). Local regex only.
+
+## Access / Assess / Address
+
+Nested loop: Access chatbot context, Assess question-type
+coverage, Address the confound for Part B.
+
+**Access.** Data: preceding bot question on chatbot units
+(`chunks.yml` `context`, reached via the packed corpus row).
+Writes `info/question_types.yml` (counts and shares). Local
+regex only.
+
+**Assess.** The type table characterises what the bot asked
+(experience, example, why, safeguards, …). That coverage is
+usable without the experience-gap question.
+
+**Address.** Was the Part B experience gap because the bot asked
+for stories? Paper story: only 0.3% of chatbot questions asked
+directly for experience. Whether the *answer* was
+experience-grounded still needs `grounds.yml` from 07.
+
+## Paper reconstruction
+
+Independent reconstruction of chatbot question typing. Tweaks:
+`parameters.yml`.
+
+> For chatbot interactions, we classified questions according to
+> the type of response they sought and compared the proportion of
+> experience-grounded contributions after different question
+> types.
+
+Paper story: “Only 0.3% of chatbot questions asked participants
+directly for their experiences. When the chatbot requested an
+example, the answer given was more likely to draw from
+experience (10.7% against 5.5% after other questions).”

@@ -1,8 +1,9 @@
+---
 # =============================================================================
 # Dialogue analysis — 04 subject grain (steps 8–9)
 # =============================================================================
 #
-# Copy of examples/subject_grain_uq/_referia.yml, retargeted at shared ../info/.
+# Copy of examples/subject_grain_uq/_referia.md, retargeted at shared ../info/.
 # Seed fit is CIP-0015 subject_grain_seed_fit (replaces build_records.py Assess).
 # Split / Confirm / Undo / Reset / Name already exist (subject_grain_*).
 #
@@ -572,3 +573,44 @@ review:
     field: notes
     args:
       description: Assess notes
+---
+
+# AI dialogue formats — subject grain (lenses)
+
+Assess codebook geometry, then Address named lenses. Fit lenses on the VQ codebook (cluster centroids), then Propose split / Confirm / Undo / Reset / Name. Merge is not wired.
+
+## Access / Assess / Address
+
+Nested loop: Access the codebook, Assess its geometry with
+MPPCA splits, Address named lenses for Part A.
+
+**Access.** Data: `info/codebook.parquet` (VQ centroids from
+`03_vq`). Loaded as one grain row. Output is `info/scores.yml`
+(`R` responsibilities, planes, labels, `cluster_ids`).
+
+**Assess.** Seed fit is k=1. **Propose split** / Confirm / Undo
+/ Reset explore how the codebook factors, without yet asking
+whether chatbot and workshop share themes. That exploration is
+reusable for any later lens reading.
+
+**Address.** **Name** and σ² soft assignment are the paper's
+cluster → thematic lens step, so `06_compare` can ask whether
+formats elicited similar distributions of issues. This page is
+MPPCA on the current codebook, not a replay of the frozen 10/11
+lenses.
+
+## Paper reconstruction
+
+Independent reconstruction of cluster → thematic lens grouping.
+Tweaks: `parameters.yml` (including σ²).
+
+> We used gpt-4.1-mini to generate a descriptive label for each
+> cluster, based on a sample of points from that cluster. The 40
+> clusters were then grouped into ten higher-level thematic
+> lenses using gpt-4.1-mini, using a soft assignment that allowed
+> each cluster to contribute to more than one lens. Relative
+> weights for each lens were controlled by the parameter σ².
+
+This page is MPPCA on the codebook (Name is the label step), not
+a replay of the frozen 10/11-lens map. Use **Name** so 06 tables
+are readable.

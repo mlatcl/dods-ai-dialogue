@@ -1,3 +1,4 @@
+---
 # =============================================================================
 # Dialogue analysis — siding: Part B basis reconstruction (CIP-001F)
 # =============================================================================
@@ -183,3 +184,32 @@ review:
       {{ basis_check_md }}
 
   - type: SaveButton
+---
+
+# AI dialogue formats — siding: grounds experience check
+
+Assess 07 experience-code consistency (siding Address). Off the main line. Five-fold bag-of-words reconstruction of the paper's Part B coding: experience (personal + others) versus rest, from quote plus phrase. Seven-way bases remain a diagnostic. Does not rerun Classify all.
+
+## Access / Assess / Address
+
+Siding: Access 07 codes, Assess whether experience vs rest is
+recoverable from quote plus phrase. Not in the paper.
+
+**Access.** Data: `info/grounds.yml` joined to `info/phrases.yml`
+by `phrase_id`. Does not load the embedding pack. Writes
+`info/basis_check.yml`. Run 07 Classify all + Save first.
+
+**Assess.** Five-fold linear reconstruction. Default label is
+experience (personal + others) vs rest; seven-way is a dump-class
+diagnostic (principle dominates). Chance is balanced accuracy
+versus 0.5, not raw accuracy versus the majority.
+
+**Address.** Can a linear model recover the Part B experience
+code from quote plus phrase? Independent check on this 07 coding,
+not an experiment to hand back as hers. Does not rerun Classify.
+
+## Paper reconstruction
+
+**Not in the paper.** Pipeline siding: can a linear model recover
+experience vs rest from quote plus phrase? Independent check on
+this 07 coding, not an experiment to hand back as hers.

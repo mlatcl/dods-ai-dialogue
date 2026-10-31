@@ -1,10 +1,11 @@
+---
 # DODS study hub — stages in directory order. Shared stores: ./info/
 # Public configs only. Transcripts and facilitator names stay local.
 
 referia_config_version: 2
 title: "AI dialogue formats — chatbot vs workshop"
 description: >
-  Access of the pipeline map (sibling `_referia.yml` files as listing
+  Access of the pipeline map (sibling `_referia.md` files as listing
   rows). Independent reconstruction of the experiments in “An elicitation
   fallacy?” for Jess to tweak. Stages 01–11 in glob order. 05 is extra
   EMD geometry (the paper uses JSD in 06). 11 is the analysis-choice
@@ -21,7 +22,7 @@ input:
   index: configPath
   source:
     - directory: .
-      glob: "*/_referia.yml"
+      glob: "*/_referia.md"
       recursive: false
       include_start_directory: false
   fields:
@@ -90,7 +91,7 @@ viewer:
 
       This hub is **Access** of the pipeline, not of the transcripts.
 
-      **Access.** Data: each sibling `_referia.yml`. Loaded as listing
+      **Access.** Data: each sibling `_referia.md`. Loaded as listing
       rows (`configPath`, `title`, `description`, `sourceDirectory`)
       via a directory glob. Open a row to enter that stage.
 
@@ -134,3 +135,56 @@ viewer:
       Read `GAP.md` before treating 06 output as the published Part A
       numbers. Chatbot pack `doc_ids` must be conversations, not the two
       Recollective files.
+---
+
+# AI dialogue formats — chatbot vs workshop
+
+Access of the pipeline map (sibling `_referia.md` files as listing rows). Independent reconstruction of the experiments in “An elicitation fallacy?” for Jess to tweak. Stages 01–11 in glob order. 05 is extra EMD geometry (the paper uses JSD in 06). 11 is the analysis-choice product (not yet run). Sidings are not in the paper.
+
+## Access / Assess / Address
+
+This hub is **Access** of the pipeline, not of the transcripts.
+
+**Access.** Data: each sibling `_referia.md`. Loaded as listing
+rows (`configPath`, `title`, `description`, `sourceDirectory`)
+via a directory glob. Open a row to enter that stage.
+
+**Assess.** None on the corpus. Each stage states its own Access /
+Assess / Address loop, including nested loops where a page both
+loads a store and answers a question.
+
+**Address.** None here. The elicitation questions live on 06, 07,
+08, 09, 10, and 11.
+
+Independent reconstruction of the experiments in *An elicitation
+fallacy?* Tweaks belong in each stage's `parameters.yml`. This is
+not a replay of the notebook freeze.
+
+Paper story this pipeline is for: chatbot and workshop sessions
+elicited similar concerns, benefits, and conditions; workshop
+contributions were more often grounded in experience.
+
+Run stages in directory order. Corpus stores live in `info/`.
+Transcripts stay out of this repo. Fill `local.yml` and
+`info/documents.yml` from the private working copy.
+
+1. `01_chunk` — Access (+ Assess grain): catalog, segment, explode
+2. `01_turns` — Access (+ Assess coverage): labelled speaker turns
+3. `02_embed` — nested Access / Address / Assess: extract, embed, pack
+4. `03_vq` — Address topic cells (Assess codebook coverage)
+5. `04_grain` — Assess codebook geometry, Address named lenses
+6. `05_distance` — Access `P`, extra Assess geometry (not the paper)
+7. `06_compare` — Address Part A (CBC mix, lens shares, JSD)
+8. `07_grounds` — Address Part B (Access join + explode)
+9. `08_questions` — Assess bot questions, Address the confound
+10. `09_validate` — Assess word-list floor on Part B
+11. `10_sequence` — Address stories-follow-stories
+12. `11_multiverse` — Address analysis-choice product
+
+Sidings (not stages): `siding_kind` (extract kinds), `siding_basis`
+(Part B bases; run 07 Classify all first), `siding_lens` (hard
+argmax of grain QR, not Name strings).
+
+Read `GAP.md` before treating 06 output as the published Part A
+numbers. Chatbot pack `doc_ids` must be conversations, not the two
+Recollective files.

@@ -55,7 +55,8 @@ Read `GAP.md` before treating 06 output as published Part A numbers.
 
 ## Install
 
-This study is a directory of `_referia.yml` stages. The compute they call
+This study is a directory of `_referia.md` stages (YAML frontmatter plus
+a markdown body that describes what the stage does). The compute they call
 lives in [referia](https://github.com/lawrennd/referia). Use GitHub
 `main`, not the PyPI package: current `pip install referia` is 0.2.0 and
 does not yet include the dialogue pipeline (segment, extract, VQ,
@@ -104,7 +105,7 @@ Referia loads dotenv when the LLM module imports, in this order:
 2. Otherwise `~/.env`. Use that when the study sits on a network
    filesystem such as OneDrive: walking those trees can time out.
 
-This repo gitignores `.env`. Do not put the key in `_referia.yml` or
+This repo gitignores `.env`. Do not put the key in `_referia.md` or
 `parameters.yml`.
 
 ## Serve

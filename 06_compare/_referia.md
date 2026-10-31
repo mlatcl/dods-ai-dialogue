@@ -1,3 +1,4 @@
+---
 # =============================================================================
 # Dialogue analysis — 06 Part A tables (CIP-001E)
 # =============================================================================
@@ -215,3 +216,49 @@ review:
       **Lens mix (document-weighted %)**
 
       {{ lens_mix_md }}
+---
+
+# AI dialogue formats — Part A shares and JSD
+
+Address Part A. Document-weighted concern/benefit/condition mix and lens shares by format, with cluster-bootstrap intervals and Jensen–Shannon divergence. This is the paper's Part A estimator on the current grain, not a replay of Jess's frozen k=40 labels.
+
+## Access / Assess / Address
+
+This stage is **Address** of the Part A question. Access is a
+join of stores already assessed upstream.
+
+**Access.** Data: `info/records.parquet` (phrases, `doc_ids`,
+kinds) joined to `info/scores.yml` (lens responsibilities).
+Writes `info/part_a.yml` (type mix, lens mix, JSD).
+
+**Assess.** Documents with fewer phrases than **min mass** are
+dropped (too thin to be a histogram). Intervals resample
+documents; that is the estimator, not a quality pass on the
+raw files.
+
+**Address.** Did the two formats elicit similar distributions of
+issues and conditions? Document-equal CBC mix and lens shares,
+with JSD versus shuffled format labels. Paper story: broadly
+similar agendas (reported JSD 0.006; CBC 37.3/36.4/26.3 chatbot
+vs 36.7/36.2/27.1 workshop). This grain is 04's current lenses,
+not the frozen 11-lens map.
+
+## Paper reconstruction
+
+Independent reconstruction of the Part A comparison. Tweaks:
+`parameters.yml`.
+
+> We compared the prevalence of themes between the two formats by
+> calculating the share of points assigned to each lens with each
+> document. Each document was given equal weight, with
+> differences calculated as workshop minus chatbot proportions.
+> We estimated 95% confidence intervals using 2,000 bootstrap
+> resamples of documents. To assess the overall similarity of the
+> thematic distributions, we calculated Jensen–Shannon divergence
+> and compared the observed value with a distribution obtained by
+> randomly reassigning format labels to documents.
+
+Paper story this table is for: “Different dialogue modes produced
+broadly similar substantive agendas.” Reported JSD = 0.006;
+concerns / benefits / conditions 37.3/36.4/26.3 chatbot vs
+36.7/36.2/27.1 workshop.

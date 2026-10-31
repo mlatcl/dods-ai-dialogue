@@ -1,3 +1,4 @@
+---
 # =============================================================================
 # Dialogue analysis — 10 stories-follow-stories (CIP-001E)
 # =============================================================================
@@ -156,3 +157,50 @@ review:
     field: sequence_md
     liquid: |
       {{ sequence_md }}
+---
+
+# AI dialogue formats — stories follow stories
+
+Address stories-follow-stories (Access turns + 07 codes). Among labelled workshop speaker turns: if a previous different non-facilitator turn carried an experience-grounded point, does this speaker's point also rest on experience? Compared to a within-transcript shuffle. Main-run 07 codes. No quote text is stored.
+
+## Access / Assess / Address
+
+Nested loop: Access speaker turns and 07 codes, Assess coverage
+of labelled files, Address the look-back.
+
+**Access.** Data: `info/turns.yml` from `01_turns` (one row per
+labelled workshop speaker turn). 07 points are placed onto turns
+by quote substring. Writes `info/sequence.yml` (look-back rates,
+no quote text). This page does not rebuild DOCX.
+
+**Assess.** How many labelled files and turns have a 07 point to
+place. This reconstruction: **17** files, **2126** turns (paper:
+16 transcripts, 2025 turns). Within-topic is blank until points
+carry a VQ/grain id.
+
+**Address.** Are participants more likely to draw from experience
+after another participant has done the same? Observed P(this
+turn is a story | a different non-facilitator's story in the
+previous L turns) versus a within-transcript shuffle that keeps
+each speaker's story rate. L = 1, 2, 3, 5. Paper story: some
+indication that experience-grounded contributions follow each
+other.
+
+## Paper reconstruction
+
+Independent reconstruction of the workshop look-back. Tweaks:
+`parameters.yml`.
+
+> For workshop interactions, we examined whether participants
+> were more likely to draw from experience after another
+> participant had done the same. For this analysis, we focused
+> on 16 transcripts from the second workshop, where it was
+> possible to identify 2025 ‘turns’ in which interactions
+> between speakers were clear. For each turn, we examined
+> whether another participant had contributed an
+> experience-grounded point within the preceding one to five
+> turns.
+
+Paper story: “Our sequence analysis provides some indication of
+this, as that experience-grounded contributions tended to follow
+each other.”

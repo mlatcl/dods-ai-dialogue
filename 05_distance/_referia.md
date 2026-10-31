@@ -1,3 +1,4 @@
+---
 # =============================================================================
 # Dialogue analysis — 05 document distance (steps 10–12)
 # =============================================================================
@@ -429,3 +430,42 @@ review:
       mode: container
       observe: true
       aspect_ratio: 16/9
+---
+
+# AI dialogue formats — lens share by format
+
+Access of document × lens histograms `P`, then extra Assess geometry (EMD / MDS / tests). Not the paper's Address (that is JSD in 06_compare). See ../GAP.md.
+
+## Access / Assess / Address
+
+Nested loop: Access document histograms, Assess extra geometry
+on `P`. The paper's Address of format similarity is `06_compare`.
+
+**Access.** Data: `info/records.parquet` (packed phrases) joined
+to `info/scores.yml` (grain). Each document becomes a histogram
+over current lenses (`P`, phrase-level `QR` summed and
+normalised). Thin documents (below **min mass**) are dropped.
+Writes `info/document_distance.yml`.
+
+**Assess.** EMD, classical MDS, PERMANOVA / PERMDISP, and the
+radar / heatmaps are extra geometry on the same `P`. They
+characterise how documents sit on the topic simplex. They are
+not Jensen–Shannon divergence.
+
+**Address.** Not an experiment in the paper. Do not hand this
+page back as the published comparison. The elicitation question
+on these shares is `06_compare`.
+
+## Paper reconstruction
+
+This stage is **not** an experiment in the paper. The paper
+compares formats with Jensen–Shannon divergence on document-equal
+lens shares (`06_compare`). Tweaks still live in `parameters.yml`.
+
+> To assess the overall similarity of the thematic distributions,
+> we calculated Jensen–Shannon divergence and compared the
+> observed value with a distribution obtained by randomly
+> reassigning format labels to documents.
+
+EMD / MDS here is extra geometry on the same `P`. Do not hand
+this page back as the published comparison.

@@ -1,3 +1,4 @@
+---
 # =============================================================================
 # Dialogue analysis — 09 word-list floor (CIP-001E)
 # =============================================================================
@@ -122,3 +123,40 @@ review:
     field: wordlist_md
     liquid: |
       {{ wordlist_md }}
+---
+
+# AI dialogue formats — word-list experience floor
+
+Assess word-list floor on Part B. Flag quotes that contain first-person / family / work experience language. A floor, not the paper's 17.7 vs 4.1 (that is 07_grounds).
+
+## Access / Assess / Address
+
+Nested loop: Access quotes, Assess explicit experience language,
+Address a floor on the Part B coding.
+
+**Access.** Data: each point's own supporting quote from the
+phrase store (via the packed corpus row). Writes
+`info/wordlist.yml`. Local regex only.
+
+**Assess.** First-person / family / work markers in
+`parameters.yml` characterise how often experience language is
+even present in the quotes. Model-independent, reusable as a
+quality floor on any later experience coding.
+
+**Address.** A floor on 07's experience codes, not the paper's
+17.7 vs 4.1 estimator (07 can code experience without those
+words, and can refuse them). Format-blind recode of 300 is not
+this page.
+
+## Paper reconstruction
+
+Independent reconstruction of the **word-list** check only.
+Tweaks: `parameters.yml`.
+
+> First, we constructed a word list that set out explicit markers
+> of personal or other experience in supporting quotes. This
+> provided a model-independent check on the classification.
+
+The paper’s second check — format-blind recode of a sample of
+300 — is not this page. Leave it until you want that coding
+pass.

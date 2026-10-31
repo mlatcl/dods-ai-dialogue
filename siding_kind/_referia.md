@@ -1,3 +1,4 @@
+---
 # =============================================================================
 # Dialogue analysis — siding: extract kind reconstruction (CIP-001F)
 # =============================================================================
@@ -164,3 +165,33 @@ review:
       {{ kind_check_md }}
 
   - type: SaveButton
+---
+
+# AI dialogue formats — siding: extract kind check
+
+Assess extract-kind consistency (siding Address). Off the main line. Five-fold bag-of-words reconstruction of concern / benefit / condition labels from phrase text (tf-idf + logistic regression). Chance vs collapse vs consistent. Does not rerun extract.
+
+## Access / Assess / Address
+
+Siding: Access the phrase table, Assess whether kinds are
+lexical, Address a reconstruction check. Not in the paper.
+
+**Access.** Data: `info/phrases.yml` (phrase text and extract
+`kind`). Does not load the embedding pack. Writes
+`info/kind_check.yml`.
+
+**Assess.** Five-fold tf-idf + linear model vs majority /
+shuffled-label / document-grouped baselines. Flags chance,
+collapse (≥ 0.95), or useful consistency. Characterises whether
+concern / benefit / condition is recoverable from words.
+
+**Address.** Can a bag-of-words model recover extract kinds from
+phrase text? Independent check on this extract, not an experiment
+to hand back as hers. Does not rerun 02.
+
+## Paper reconstruction
+
+**Not in the paper.** Pipeline siding: can a bag-of-words model
+recover extract kinds (concern / benefit / condition) from phrase
+text? Independent check on this extract, not an experiment to
+hand back as hers.

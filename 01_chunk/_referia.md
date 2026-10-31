@@ -1,3 +1,4 @@
+---
 # =============================================================================
 # Dialogue analysis — 01 catalog, segment, explode (steps 1–3)
 # =============================================================================
@@ -221,3 +222,46 @@ review:
     field: notes
     args:
       description: Catalog notes
+---
+
+# AI dialogue formats — catalog, segment, explode
+
+Access (+ Assess grain). Catalog Recollective chatbot dumps and workshop DOCX, segment with docx_chatbot.v1 / docx_workshop.v1 (aspect dialogue_units), then explode to one chunk row per unit. Serve this config on its own; 02_embed reads ../info/chunks.yml.
+
+## Access / Assess / Address
+
+Nested loop: **Access** of the files, then a short **Assess** of
+grain and coverage. This page does not Address the elicitation
+question.
+
+**Access.** Data: Recollective chatbot DOCX and workshop DOCX
+under `files/`, rostered in `info/documents.yml` (one row per
+file). Each file is segmented into a `units` list on that row,
+then exploded to `info/chunks.yml` (one row per unit: `unit_id`,
+`text`, `word_count`, `format`, `doc_id`, `participant_id`, …).
+
+**Assess.** Units shorter than four words are dropped (too little
+text for any later question). Two Recollective dumps pack many
+conversations into two files; chatbot `doc_id` is stamped
+`{round}::{participant_id}` so later document-equal weights do
+not treat two dumps as two documents. A good run is **2013**
+units (1003 chatbot, 1010 workshop) from **110** conversations
+and **38** workshop transcripts.
+
+**Address.** None. Segmentation is how the corpus is unitised,
+not whether formats elicit similar issues.
+
+## Paper reconstruction
+
+Independent reconstruction. Tweaks: `parameters.yml`.
+
+> Online and in-person interactions were captured in [XXX]
+> chatbot transcripts and [XXX] workshop transcripts. Before
+> analysis, chatbot transcripts were divided into individual
+> participant responses and workshop transcripts were split into
+> passages at paragraph breaks (typically 150 words; no more than
+> 260 words). Units with fewer than four words were excluded,
+> leaving 2013 units for analysis.
+
+This stage fills those `[XXX]`: **110** chatbot conversations and
+**38** workshop transcripts, then the 2013 units.

@@ -1,3 +1,4 @@
+---
 # =============================================================================
 # Dialogue analysis — 07 Part B grounds (CIP-001E)
 # =============================================================================
@@ -278,3 +279,50 @@ review:
     field: notes
     args:
       description: Grounds notes
+---
+
+# AI dialogue formats — Part B grounds
+
+Address Part B (Access join + explode). For each unit, classify what every extracted point rests on (experience, principle, professional knowledge, …). Headline experience 17.7% vs 4.1% comes from this stage, not from 04_grain.
+
+## Access / Assess / Address
+
+Nested loop: Access the unit and its phrases, Address the
+grounding code, Access the exploded store.
+
+**Access.** Data: `info/chunks.yml` (units) joined on `unit_id`
+to `02_embed/_extract_phrases.parquet` (`extraction_phrases`).
+Classify writes `_grounds_cache.yml.gz`. Save explodes
+`info/grounds.yml` (one row per point: `phrase_id`, `basis`,
+`kind`, `format`, `doc_id`).
+
+**Assess.** Units with 0 points are not sent to the model
+(nothing to code). The chip's **complete** count is already
+classified or empty; **failed** is a compute error. That is
+coverage of the coding pass, not a characterisation of the
+transcripts.
+
+**Address.** What evidence does each extracted point rest on
+(seven bases)? Paper story: workshop contributions were more
+often grounded in personal experience (17.7% vs 4.1% chatbot);
+chatbot contributions were typically general principles (91.6%
+vs 68.9%).
+
+## Paper reconstruction
+
+Independent reconstruction of evidential-grounding coding.
+Tweaks: `parameters.yml`.
+
+> To examine what evidence participants draw from when expressing
+> their views, we used gpt-4.1-mini to classify the ‘evidential
+> grounding’ of each extracted point. The model was given the
+> original transcript passage and extracted points, and asked to
+> assign each point to one of seven categories: personal
+> experience, others' experience, professional knowledge,
+> general principle, a public example, information from the
+> dialogue materials, or unclear.
+
+Paper story this coding is for: “Participants grounded their
+contributions differently in-person versus with chatbots.”
+Workshop experience 17.7% vs chatbot 4.1%; chatbot mostly
+general principles (91.6% vs 68.9% in workshops).

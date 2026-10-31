@@ -1,3 +1,4 @@
+---
 # =============================================================================
 # Dialogue analysis — siding: hard lens reconstruction (CIP-001F)
 # =============================================================================
@@ -165,3 +166,33 @@ review:
       {{ lens_check_md }}
 
   - type: SaveButton
+---
+
+# AI dialogue formats — siding: hard lens check
+
+Assess hard-lens lexicality (siding Address). Off the main line. Five-fold bag-of-words reconstruction of the hard grain lens (argmax of phrase-level QR) from phrase text. Asks whether the current lenses are lexical, not whether Name strings are good. Does not rerun VQ or grain.
+
+## Access / Assess / Address
+
+Siding: Access phrase text and hard QR labels, Assess whether
+lenses are lexical. Not in the paper.
+
+**Access.** Data: `info/phrases.yml` plus hard lens = argmax of
+phrase-level `QR` from the current grain. Does not load the
+embedding pack. Writes `info/lens_check.yml`.
+
+**Assess.** Five-fold BoW reconstruction of that hard label.
+Near-chance means the lenses are geometry, not cue words.
+Collapse (≥ 0.95) would mean the grain is mostly lexicon. Does
+not score the Name strings typed in 04.
+
+**Address.** Can phrase text recover the hard grain lens?
+Independent check on this grain, not an experiment to hand back
+as hers. Canonical paper numbers stay on the frozen k=40 /
+11-lens run.
+
+## Paper reconstruction
+
+**Not in the paper.** Pipeline siding: can phrase text recover
+hard lens (argmax of QR)? Independent check on this grain, not
+an experiment to hand back as hers.

@@ -1,3 +1,4 @@
+---
 # =============================================================================
 # Dialogue analysis — 11 analysis-choice product (CIP-001E)
 # =============================================================================
@@ -150,3 +151,50 @@ review:
     field: multiverse_md
     liquid: |
       {{ multiverse_md }}
+---
+
+# AI dialogue formats — analysis-choice robustness
+
+Address analysis-choice product. Paper reconstruction of the Bell et al. 2022 multiverse: experience gap across definition, weighting, exclusion, quote threshold, and round, on main-run 07 codes (216 configs). Not 1080 LLM jobs.
+
+## Access / Assess / Address
+
+This stage is **Address** of robustness. Access is the main-run
+07 store.
+
+**Access.** Data: `info/grounds.yml` (main-run 07 codes) and the
+packed corpus fields those codes join. Writes
+`info/analysis_multiverse.yml`. One coding source; 216 configs,
+not 1080 LLM jobs.
+
+**Assess.** None on the raw transcripts. Varying definition,
+weighting, exclusion, quote threshold, and round is the Address
+product, not a quality pass. Own-words recode (the missing axis
+to 1080) waits on another store.
+
+**Address.** Does the experience gap remain across analysis
+choices? Paper story: the finding remains across all multiverse
+configurations. Cluster-count 25/60 and extra lens runs are a
+03→04→06 refit, not this page.
+
+## Paper reconstruction
+
+Independent reconstruction of the analysis-choice product.
+Tweaks: `parameters.yml`. **This is the remaining paper
+experiment that has not been run on this corpus.**
+
+> We used multiverse analysis (Bell et al., 2022) to test how
+> the findings changed under different analytical choices,
+> exploring 1080 different analytical specifications. These
+> varied the coding source, the definition of experience, the
+> weighting of contributions, exclusion rules, quote-matching
+> thresholds, and dialogue timing.
+
+Paper story: “This finding remains across all multiverse
+configurations.”
+
+This page is that product on **main-run 07 codes** (definition ×
+weighting × exclusion × threshold × round = 216). The coding-
+source axis that takes 216 to 1080 waits on a recode store. It
+is not 1080 LLM jobs. Cluster-count 25/60 and extra lens runs
+are a 03→04→06 refit, not this page.

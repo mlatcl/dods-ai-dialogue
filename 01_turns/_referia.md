@@ -1,3 +1,4 @@
+---
 # =============================================================================
 # Dialogue analysis — 01 speaker turns (CIP-001E Access grain)
 # =============================================================================
@@ -152,3 +153,43 @@ review:
     field: turns_md
     liquid: |
       {{ turns_md }}
+---
+
+# AI dialogue formats — labelled speaker turns
+
+Access (+ Assess coverage). Rebuild labelled workshop speaker turns from DOCX (Speaker N / S2 / facilitator names, tab or colon, mid-paragraph split). Writes turns.yml for 10_sequence. Does not replace chunks.yml.
+
+## Access / Assess / Address
+
+Nested loop: **Access** of labelled workshop speech, then
+**Assess** of which files actually have turns. The sequence
+question is Address on `10_sequence`.
+
+**Access.** Data: workshop DOCX that carry Speaker N / S2 /
+facilitator labels. Loaded as `info/turns.yml` (one row per
+speaker turn: `turn_id`, `doc_id`, `turn_i`, `speaker`,
+`facilitator`, `round`, `filename`, `text`). This does not
+replace `chunks.yml`.
+
+**Assess.** A file counts as labelled only if enough lines match
+the speaker pattern (`labelled_min_share`). Speaker 1 can be
+treated as facilitator. This reconstruction kept **17** labelled
+files and **2126** turns (paper: 16 transcripts, 2025 turns).
+Viewer is counts only — no turn text on this page.
+
+**Address.** None here. Whether stories follow stories is
+`10_sequence`.
+
+## Paper reconstruction
+
+Independent reconstruction of the speaker-turn grain for the
+workshop sequence experiment. Tweaks: `parameters.yml`.
+
+> For this analysis, we focused on 16 transcripts from the second
+> workshop, where it was possible to identify 2025 ‘turns’ in
+> which interactions between speakers were clear.
+
+This Access stage rebuilds those turns (Labels: Speaker N / S2 /
+facilitator names). This reconstruction kept **17** labelled
+files and **2126** turns. `10_sequence` is the look-back on that
+store.

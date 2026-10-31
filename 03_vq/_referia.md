@@ -1,3 +1,4 @@
+---
 # =============================================================================
 # Dialogue analysis — 03_vq vector quantisation (CIP-001A)
 # =============================================================================
@@ -246,3 +247,39 @@ review:
       Inertia {{ vq_inertia }}.
 
   - type: SaveButton
+---
+
+# AI dialogue formats — VQ codebook (k=40 analogue)
+
+Address topic cells (+ Assess codebook coverage). K-means vector quantisation of the packed phrase embeddings. Clusters are fine semantic cells; 04_grain reads the codebook as its grain. A Brownian walk of 2-D projections shows centres and 1-SD extent.
+
+## Access / Assess / Address
+
+Nested loop: Access the packed embeddings, Assess coverage of
+the codebook, Address the paper's 40 topic cells.
+
+**Access.** Data: `info/records.parquet` (packed phrase
+embeddings from `02_embed`). Loaded as one corpus row. Fit
+writes `info/codebook.parquet` (centroids, exemplars,
+`cluster_ids`, mass, walk spec).
+
+**Assess.** Cell mass, inertia, phrase count, and the 2-D
+projection walk characterise how the embedding space is covered.
+That geometry is usable for any later reading of the codebook.
+
+**Address.** k-means with `n_vq: 40` (seed 42 in parameters) is
+the paper's "main topics raised" step. Lenses on those cells
+are `04_grain`. Format comparison is `06_compare`.
+
+## Paper reconstruction
+
+Independent reconstruction of the 40-cluster topic space. Tweaks:
+`parameters.yml` (`n_vq`, seed).
+
+> To identify the main topics raised by participants, we used
+> OpenAI’s text-embedding-3-large model to embed extracted
+> points, and grouped these into 40 clusters using k-means
+> (k=40; seed 42).
+
+This stage is the k=40 analogue (VQ codebook). Lens grouping is
+`04_grain`.

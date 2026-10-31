@@ -1,3 +1,4 @@
+---
 # =============================================================================
 # Dialogue analysis — 02 extract, embed, pack (steps 4–6)
 # =============================================================================
@@ -371,3 +372,48 @@ review:
     field: notes
     args:
       description: Extract / embed notes
+---
+
+# AI dialogue formats — extract phrases, embed, pack corpus
+
+Nested Access / Address / Assess. LLM-extract short concern / benefit / condition phrases from each unit (paper-faithful prompt in ./parameters.yml), embed those phrases, then pack a one-row corpus store for grain. Serve this config on its own; 03_vq then 04_grain read the packed corpus.
+
+## Access / Assess / Address
+
+Nested loop on each unit: Access the chunk, Address the extract,
+Assess the quote, Address the embedding, Access the pack.
+
+**Access.** Data: `info/chunks.yml` (one row per unit from
+`01_chunk`). After extract, explode `extraction_phrases` to
+`info/phrases.yml` (one row per phrase, no vectors). Pack
+`info/records.parquet` (one corpus row: phrases, embeddings,
+`doc_ids`, kinds). Join copy for 07: `_extract_phrases.parquet`.
+
+**Assess.** Fuzzy match of each supporting quote against the unit
+text (`quote_support` ≥ 0.8). Drop quotes taken from the bot
+question or a facilitator. Word bounds on the paraphrase. This
+is quality of the extract against source text, reusable for any
+later question on those phrases.
+
+**Address.** The extract prompt *is* the Part A content question:
+short concern, benefit, and condition phrases. Embeddings
+(`text-embedding-3-large`) are the theme space for VQ. Neither
+step is question-agnostic.
+
+## Paper reconstruction
+
+Independent reconstruction of the three-pass extract. Tweaks:
+`parameters.yml`.
+
+> We extract contributions from each transcript unit using
+> gpt-4.1-mini, using three separate extraction passes to
+> identify: concerns about AI use, anticipated benefits, and
+> conditions or considerations attached to its acceptable use.
+> Each extracted point comprised a short paraphrase of the
+> original content and a supporting quote from the original
+> transcript. Extracted quotes were checked against the source
+> text using fuzzy matching, with points retained where the match
+> score met a threshold of 0.8.
+
+Embeddings here are `text-embedding-3-large`, as in the next
+paper sentence (themes).
