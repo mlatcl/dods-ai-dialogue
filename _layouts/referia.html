@@ -7,6 +7,8 @@
   <style>
     body { font-family: Georgia, serif; max-width: 42rem; margin: 2rem auto; padding: 0 1.25rem; line-height: 1.5; }
     .editsection { font-size: 0.75em; font-weight: 400; margin-left: 0.45em; }
+    nav.pipeline { font-size: 0.85em; margin: 0 0 1.5rem; line-height: 1.7; }
+    nav.pipeline a { white-space: nowrap; }
   </style>
 </head>
 <body>
@@ -14,6 +16,13 @@
     <h1>{{ page.title }}{% if site.ghub.edit %}
       <span class="editsection">[<a href="https://github.com/{{ site.ghub.organization }}/{{ site.ghub.repository }}/edit/{{ site.ghub.branch | default: 'main' }}/{{ page.path }}">edit</a>]</span>
     {% endif %}</h1>
+    <nav class="pipeline">
+      <a href="{{ '/' | relative_url }}">hub</a>
+      {% assign stages = site.pages | where_exp: "p", "p.seq != nil" | sort: "seq" %}
+      {% for p in stages %}
+        · <a href="{{ p.url | relative_url }}">{{ p.permalink | default: p.url | replace: '/', '' }}</a>
+      {% endfor %}
+    </nav>
   </header>
   <main>
     {{ content }}
