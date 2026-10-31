@@ -16,8 +16,9 @@
 referia_config_version: 2
 title: "AI dialogue formats — VQ codebook (k=40 analogue)"
 description: >
-  K-means vector quantisation of the packed phrase embeddings. Clusters are
-  fine semantic cells; 04_grain reads the codebook as its grain. A Brownian
+  Address topic cells (+ Assess codebook coverage). K-means vector
+  quantisation of the packed phrase embeddings. Clusters are fine
+  semantic cells; 04_grain reads the codebook as its grain. A Brownian
   walk of 2-D projections shows centres and 1-SD extent.
 date: 2026-10-22
 
@@ -54,6 +55,25 @@ output:
     - vq_n_phrases
 
 viewer:
+  - liquid: |
+      ## Access / Assess / Address
+
+      Nested loop: Access the packed embeddings, Assess coverage of
+      the codebook, Address the paper's 40 topic cells.
+
+      **Access.** Data: `info/records.parquet` (packed phrase
+      embeddings from `02_embed`). Loaded as one corpus row. Fit
+      writes `info/codebook.parquet` (centroids, exemplars,
+      `cluster_ids`, mass, walk spec).
+
+      **Assess.** Cell mass, inertia, phrase count, and the 2-D
+      projection walk characterise how the embedding space is covered.
+      That geometry is usable for any later reading of the codebook.
+
+      **Address.** k-means with `n_vq: 40` (seed 42 in parameters) is
+      the paper's "main topics raised" step. Lenses on those cells
+      are `04_grain`. Format comparison is `06_compare`.
+
   - liquid: |
       ## Paper reconstruction
 

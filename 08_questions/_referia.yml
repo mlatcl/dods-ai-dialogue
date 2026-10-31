@@ -10,8 +10,9 @@
 referia_config_version: 2
 title: "AI dialogue formats — chatbot question types"
 description: >
-  Share of chatbot units whose preceding bot question matches each
-  pattern (experience, example, why, safeguards, …). Local regex only.
+  Assess bot questions, Address the Part B confound. Share of chatbot
+  units whose preceding bot question matches each pattern (experience,
+  example, why, safeguards, …). Local regex only.
 date: 2026-10-29
 
 display:
@@ -43,6 +44,26 @@ output:
     - store_status
 
 viewer:
+  - liquid: |
+      ## Access / Assess / Address
+
+      Nested loop: Access chatbot context, Assess question-type
+      coverage, Address the confound for Part B.
+
+      **Access.** Data: preceding bot question on chatbot units
+      (`chunks.yml` `context`, reached via the packed corpus row).
+      Writes `info/question_types.yml` (counts and shares). Local
+      regex only.
+
+      **Assess.** The type table characterises what the bot asked
+      (experience, example, why, safeguards, …). That coverage is
+      usable without the experience-gap question.
+
+      **Address.** Was the Part B experience gap because the bot asked
+      for stories? Paper story: only 0.3% of chatbot questions asked
+      directly for experience. Whether the *answer* was
+      experience-grounded still needs `grounds.yml` from 07.
+
   - liquid: |
       ## Paper reconstruction
 

@@ -21,10 +21,10 @@
 referia_config_version: 2
 title: "AI dialogue formats — catalog, segment, explode"
 description: >
-  Catalog Recollective chatbot dumps and workshop DOCX, segment with
-  docx_chatbot.v1 / docx_workshop.v1 (aspect dialogue_units), then explode
-  to one chunk row per unit. Serve this config on its own; 02_embed reads
-  ../info/chunks.yml.
+  Access (+ Assess grain). Catalog Recollective chatbot dumps and workshop
+  DOCX, segment with docx_chatbot.v1 / docx_workshop.v1 (aspect
+  dialogue_units), then explode to one chunk row per unit. Serve this
+  config on its own; 02_embed reads ../info/chunks.yml.
 date: 2026-10-29
 
 display:
@@ -112,6 +112,30 @@ output:
     - recogniser_rationale
 
 viewer:
+  - liquid: |
+      ## Access / Assess / Address
+
+      Nested loop: **Access** of the files, then a short **Assess** of
+      grain and coverage. This page does not Address the elicitation
+      question.
+
+      **Access.** Data: Recollective chatbot DOCX and workshop DOCX
+      under `files/`, rostered in `info/documents.yml` (one row per
+      file). Each file is segmented into a `units` list on that row,
+      then exploded to `info/chunks.yml` (one row per unit: `unit_id`,
+      `text`, `word_count`, `format`, `doc_id`, `participant_id`, …).
+
+      **Assess.** Units shorter than four words are dropped (too little
+      text for any later question). Two Recollective dumps pack many
+      conversations into two files; chatbot `doc_id` is stamped
+      `{round}::{participant_id}` so later document-equal weights do
+      not treat two dumps as two documents. A good run is **2013**
+      units (1003 chatbot, 1010 workshop) from **110** conversations
+      and **38** workshop transcripts.
+
+      **Address.** None. Segmentation is how the corpus is unitised,
+      not whether formats elicit similar issues.
+
   - liquid: |
       ## Paper reconstruction
 

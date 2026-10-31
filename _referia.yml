@@ -4,7 +4,8 @@
 referia_config_version: 2
 title: "AI dialogue formats — chatbot vs workshop"
 description: >
-  Independent reconstruction of the experiments in “An elicitation
+  Access of the pipeline map (sibling `_referia.yml` files as listing
+  rows). Independent reconstruction of the experiments in “An elicitation
   fallacy?” for Jess to tweak. Stages 01–11 in glob order. 05 is extra
   EMD geometry (the paper uses JSD in 06). 11 is the analysis-choice
   product (not yet run). Sidings are not in the paper.
@@ -85,6 +86,22 @@ sort:
 
 viewer:
   - liquid: |
+      ## Access / Assess / Address
+
+      This hub is **Access** of the pipeline, not of the transcripts.
+
+      **Access.** Data: each sibling `_referia.yml`. Loaded as listing
+      rows (`configPath`, `title`, `description`, `sourceDirectory`)
+      via a directory glob. Open a row to enter that stage.
+
+      **Assess.** None on the corpus. Each stage states its own Access /
+      Assess / Address loop, including nested loops where a page both
+      loads a store and answers a question.
+
+      **Address.** None here. The elicitation questions live on 06, 07,
+      08, 09, 10, and 11.
+
+  - liquid: |
       Independent reconstruction of the experiments in *An elicitation
       fallacy?* Tweaks belong in each stage's `parameters.yml`. This is
       not a replay of the notebook freeze.
@@ -97,17 +114,18 @@ viewer:
       Transcripts stay out of this repo. Fill `local.yml` and
       `info/documents.yml` from the private working copy.
 
-      1. `01_chunk` — catalog Recollective + workshop DOCX, segment, explode
-      2. `02_embed` — extract concern/benefit/condition phrases, embed, pack
-      3. `03_vq` — vector quantisation (`n_vq: 40` in parameters; check codebook)
-      4. `04_grain` — lenses on the codebook
-      5. `05_distance` — EMD / MDS / tests on format × lens `P`
-      6. `06_compare` — document-weighted CBC, lens shares, JSD (Part A)
-      7. `07_grounds` — Part B basis coding (LLM, one call per unit)
-      8. `08_questions` — chatbot question-type stress test (regex)
-      9. `09_validate` — word-list experience floor (regex)
-      10. `10_sequence` — stories-follow-stories (speaker-turn shuffle)
-      11. `11_multiverse` — analysis-choice product (main-run 07 codes)
+      1. `01_chunk` — Access (+ Assess grain): catalog, segment, explode
+      2. `01_turns` — Access (+ Assess coverage): labelled speaker turns
+      3. `02_embed` — nested Access / Address / Assess: extract, embed, pack
+      4. `03_vq` — Address topic cells (Assess codebook coverage)
+      5. `04_grain` — Assess codebook geometry, Address named lenses
+      6. `05_distance` — Access `P`, extra Assess geometry (not the paper)
+      7. `06_compare` — Address Part A (CBC mix, lens shares, JSD)
+      8. `07_grounds` — Address Part B (Access join + explode)
+      9. `08_questions` — Assess bot questions, Address the confound
+      10. `09_validate` — Assess word-list floor on Part B
+      11. `10_sequence` — Address stories-follow-stories
+      12. `11_multiverse` — Address analysis-choice product
 
       Sidings (not stages): `siding_kind` (extract kinds), `siding_basis`
       (Part B bases; run 07 Classify all first), `siding_lens` (hard

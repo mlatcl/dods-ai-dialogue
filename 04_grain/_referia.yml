@@ -22,8 +22,9 @@
 referia_config_version: 2
 title: "AI dialogue formats — subject grain (lenses)"
 description: >
-  Fit lenses on the VQ codebook (cluster centroids), then Propose split /
-  Confirm / Undo / Reset / Name. Merge is not wired.
+  Assess codebook geometry, then Address named lenses. Fit lenses on
+  the VQ codebook (cluster centroids), then Propose split / Confirm /
+  Undo / Reset / Name. Merge is not wired.
 date: 2026-10-22
 
 display:
@@ -67,6 +68,27 @@ output:
     - vq_mass
 
 viewer:
+  - liquid: |
+      ## Access / Assess / Address
+
+      Nested loop: Access the codebook, Assess its geometry with
+      MPPCA splits, Address named lenses for Part A.
+
+      **Access.** Data: `info/codebook.parquet` (VQ centroids from
+      `03_vq`). Loaded as one grain row. Output is `info/scores.yml`
+      (`R` responsibilities, planes, labels, `cluster_ids`).
+
+      **Assess.** Seed fit is k=1. **Propose split** / Confirm / Undo
+      / Reset explore how the codebook factors, without yet asking
+      whether chatbot and workshop share themes. That exploration is
+      reusable for any later lens reading.
+
+      **Address.** **Name** and σ² soft assignment are the paper's
+      cluster → thematic lens step, so `06_compare` can ask whether
+      formats elicited similar distributions of issues. This page is
+      MPPCA on the current codebook, not a replay of the frozen 10/11
+      lenses.
+
   - liquid: |
       ## Paper reconstruction
 

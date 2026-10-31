@@ -18,10 +18,10 @@
 referia_config_version: 2
 title: "AI dialogue formats — Part A shares and JSD"
 description: >
-  Document-weighted concern/benefit/condition mix and lens shares by format,
-  with cluster-bootstrap intervals and Jensen–Shannon divergence. This is
-  the paper's Part A estimator on the current grain, not a replay of Jess's
-  frozen k=40 labels.
+  Address Part A. Document-weighted concern/benefit/condition mix and
+  lens shares by format, with cluster-bootstrap intervals and
+  Jensen–Shannon divergence. This is the paper's Part A estimator on
+  the current grain, not a replay of Jess's frozen k=40 labels.
 date: 2026-10-29
 
 display:
@@ -63,6 +63,28 @@ output:
     - store_status
 
 viewer:
+  - liquid: |
+      ## Access / Assess / Address
+
+      This stage is **Address** of the Part A question. Access is a
+      join of stores already assessed upstream.
+
+      **Access.** Data: `info/records.parquet` (phrases, `doc_ids`,
+      kinds) joined to `info/scores.yml` (lens responsibilities).
+      Writes `info/part_a.yml` (type mix, lens mix, JSD).
+
+      **Assess.** Documents with fewer phrases than **min mass** are
+      dropped (too thin to be a histogram). Intervals resample
+      documents; that is the estimator, not a quality pass on the
+      raw files.
+
+      **Address.** Did the two formats elicit similar distributions of
+      issues and conditions? Document-equal CBC mix and lens shares,
+      with JSD versus shuffled format labels. Paper story: broadly
+      similar agendas (reported JSD 0.006; CBC 37.3/36.4/26.3 chatbot
+      vs 36.7/36.2/27.1 workshop). This grain is 04's current lenses,
+      not the frozen 11-lens map.
+
   - liquid: |
       ## Paper reconstruction
 

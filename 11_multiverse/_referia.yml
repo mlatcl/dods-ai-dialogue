@@ -13,9 +13,10 @@
 referia_config_version: 2
 title: "AI dialogue formats — analysis-choice robustness"
 description: >
-  Paper reconstruction of the Bell et al. 2022 multiverse: experience
-  gap across definition, weighting, exclusion, quote threshold, and
-  round, on main-run 07 codes (216 configs). Not 1080 LLM jobs.
+  Address analysis-choice product. Paper reconstruction of the Bell et
+  al. 2022 multiverse: experience gap across definition, weighting,
+  exclusion, quote threshold, and round, on main-run 07 codes (216
+  configs). Not 1080 LLM jobs.
 date: 2026-10-30
 
 display:
@@ -48,6 +49,27 @@ output:
     - store_status
 
 viewer:
+  - liquid: |
+      ## Access / Assess / Address
+
+      This stage is **Address** of robustness. Access is the main-run
+      07 store.
+
+      **Access.** Data: `info/grounds.yml` (main-run 07 codes) and the
+      packed corpus fields those codes join. Writes
+      `info/analysis_multiverse.yml`. One coding source; 216 configs,
+      not 1080 LLM jobs.
+
+      **Assess.** None on the raw transcripts. Varying definition,
+      weighting, exclusion, quote threshold, and round is the Address
+      product, not a quality pass. Own-words recode (the missing axis
+      to 1080) waits on another store.
+
+      **Address.** Does the experience gap remain across analysis
+      choices? Paper story: the finding remains across all multiverse
+      configurations. Cluster-count 25/60 and extra lens runs are a
+      03→04→06 refit, not this page.
+
   - liquid: |
       ## Paper reconstruction
 
