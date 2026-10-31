@@ -1,4 +1,6 @@
 ---
+layout: referia
+permalink: /08_questions/
 # =============================================================================
 # Dialogue analysis — 08 question-type stress test (CIP-001E)
 # =============================================================================
@@ -21,7 +23,7 @@ display:
 
 parameters:
   type: yaml
-  directory: .
+  directory: 08_questions
   filename: parameters.yml
   index: index
   select: dialogue-v1
@@ -29,13 +31,13 @@ parameters:
 input:
   type: parquet
   filename: records.parquet
-  directory: ../info
+  directory: info
   index: Name
 
 output:
   type: yaml
   filename: question_types.yml
-  directory: ../info
+  directory: info
   index: Name
   strict_columns: false
   columns:

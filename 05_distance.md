@@ -1,12 +1,14 @@
 ---
+layout: referia
+permalink: /05_distance/
 # =============================================================================
 # Dialogue analysis — 05 document distance (steps 10–12)
 # =============================================================================
 #
 # CIP-0016: run_document_distance_analysis. Reads packed corpus + grain scores from
-# shared ../info/. Writes P, EMD, MDS, tests, and Plotly specs to
+# shared info/. Writes P, EMD, MDS, tests, and Plotly specs to
 # document_distance.yml. Click bindings write selected_doc to output.
-# Knobs (group_field, min_mass, n_perm, seed) live in ./parameters.yml, not cache.
+# Knobs (group_field, min_mass, n_perm, seed) live in 05_distance/parameters.yml, not cache.
 #
 # Requires optional extra referia[distance] (pot) for EMD.
 # =============================================================================
@@ -16,7 +18,7 @@ title: "AI dialogue formats — lens share by format"
 description: >
   Access of document × lens histograms `P`, then extra Assess geometry
   (EMD / MDS / tests). Not the paper's Address (that is JSD in
-  06_compare). See ../GAP.md.
+  06_compare). See GAP.md.
 date: 2026-10-29
 
 display:
@@ -24,7 +26,7 @@ display:
 
 parameters:
   type: yaml
-  directory: .
+  directory: 05_distance
   filename: parameters.yml
   index: index
   select: dialogue-v1
@@ -33,7 +35,7 @@ parameters:
 input:
   type: parquet
   filename: records.parquet
-  directory: ../info
+  directory: info
   index: Name
 
 # Grain catalogue — named store, not a sidecar. Joined on the corpus Name.
@@ -41,7 +43,7 @@ input:
 data:
   type: yaml
   filename: scores.yml
-  directory: ../info
+  directory: info
   index: Name
 
 # Do not use a ``documents:`` store here. That key is reserved for
@@ -51,7 +53,7 @@ data:
 output:
   type: yaml
   filename: document_distance.yml
-  directory: ../info
+  directory: info
   index: Name
   columns:
     - P
@@ -136,7 +138,7 @@ viewer:
       The paper's Part A headline is document-weighted lens shares and
       Jensen–Shannon divergence on those shares, not EMD. Use this stage
       as a geometry on the same `P`; do not treat EMD as the published
-      comparison (see `../GAP.md`).
+      comparison (see `GAP.md`).
 
       Pairwise distance is Earth Mover's Distance on those histograms.
       Classical
@@ -434,7 +436,7 @@ review:
 
 # AI dialogue formats — lens share by format
 
-Access of document × lens histograms `P`, then extra Assess geometry (EMD / MDS / tests). Not the paper's Address (that is JSD in 06_compare). See ../GAP.md.
+Access of document × lens histograms `P`, then extra Assess geometry (EMD / MDS / tests). Not the paper's Address (that is JSD in 06_compare). See GAP.md.
 
 ## Access / Assess / Address
 

@@ -1,5 +1,5 @@
 # Copy to documents.yml (gitignored) and fill from the private store.
-# filename is relative to ../files.
+# filename is relative to files/.
 #
 # Scheme: kebab-case inside a field, underscores between fields,
 # general → specific left to right.

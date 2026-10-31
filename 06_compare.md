@@ -1,4 +1,6 @@
 ---
+layout: referia
+permalink: /06_compare/
 # =============================================================================
 # Dialogue analysis — 06 Part A tables (CIP-001E)
 # =============================================================================
@@ -9,10 +11,10 @@
 #
 # Stores
 # ------
-#   parameters  ./parameters.yml
-#   input       ../info/records.parquet
-#   data        ../info/scores.yml
-#   output      ../info/part_a.yml
+#   parameters  06_compare/parameters.yml
+#   input       info/records.parquet
+#   data        info/scores.yml
+#   output      info/part_a.yml
 # Wrapper also reads codebook.parquet (cluster_ids) and phrases.yml (kinds).
 # =============================================================================
 
@@ -30,7 +32,7 @@ display:
 
 parameters:
   type: yaml
-  directory: .
+  directory: 06_compare
   filename: parameters.yml
   index: index
   select: dialogue-v1
@@ -38,19 +40,19 @@ parameters:
 input:
   type: parquet
   filename: records.parquet
-  directory: ../info
+  directory: info
   index: Name
 
 data:
   type: yaml
   filename: scores.yml
-  directory: ../info
+  directory: info
   index: Name
 
 output:
   type: yaml
   filename: part_a.yml
-  directory: ../info
+  directory: info
   index: Name
   strict_columns: false
   columns:

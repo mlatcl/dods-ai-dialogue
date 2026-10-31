@@ -1,4 +1,6 @@
 ---
+layout: referia
+permalink: /01_turns/
 # =============================================================================
 # Dialogue analysis — 01 speaker turns (CIP-001E Access grain)
 # =============================================================================
@@ -6,7 +8,7 @@
 # Parallel to 01_chunk. Chunks stay ~150-word extract units. This page
 # rebuilds labelled workshop *speaker turns* (Jess Labels) into
 # info/turns.yml. 10_sequence reads that store; do not rerun 02–07.
-# Markdown is counts only — no turn text in the viewer.
+# Markdown is coverage plus structure-only examples — no spoken text.
 # =============================================================================
 
 referia_config_version: 2
@@ -23,7 +25,7 @@ display:
 
 parameters:
   type: yaml
-  directory: .
+  directory: 01_turns
   filename: parameters.yml
   index: index
   select: dialogue-v1
@@ -31,14 +33,14 @@ parameters:
 input:
   type: yaml
   filename: constants.yml
-  directory: ../info
+  directory: info
   index: index
   select: dialogue-v1
 
 cache:
   type: yaml
   filename: _turns_cache.yml.gz
-  directory: .
+  directory: 01_turns
   index: index
   compress: gzip
   strict_columns: false
@@ -51,7 +53,7 @@ cache:
 output:
   type: yaml
   filename: turns.yml
-  directory: ../info
+  directory: info
   index: turn_id
   strict_columns: false
   explode:
@@ -85,7 +87,10 @@ viewer:
       the speaker pattern (`labelled_min_share`). Speaker 1 can be
       treated as facilitator. This reconstruction kept **17** labelled
       files and **2126** turns (paper: 16 transcripts, 2025 turns).
-      Viewer is counts only — no turn text on this page.
+      After Rebuild, the right pane lists each workshop file
+      (labelled / not / missing) and a few structure-only example
+      turns (`speaker`, facilitator flag, word count). No spoken
+      text.
 
       **Address.** None here. Whether stories follow stories is
       `10_sequence`.
@@ -119,9 +124,38 @@ viewer:
       filters the labelled round.
 
       This does **not** rerun extract, embed, VQ, or 07 Classify.
-      Viewer is counts only — no turn text here.
+      After Rebuild: per-file labelled/not table, plus structure-only
+      example turns. No spoken text.
 
       After Rebuild, **Save** so 10_sequence can read `turns.yml`.
+
+  - type: Section
+    title: Turn parameters
+    entries:
+      - type: HTML
+        args:
+          value: >
+            <p class="chrome-hint">These knobs decide which workshop
+            files count as labelled and whether Speaker 1 is a
+            facilitator. <strong>Rebuild speaker turns</strong> uses
+            the values on this row. Facilitator names stay in
+            gitignored <code>local.yml</code> (copy into this
+            parameters row locally if needed). Do not Save real names
+            into git.</p>
+      - type: BoundedFloatText
+        field: labelled_min_share
+        args:
+          description: Min share of paragraphs with a speaker label
+          min: 0
+          max: 1
+          step: 0.05
+      - type: Checkbox
+        field: treat_speaker_1_as_facilitator
+        args:
+          description: Treat Speaker 1 as facilitator
+      - type: HTML
+        liquid: |
+          <p class="chrome-hint">{% if facilitator_names %}This row has {{ facilitator_names | size }} facilitator name(s) for Labels.{% else %}This row has no facilitator names. Rebuild will match Speaker N / S2 / Facilitator only.{% endif %}</p>
 
   - type: PopulateButton
     field: _run_turns
@@ -136,11 +170,16 @@ viewer:
           - n_turns
         refresh: true
         args:
-          files_root: ../files
+          files_root: files
         row_args:
           labelled_min_share: labelled_min_share
           treat_speaker_1_as_facilitator: treat_speaker_1_as_facilitator
           facilitator_names: facilitator_names
+
+  - type: SaveButton
+    field: _save
+    args:
+      description: Save turns.yml
 
 review:
   - type: precompute
@@ -175,7 +214,10 @@ replace `chunks.yml`.
 the speaker pattern (`labelled_min_share`). Speaker 1 can be
 treated as facilitator. This reconstruction kept **17** labelled
 files and **2126** turns (paper: 16 transcripts, 2025 turns).
-Viewer is counts only — no turn text on this page.
+After Rebuild, the page lists each workshop file (labelled / not /
+missing) and a few structure-only example turns (`speaker`,
+facilitator flag, word count). No spoken text. The knobs are on
+the form, not only in `parameters.yml`.
 
 **Address.** None here. Whether stories follow stories is
 `10_sequence`.

@@ -1,4 +1,6 @@
 ---
+layout: referia
+permalink: /02_embed/
 # =============================================================================
 # Dialogue analysis — 02 extract, embed, pack (steps 4–6)
 # =============================================================================
@@ -9,16 +11,16 @@
 #
 # Stores
 # ------
-#   constants     ../info/constants.yml      (frozen; uncompressed)
-#   parameters    ./parameters.yml           (writable extract/embed knobs)
-#   input         ../info/chunks.yml         (from 01_chunk; .yml.gz when bulky)
-#   cache         ./_extract_cache.yml.gz    (payload + phrase text; nested
+#   constants     info/constants.yml      (frozen; uncompressed)
+#   parameters    02_embed/parameters.yml           (writable extract/embed knobs)
+#   input         info/chunks.yml         (from 01_chunk; .yml.gz when bulky)
+#   cache         02_embed/_extract_cache.yml.gz    (payload + phrase text; nested
 #                                            embedding keys are omitted on write)
-#   join          ./_extract_phrases.parquet (unit_id + extraction_phrases;
+#   join          02_embed/_extract_phrases.parquet (unit_id + extraction_phrases;
 #                                            07_grounds Access join — not
 #                                            the yaml.gz, which is too slow)
-#   output        ../info/phrases.yml        (phrase rows, no vectors)
-#   pack          ../info/records.parquet    (phrases and embeddings)
+#   output        info/phrases.yml        (phrase rows, no vectors)
+#   pack          info/records.parquet    (phrases and embeddings)
 #
 # extraction_phrases is a declared cache column so populate/listing can
 # write it; explode writes phrases.yml. Vectors stay in-memory for pack
@@ -31,7 +33,7 @@ title: "AI dialogue formats — extract phrases, embed, pack corpus"
 description: >
   Nested Access / Address / Assess. LLM-extract short concern / benefit
   / condition phrases from each unit (paper-faithful prompt in
-  ./parameters.yml), embed those phrases, then pack a one-row corpus
+  02_embed/parameters.yml), embed those phrases, then pack a one-row corpus
   store for grain. Serve this config on its own; 03_vq then 04_grain
   read the packed corpus.
 date: 2026-10-29
@@ -42,14 +44,14 @@ display:
 
 constants:
   type: yaml
-  directory: ../info
+  directory: info
   filename: constants.yml
   index: index
   select: dialogue-v1
 
 parameters:
   type: yaml
-  directory: .
+  directory: 02_embed
   filename: parameters.yml
   index: index
   select: dialogue-v1
@@ -57,13 +59,13 @@ parameters:
 input:
   type: yaml
   filename: chunks.yml
-  directory: ../info
+  directory: info
   index: unit_id
 
 cache:
   type: yaml
   filename: _extract_cache.yml.gz
-  directory: .
+  directory: 02_embed
   index: unit_id
   compress: gzip
   # Save also writes store_status (CIP-0017); v2 strict_columns would 503 on reload.
@@ -80,7 +82,7 @@ cache:
 output:
   type: yaml
   filename: phrases.yml
-  directory: ../info
+  directory: info
   index: phrase_id
   strict_columns: false
   explode:
@@ -119,7 +121,7 @@ output:
 pack:
   type: parquet
   filename: records.parquet
-  directory: ../info
+  directory: info
   index: Name
   pack:
     # Extract and embed are separate steps; Save after extract must not abort.
@@ -376,7 +378,7 @@ review:
 
 # AI dialogue formats — extract phrases, embed, pack corpus
 
-Nested Access / Address / Assess. LLM-extract short concern / benefit / condition phrases from each unit (paper-faithful prompt in ./parameters.yml), embed those phrases, then pack a one-row corpus store for grain. Serve this config on its own; 03_vq then 04_grain read the packed corpus.
+Nested Access / Address / Assess. LLM-extract short concern / benefit / condition phrases from each unit (paper-faithful prompt in 02_embed/parameters.yml), embed those phrases, then pack a one-row corpus store for grain. Serve this config on its own; 03_vq then 04_grain read the packed corpus.
 
 ## Access / Assess / Address
 

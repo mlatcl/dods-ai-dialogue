@@ -4,5 +4,5 @@
   workshop_chunk_words: 150
   workshop_max_words: 260
   min_unit_words: 4
-  # Fill from ../local.yml. Do not commit real facilitator names.
+  # Fill from local.yml. Do not commit real facilitator names.
   facilitator_names: []

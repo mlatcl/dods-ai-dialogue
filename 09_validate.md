@@ -1,4 +1,6 @@
 ---
+layout: referia
+permalink: /09_validate/
 # =============================================================================
 # Dialogue analysis — 09 word-list floor (CIP-001E)
 # =============================================================================
@@ -21,7 +23,7 @@ display:
 
 parameters:
   type: yaml
-  directory: .
+  directory: 09_validate
   filename: parameters.yml
   index: index
   select: dialogue-v1
@@ -29,13 +31,13 @@ parameters:
 input:
   type: parquet
   filename: records.parquet
-  directory: ../info
+  directory: info
   index: Name
 
 output:
   type: yaml
   filename: wordlist.yml
-  directory: ../info
+  directory: info
   index: Name
   strict_columns: false
   columns:

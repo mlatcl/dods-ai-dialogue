@@ -53,15 +53,28 @@ Sidings (not in the paper): `siding_kind`, `siding_basis`, `siding_lens`.
 
 Read `GAP.md` before treating 06 output as published Part A numbers.
 
+## Edit on GitHub
+
+`_config.yml` at the study root is a Jekyll-style site file. Referia
+reads `ghub` from it and treats those keys as constants on every stage
+(`github_edit_url`, `ghub_organization`, `ghub_repository`,
+`ghub_branch`). The page header then shows Giki’s `[edit]` link to the
+current markdown page on GitHub (`index.md`, `01_turns.md`, …). Analysis
+knobs stay in each leftover stage folder’s `parameters.yml` and in
+`info/constants.yml`. `_config.yml` also sets `referia.urls: permalink`
+so `/01_turns/` is `01_turns.md`, not a directory.
+
 ## Install
 
-This study is a directory of `_referia.md` stages (YAML frontmatter plus
-a markdown body that describes what the stage does). The compute they call
-lives in [referia](https://github.com/lawrennd/referia). Use GitHub
-`main`, not the PyPI package: current `pip install referia` is 0.2.0 and
-does not yet include the dialogue pipeline (segment, extract, VQ,
-grounds, sequence, multiverse). Extract and grounds need the LLM stack
-(`02_embed`, `07_grounds`, lens labels in `04_grain`).
+This study is a directory of top-level markdown pages (`index.md`,
+`01_turns.md`, …) with YAML frontmatter and a body that describes what
+the page does. Stage data (`parameters.yml`, caches) stays in a leftover
+folder of the same name. The compute they call lives in
+[referia](https://github.com/lawrennd/referia). Use GitHub `main`, not
+the PyPI package: current `pip install referia` is 0.2.0 and does not yet
+include the dialogue pipeline (segment, extract, VQ, grounds, sequence,
+multiverse) or permalink-tree serving. Extract and grounds need the LLM
+stack (`02_embed`, `07_grounds`, lens labels in `04_grain`).
 
 Poetry from a clone (this is how referia ships the LLM group):
 
@@ -105,8 +118,8 @@ Referia loads dotenv when the LLM module imports, in this order:
 2. Otherwise `~/.env`. Use that when the study sits on a network
    filesystem such as OneDrive: walking those trees can time out.
 
-This repo gitignores `.env`. Do not put the key in `_referia.md` or
-`parameters.yml`.
+This repo gitignores `.env`. Do not put the key in a stage markdown
+page or in `parameters.yml`.
 
 ## Serve
 
@@ -123,6 +136,10 @@ cp info/documents.example.yml info/documents.yml
 referia serve --root . --host 127.0.0.1 --port 8000
 ```
 
+`_config.yml` already sets `referia.urls: permalink`. You can pass
+`--urls permalink` to force that mode. Do not serve this study in path
+mode: the pages are no longer `_referia.md` inside each stage folder.
+
 If referia was installed with Poetry from the clone, run it from that
 checkout:
 
@@ -130,7 +147,8 @@ checkout:
 poetry run referia serve --root /path/to/dods-ai-dialogue --host 127.0.0.1 --port 8000
 ```
 
-Open `http://127.0.0.1:8000/`. Each stage is a subdirectory.
+Open `http://127.0.0.1:8000/`. Each stage is a filename at the study
+root (`/01_turns/` is `01_turns.md`).
 
 ## Related
 
