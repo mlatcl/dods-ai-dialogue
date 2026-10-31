@@ -1,8 +1,8 @@
 - index: dialogue-v1
   sigma2_mode: fixed
-  sigma2: 0.01
+  sigma2: 0.001
   em_accept: 40
-  em_preview: 20
+  em_preview: 40
   n_exemplars: 8
   cluster_method: mppca
   n_clusters: 8
