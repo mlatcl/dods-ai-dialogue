@@ -6,12 +6,17 @@
 # `referia.urls: permalink` addresses pages by YAML permalink, so
 # `01_turns.md` is served at /01_turns/. Path-mode thesis trees leave
 # this unset.
+#
+# GitHub Pages (Actions → jekyll-build-pages) builds the same files as
+# a static site. That render is the markdown body, not the live widgets.
 
 title: "AI dialogue formats — chatbot vs workshop"
 description: >
   DODS reconstruction of An elicitation fallacy? Exploring the role of
   AI in public dialogue.
-url: https://github.com/mlatcl/dods-ai-dialogue
+url: https://mlatcl.github.io
+baseurl: /dods-ai-dialogue
+repository: mlatcl/dods-ai-dialogue
 github_username: mlatcl
 ghub:
   edit: true
@@ -20,3 +25,23 @@ ghub:
   branch: main
 referia:
   urls: permalink
+
+markdown: kramdown
+encoding: utf-8
+future: true
+exclude:
+  - README.md
+  - GAP.md
+  - local.yml
+  - local.example.yml
+  - lynguine.log
+  - referia-server.log
+  - vendor
+  - Gemfile
+  - Gemfile.lock
+  - .github
+  - .bundle
+  - .jekyll-cache
+  - "**/parameters.yml"
+  - info
+  - files
