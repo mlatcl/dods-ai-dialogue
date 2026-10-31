@@ -59,9 +59,10 @@ This study is a directory of `_referia.yml` stages. The compute they call
 lives in [referia](https://github.com/lawrennd/referia). Use GitHub
 `main`, not the PyPI package: current `pip install referia` is 0.2.0 and
 does not yet include the dialogue pipeline (segment, extract, VQ,
-grounds, sequence, multiverse).
+grounds, sequence, multiverse). Extract and grounds need the LLM stack
+(`02_embed`, `07_grounds`, lens labels in `04_grain`).
 
-Referia’s own source install is Poetry from a clone:
+Poetry from a clone (this is how referia ships the LLM group):
 
 ```bash
 git clone https://github.com/lawrennd/referia.git
@@ -69,20 +70,42 @@ cd referia
 poetry install --with llm
 ```
 
-`--with llm` is required for `02_embed` and `07_grounds`. Stages that
-only read stores can omit it. Those LLM stages also need an API key in
-the environment (for example `OPENAI_API_KEY`).
-
-To install the same GitHub tree into a venv without Poetry:
+The same GitHub tree in a venv without Poetry. Referia’s LLM packages
+are a Poetry group, not a pip extra, so install them in the same step:
 
 ```bash
 python3 -m venv .venv
 source .venv/bin/activate
 pip install "git+https://github.com/lawrennd/referia.git"
+pip install langchain langchain-core langchain-openai langchain-anthropic \
+  langchain-text-splitters openai anthropic tenacity diskcache python-dotenv
 ```
 
-That pip line does not install referia’s optional LLM group. Add
-`--with llm` via Poetry if you will run extract or grounds.
+## API key
+
+Extract and grounds call OpenAI (`gpt-4.1-mini` in this study). Referia
+reads `OPENAI_API_KEY` from the process environment after loading a
+`.env` file. It does not read lynguine credentials. Lynguine’s store
+(`~/.lynguine/credentials/`, `LYNGUINE_CRED_*`, `${credential:KEY}` in
+a flow) is for named sources such as Google Sheets, not for this LLM
+path.
+
+Create a `.env` with:
+
+```
+OPENAI_API_KEY=sk-...
+```
+
+Referia loads dotenv when the LLM module imports, in this order:
+
+1. A `.env` found by walking up from the current working directory
+   (put one in this study root if you `cd` here before `referia serve`,
+   or in the referia clone if you `poetry run` from there).
+2. Otherwise `~/.env`. Use that when the study sits on a network
+   filesystem such as OneDrive: walking those trees can time out.
+
+This repo gitignores `.env`. Do not put the key in `_referia.yml` or
+`parameters.yml`.
 
 ## Serve
 
