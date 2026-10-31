@@ -64,6 +64,32 @@ knobs stay in each leftover stage folder’s `parameters.yml` and in
 `info/constants.yml`. `_config.yml` also sets `referia.urls: permalink`
 so `/01_turns/` is `01_turns.md`, not a directory.
 
+## GitHub Pages
+
+The same markdown pages are a static site at
+[mlatcl.github.io/dods-ai-dialogue](https://mlatcl.github.io/dods-ai-dialogue/).
+That render is the page body (what each stage does), not the live
+referia widgets. Personal stores are excluded from the build.
+
+CI is GitHub’s Jekyll Pages workflow
+(`.github/workflows/jekyll-gh-pages.yml`). Pushes to `main` run:
+
+```bash
+# equivalent of actions/jekyll-build-pages@v1
+jekyll build --source ./ --destination ./_site --future
+```
+
+`baseurl` is `/dods-ai-dialogue`. Repo Settings → Pages is **GitHub
+Actions**. Pull requests only build; they do not deploy.
+
+Locally:
+
+```bash
+jekyll serve --baseurl /dods-ai-dialogue
+```
+
+Open `http://127.0.0.1:4000/dods-ai-dialogue/`. Do not commit `_site/`.
+
 ## Install
 
 This study is a directory of top-level markdown pages (`index.md`,
