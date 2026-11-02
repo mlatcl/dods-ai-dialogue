@@ -67,6 +67,7 @@ viewer:
       for stories? Paper story: only 0.3% of chatbot questions asked
       directly for experience. Whether the *answer* was
       experience-grounded still needs `grounds.yml` from 07.
+      Part B headline shares live upstream on **07_part_b**.
 
   - liquid: |
       ## Paper reconstruction
@@ -97,7 +98,8 @@ viewer:
       ~0.3% of bot questions ask about experience — so the Part B
       experience gap is not "the bot asked for stories." This stage
       reports how often the bot *asked*. Whether the *answer* was
-      experience-grounded still needs `grounds.yml` from 07.
+      experience-grounded still needs `grounds.yml` from 07. Part B
+      headline shares live upstream on **07_part_b**.
 
   - type: PopulateButton
     field: _run_questions
@@ -153,6 +155,7 @@ usable without the experience-gap question.
 for stories? Paper story: only 0.3% of chatbot questions asked
 directly for experience. Whether the *answer* was
 experience-grounded still needs `grounds.yml` from 07.
+Part B headline shares live upstream on **07_part_b**.
 
 ## Paper reconstruction
 

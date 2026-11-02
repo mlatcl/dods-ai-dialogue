@@ -7,7 +7,8 @@ Package: `mlatcl/ai-dialogue-formats` (notebooks are thin `Run` wrappers)
 
 Independent reconstruction of the experiments in the paper, for Jess
 to tweak via each stage’s `parameters.yml`. Each stage page quotes
-the paper sentence it reconstructs.
+the paper sentence it reconstructs. Jess-facing narrative map of the
+same material: [`METHODS_MAP.md`](METHODS_MAP.md).
 
 Do not treat a completed 01–05 run as a reproduction of the published
 numbers until the P0 items are closed.
@@ -41,8 +42,9 @@ numbers until the P0 items are closed.
 | Blind cluster labels; 3 lens runs; optional researcher mapping | `02_cluster` | `04_grain` interactive Name | D4 | Partial (no 3-run freeze) |
 | Document-weighted type/lens/cluster shares + cluster bootstrap | `03_part_a` `compare.py` | `06_compare` `run_format_share_compare` (05 is EMD on the same `P`) | Table 1, Figure 1, JSD 0.006 | Ready (current grain, not frozen k=40) |
 | JSD on format topic mix | `stats` / `soft_lenses` | `06_compare` JSD base 2 | Results: JSD = 0.006 | Ready as analogue |
-| Seven grounds codes | `04_part_b` `grounds.py` | `07_grounds` `llm_classify_grounds` | Table 2; 17.7% vs 4.1% experience | Ready to run (LLM) |
-| Question-type stress test (0.3% experience questions) | `grounds.question_types` | `08_questions` regex | Results paragraph | Ready |
+| Seven grounds codes | `04_part_b` `grounds.py` | `07_grounds` `llm_classify_grounds` | Table 2 coding | Ready to run (LLM) |
+| Document-weighted Part B shares | `04_part_b` `grounds.part_b` | `07_part_b` `run_basis_share_compare` | Table 2; 17.7% vs 4.1% experience | Ready |
+| Question-type stress test (0.3% experience questions) | `grounds.question_types` | `08_questions` regex | Results paragraph | Ready (needs `grounds.yml`) |
 | Labelled workshop speaker turns | `access.Labels` / `build_turns` | `01_turns` `run_rebuild_speaker_turns` | Exploratory (grain for 10) | Ready (run Rebuild + Save) |
 | Stories-follow-stories (labelled spring speaker turns) | `sequence.py` via `05_validation` | `10_sequence` on `turns.yml` + 07 codes | Exploratory analysis | Reconstructed (17 files / 2126 turns; story holds) |
 | Word-list floor | `05_validation` | `09_validate` `run_wordlist_floor` | Validation of experience coding | Ready |
@@ -67,10 +69,12 @@ numbers until the P0 items are closed.
    `quote_support_threshold: 0.8` drops unverified quotes and quotes
    that match the bot question / facilitator but not `extract_text`.
    Do not claim CBC percentages until Extract all has been run.
-3. **Part B is 07_grounds, not 04_grain.** Experience 17.7% vs 4.1%,
-   principle 91.6% vs 68.9%, others’ experience 4.7% vs 1.5% come from
-   basis coding. Classify all, then Save, then read `_data/corpus/grounds.yml`.
-   Until that run, do not quote those percentages from this study.
+3. **Part B coding is 07_grounds; headlines are 07_part_b.** Experience
+   17.7% vs 4.1%, principle 91.6% vs 68.9%, others’ experience 4.7% vs
+   1.5% come from basis coding aggregated document-weighted. Classify
+   all + Save on 07, then Compute on **07_part_b** (`part_b.yml`).
+   Until that, do not quote those percentages from this study. They
+   are not from 04_grain.
 
 ## P1 — same question, different estimator
 
@@ -133,8 +137,9 @@ differ (P1).
 5. Run `06_compare` (no API) for Part A analogue tables. Run `05_distance`
    if you want EMD geometry as well.
 6. Run `07_grounds` Classify all + Save when you intend to spend API
-   cost (~1888 calls; CIP-001D). Then 08 / 09. `siding_basis` stays
-   empty until that run (`grounds.yml` is currently one Classify).
+   cost (~1888 calls; CIP-001D). Then **07_part_b** Compute for
+   document-weighted shares, then 08 / 09. `siding_basis` stays empty
+   until Classify all has filled `grounds.yml`.
 7. Optional: `siding_kind` / `siding_lens` after 02 / 04 Save (no API).
 8. Canonical paper numbers stay on `Run(replay=True)` until you
    deliberately replace them with this grain.

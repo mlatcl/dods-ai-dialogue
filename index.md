@@ -129,11 +129,12 @@ viewer:
       6. `04_grain` — Assess codebook geometry, Address named lenses
       7. `05_distance` — Access `P`, extra Assess geometry (not the paper)
       8. `06_compare` — Address Part A (CBC mix, lens shares, JSD)
-      9. `07_grounds` — Address Part B (Access join + explode)
-      10. `08_questions` — Assess bot questions, Address the confound
-      11. `09_validate` — Assess word-list floor on Part B
-      12. `10_sequence` — Address stories-follow-stories
-      13. `11_multiverse` — Address analysis-choice product
+      9. `07_grounds` — Address Part B coding (Access join + explode)
+      10. `07_part_b` — Address Part B shares (basis mix, experience gap)
+      11. `08_questions` — Assess bot questions, Address the confound
+      12. `09_validate` — Assess word-list floor on Part B
+      13. `10_sequence` — Address stories-follow-stories
+      14. `11_multiverse` — Address analysis-choice product
 
       Sidings (not stages): `siding_kind` (extract kinds), `siding_basis`
       (Part B bases; run 07 Classify all first), `siding_lens` (hard
@@ -161,7 +162,7 @@ Assess / Address loop, including nested loops where a page both
 loads a store and answers a question.
 
 **Address.** None here. The elicitation questions live on 06, 07,
-08, 09, 10, and 11.
+07_part_b, 08, 09, 10, and 11.
 
 Independent reconstruction of the experiments in *An elicitation
 fallacy?* Tweaks belong in each stage's `parameters.yml`. This is
@@ -183,11 +184,12 @@ Transcripts stay out of this repo. Fill `local.yml` and
 6. `04_grain` — Assess codebook geometry, Address named lenses
 7. `05_distance` — Access `P`, extra Assess geometry (not the paper)
 8. `06_compare` — Address Part A (CBC mix, lens shares, JSD)
-9. `07_grounds` — Address Part B (Access join + explode)
-10. `08_questions` — Assess bot questions, Address the confound
-11. `09_validate` — Assess word-list floor on Part B
-12. `10_sequence` — Address stories-follow-stories
-13. `11_multiverse` — Address analysis-choice product
+9. `07_grounds` — Address Part B coding (Access join + explode)
+10. `07_part_b` — Address Part B shares (basis mix, experience gap)
+11. `08_questions` — Assess bot questions, Address the confound
+12. `09_validate` — Assess word-list floor on Part B
+13. `10_sequence` — Address stories-follow-stories
+14. `11_multiverse` — Address analysis-choice product
 
 Sidings (not stages): `siding_kind` (extract kinds), `siding_basis`
 (Part B bases; run 07 Classify all first), `siding_lens` (hard

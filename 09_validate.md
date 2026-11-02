@@ -15,7 +15,7 @@ title: "AI dialogue formats — word-list experience floor"
 description: >
   Assess word-list floor on Part B. Flag quotes that contain
   first-person / family / work experience language. A floor, not the
-  paper's 17.7 vs 4.1 (that is 07_grounds).
+  paper's 17.7 vs 4.1 (that is 07_part_b from 07 codes).
 date: 2026-10-29
 seq: 90
 
@@ -63,9 +63,9 @@ viewer:
       quality floor on any later experience coding.
 
       **Address.** A floor on 07's experience codes, not the paper's
-      17.7 vs 4.1 estimator (07 can code experience without those
-      words, and can refuse them). Format-blind recode of 300 is not
-      this page.
+      17.7 vs 4.1 estimator on 07_part_b (07 can code experience
+      without those words, and can refuse them). Format-blind recode
+      of 300 is not this page.
 
   - liquid: |
       ## Paper reconstruction
@@ -88,7 +88,7 @@ viewer:
       (first-person / family / work experience language in
       `parameters.yml`). No model. A **floor** on how often experience
       language is even present — not the paper's 17.7 vs 4.1 (that is
-      07_grounds, which can code experience without those words, and
+      07_part_b from 07 codes, which can code experience without those words, and
       can refuse them).
 
       **What you should see:** hit rates by format, optionally crossed
@@ -130,7 +130,7 @@ review:
 
 # AI dialogue formats — word-list experience floor
 
-Assess word-list floor on Part B. Flag quotes that contain first-person / family / work experience language. A floor, not the paper's 17.7 vs 4.1 (that is 07_grounds).
+Assess word-list floor on Part B. Flag quotes that contain first-person / family / work experience language. A floor, not the paper's 17.7 vs 4.1 (that is 07_part_b from 07 codes).
 
 ## Access / Assess / Address
 
@@ -147,9 +147,9 @@ even present in the quotes. Model-independent, reusable as a
 quality floor on any later experience coding.
 
 **Address.** A floor on 07's experience codes, not the paper's
-17.7 vs 4.1 estimator (07 can code experience without those
-words, and can refuse them). Format-blind recode of 300 is not
-this page.
+17.7 vs 4.1 estimator on 07_part_b (07 can code experience
+without those words, and can refuse them). Format-blind recode
+of 300 is not this page.
 
 ## Paper reconstruction
 

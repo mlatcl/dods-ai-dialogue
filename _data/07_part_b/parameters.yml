@@ -1,0 +1,8 @@
+- index: dialogue-v1
+  n_boot: 2000.0
+  seed: 42.0
+  min_gap: 3.0
+  experience_bases:
+    - personal_experience
+    - others_experience
+  professional_basis: professional_knowledge

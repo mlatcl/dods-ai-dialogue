@@ -45,14 +45,17 @@ Run in directory order. Shared stores live in `_data/corpus/`.
 7. `05_distance` — extra EMD / MDS (not in the paper; the paper uses JSD)
 8. `06_compare` — document-weighted CBC, lens shares, JSD (Part A)
 9. `07_grounds` — Part B basis coding
-10. `08_questions` — chatbot question-type stress test
-11. `09_validate` — word-list experience floor
-12. `10_sequence` — stories-follow-stories
-13. `11_multiverse` — analysis-choice product (page ready; not yet run)
+10. `07_part_b` — Part B document-weighted shares (experience gap)
+11. `08_questions` — chatbot question-type stress test
+12. `09_validate` — word-list experience floor
+13. `10_sequence` — stories-follow-stories
+14. `11_multiverse` — analysis-choice product (page ready; not yet run)
 
 Sidings (not in the paper): `siding_kind`, `siding_basis`, `siding_lens`.
 
 Read `GAP.md` before treating 06 output as published Part A numbers.
+For Jess: `METHODS_MAP.md` restates the paper methods broken into
+these stages (her figures vs this grain).
 
 ## Edit on GitHub
 
