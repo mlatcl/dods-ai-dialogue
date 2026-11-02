@@ -20,13 +20,14 @@ description: >
   speaker's point also rest on experience? Compared to a
   within-transcript shuffle. Main-run 07 codes. No quote text is stored.
 date: 2026-10-30
+seq: 100
 
 display:
   layout: side_by_side
 
 parameters:
   type: yaml
-  directory: 10_sequence
+  directory: _data/10_sequence
   filename: parameters.yml
   index: index
   select: dialogue-v1
@@ -34,14 +35,14 @@ parameters:
 input:
   type: yaml
   filename: constants.yml
-  directory: info
+  directory: _data/corpus
   index: index
   select: dialogue-v1
 
 output:
   type: yaml
   filename: sequence.yml
-  directory: info
+  directory: _data/corpus
   index: index
   strict_columns: false
   columns:
@@ -57,9 +58,9 @@ viewer:
       Nested loop: Access speaker turns and 07 codes, Assess coverage
       of labelled files, Address the look-back.
 
-      **Access.** Data: `info/turns.yml` from `01_turns` (one row per
+      **Access.** Data: `_data/corpus/turns.yml` from `01_turns` (one row per
       labelled workshop speaker turn). 07 points are placed onto turns
-      by quote substring. Writes `info/sequence.yml` (look-back rates,
+      by quote substring. Writes `_data/corpus/sequence.yml` (look-back rates,
       no quote text). This page does not rebuild DOCX.
 
       **Assess.** How many labelled files and turns have a 07 point to
@@ -170,9 +171,9 @@ Address stories-follow-stories (Access turns + 07 codes). Among labelled worksho
 Nested loop: Access speaker turns and 07 codes, Assess coverage
 of labelled files, Address the look-back.
 
-**Access.** Data: `info/turns.yml` from `01_turns` (one row per
+**Access.** Data: `_data/corpus/turns.yml` from `01_turns` (one row per
 labelled workshop speaker turn). 07 points are placed onto turns
-by quote substring. Writes `info/sequence.yml` (look-back rates,
+by quote substring. Writes `_data/corpus/sequence.yml` (look-back rates,
 no quote text). This page does not rebuild DOCX.
 
 **Assess.** How many labelled files and turns have a 07 point to

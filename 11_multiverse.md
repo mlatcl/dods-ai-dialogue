@@ -21,13 +21,14 @@ description: >
   exclusion, quote threshold, and round, on main-run 07 codes (216
   configs). Not 1080 LLM jobs.
 date: 2026-10-30
+seq: 110
 
 display:
   layout: side_by_side
 
 parameters:
   type: yaml
-  directory: 11_multiverse
+  directory: _data/11_multiverse
   filename: parameters.yml
   index: index
   select: dialogue-v1
@@ -35,14 +36,14 @@ parameters:
 input:
   type: yaml
   filename: constants.yml
-  directory: info
+  directory: _data/corpus
   index: index
   select: dialogue-v1
 
 output:
   type: yaml
   filename: analysis_multiverse.yml
-  directory: info
+  directory: _data/corpus
   index: index
   strict_columns: false
   columns:
@@ -58,9 +59,9 @@ viewer:
       This stage is **Address** of robustness. Access is the main-run
       07 store.
 
-      **Access.** Data: `info/grounds.yml` (main-run 07 codes) and the
+      **Access.** Data: `_data/corpus/grounds.yml` (main-run 07 codes) and the
       packed corpus fields those codes join. Writes
-      `info/analysis_multiverse.yml`. One coding source; 216 configs,
+      `_data/corpus/analysis_multiverse.yml`. One coding source; 216 configs,
       not 1080 LLM jobs.
 
       **Assess.** None on the raw transcripts. Varying definition,
@@ -164,9 +165,9 @@ Address analysis-choice product. Paper reconstruction of the Bell et al. 2022 mu
 This stage is **Address** of robustness. Access is the main-run
 07 store.
 
-**Access.** Data: `info/grounds.yml` (main-run 07 codes) and the
+**Access.** Data: `_data/corpus/grounds.yml` (main-run 07 codes) and the
 packed corpus fields those codes join. Writes
-`info/analysis_multiverse.yml`. One coding source; 216 configs,
+`_data/corpus/analysis_multiverse.yml`. One coding source; 216 configs,
 not 1080 LLM jobs.
 
 **Assess.** None on the raw transcripts. Varying definition,

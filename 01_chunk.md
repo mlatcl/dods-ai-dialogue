@@ -10,12 +10,12 @@ permalink: /01_chunk/
 #
 # Stores
 # ------
-#   parameters    01_chunk/parameters.yml           (writable unitisation knobs)
-#   input         info/documents.yml      (step 1; hand-written roster)
-#   cache         01_chunk/_chunk_cache.yml.gz      (optional units list; deletable
+#   parameters    _data/01_chunk/parameters.yml           (writable unitisation knobs)
+#   input         _data/corpus/documents.yml      (step 1; hand-written roster)
+#   cache         _data/01_chunk/_chunk_cache.yml.gz      (optional units list; deletable
 #                                            once chunks.yml exists — segment
 #                                            is local, not an LLM call)
-#   output        info/chunks.yml         (.yml.gz when the corpus is large)
+#   output        _data/corpus/chunks.yml         (.yml.gz when the corpus is large)
 #
 # No checkpoints/. Do not keep units in cache *and* full text in output as
 # the long-term pair; gzip if you do persist both (lynguine CIP-0015).
@@ -27,8 +27,9 @@ description: >
   Access (+ Assess grain). Catalog Recollective chatbot dumps and workshop
   DOCX, segment with docx_chatbot.v1 / docx_workshop.v1 (aspect
   dialogue_units), then explode to one chunk row per unit. Serve this
-  config on its own; 02_embed reads info/chunks.yml.
+  config on its own; 02_extract reads _data/corpus/chunks.yml.
 date: 2026-10-29
+seq: 10
 
 display:
   layout: inline_list
@@ -36,7 +37,7 @@ display:
 
 parameters:
   type: yaml
-  directory: 01_chunk
+  directory: _data/01_chunk
   filename: parameters.yml
   index: index
   select: dialogue-v1
@@ -45,14 +46,14 @@ parameters:
 input:
   type: yaml
   filename: documents.yml
-  directory: info
+  directory: _data/corpus
   index: Name
 
 # Step 2 — list-in-one-field on the document row (CIP-0013 contract).
 cache:
   type: yaml
   filename: _chunk_cache.yml.gz
-  directory: 01_chunk
+  directory: _data/01_chunk
   index: Name
   compress: gzip
   strict_columns: false
@@ -64,7 +65,7 @@ cache:
 output:
   type: yaml
   filename: chunks.yml
-  directory: info
+  directory: _data/corpus
   index: unit_id
   # Inherit + document_segment extras sit on the exploded YAML; v2 default
   # strict_columns would 503 this config on reload.
@@ -123,9 +124,9 @@ viewer:
       question.
 
       **Access.** Data: Recollective chatbot DOCX and workshop DOCX
-      under `files/`, rostered in `info/documents.yml` (one row per
+      under `files/`, rostered in `_data/corpus/documents.yml` (one row per
       file). Each file is segmented into a `units` list on that row,
-      then exploded to `info/chunks.yml` (one row per unit: `unit_id`,
+      then exploded to `_data/corpus/chunks.yml` (one row per unit: `unit_id`,
       `text`, `word_count`, `format`, `doc_id`, `participant_id`, …).
 
       **Assess.** Units shorter than four words are dropped (too little
@@ -162,7 +163,7 @@ viewer:
 
       ## What this page is
 
-      Each **row is one source file** from `info/documents.yml` — two
+      Each **row is one source file** from `_data/corpus/documents.yml` — two
       Recollective chatbot dumps plus 38 workshop DOCX (40 files).
       **Segment** splits a file into dialogue units; **Segment all** does
       the filtered set. Aspect must be `dialogue_units` (chatbot/workshop
@@ -228,7 +229,7 @@ review:
 
 # AI dialogue formats — catalog, segment, explode
 
-Access (+ Assess grain). Catalog Recollective chatbot dumps and workshop DOCX, segment with docx_chatbot.v1 / docx_workshop.v1 (aspect dialogue_units), then explode to one chunk row per unit. Serve this config on its own; 02_embed reads info/chunks.yml.
+Access (+ Assess grain). Catalog Recollective chatbot dumps and workshop DOCX, segment with docx_chatbot.v1 / docx_workshop.v1 (aspect dialogue_units), then explode to one chunk row per unit. Serve this config on its own; 02_extract reads _data/corpus/chunks.yml.
 
 ## Access / Assess / Address
 
@@ -237,9 +238,9 @@ grain and coverage. This page does not Address the elicitation
 question.
 
 **Access.** Data: Recollective chatbot DOCX and workshop DOCX
-under `files/`, rostered in `info/documents.yml` (one row per
+under `files/`, rostered in `_data/corpus/documents.yml` (one row per
 file). Each file is segmented into a `units` list on that row,
-then exploded to `info/chunks.yml` (one row per unit: `unit_id`,
+then exploded to `_data/corpus/chunks.yml` (one row per unit: `unit_id`,
 `text`, `word_count`, `format`, `doc_id`, `participant_id`, …).
 
 **Assess.** Units shorter than four words are dropped (too little

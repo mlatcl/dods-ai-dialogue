@@ -1,10 +1,10 @@
 # Copy to local.yml (gitignored). These names would identify the study.
-# Paste facilitator_names into 01_chunk/parameters.yml and
-# 01_turns/parameters.yml for speaker matching when rebuilding from
+# Paste facilitator_names into _data/01_chunk/parameters.yml and
+# _data/01_turns/parameters.yml for speaker matching when rebuilding from
 # DOCX. Do not commit the filled lists.
 #
 # facilitators maps the opaque ids used in filenames and
-# info/documents.yml onto the private names.
+# _data/corpus/documents.yml onto the private names.
 
 facilitator_names:
   - Alex

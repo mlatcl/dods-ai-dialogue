@@ -11,10 +11,10 @@ permalink: /06_compare/
 #
 # Stores
 # ------
-#   parameters  06_compare/parameters.yml
-#   input       info/records.parquet
-#   data        info/scores.yml
-#   output      info/part_a.yml
+#   parameters  _data/06_compare/parameters.yml
+#   input       _data/corpus/records.parquet
+#   data        _data/corpus/scores.yml
+#   output      _data/corpus/part_a.yml
 # Wrapper also reads codebook.parquet (cluster_ids) and phrases.yml (kinds).
 # =============================================================================
 
@@ -26,13 +26,14 @@ description: >
   Jensen–Shannon divergence. This is the paper's Part A estimator on
   the current grain, not a replay of Jess's frozen k=40 labels.
 date: 2026-10-29
+seq: 60
 
 display:
   layout: side_by_side
 
 parameters:
   type: yaml
-  directory: 06_compare
+  directory: _data/06_compare
   filename: parameters.yml
   index: index
   select: dialogue-v1
@@ -40,19 +41,19 @@ parameters:
 input:
   type: parquet
   filename: records.parquet
-  directory: info
+  directory: _data/corpus
   index: Name
 
 data:
   type: yaml
   filename: scores.yml
-  directory: info
+  directory: _data/corpus
   index: Name
 
 output:
   type: yaml
   filename: part_a.yml
-  directory: info
+  directory: _data/corpus
   index: Name
   strict_columns: false
   columns:
@@ -72,9 +73,9 @@ viewer:
       This stage is **Address** of the Part A question. Access is a
       join of stores already assessed upstream.
 
-      **Access.** Data: `info/records.parquet` (phrases, `doc_ids`,
-      kinds) joined to `info/scores.yml` (lens responsibilities).
-      Writes `info/part_a.yml` (type mix, lens mix, JSD).
+      **Access.** Data: `_data/corpus/records.parquet` (phrases, `doc_ids`,
+      kinds) joined to `_data/corpus/scores.yml` (lens responsibilities).
+      Writes `_data/corpus/part_a.yml` (type mix, lens mix, JSD).
 
       **Assess.** Documents with fewer phrases than **min mass** are
       dropped (too thin to be a histogram). Intervals resample
@@ -229,9 +230,9 @@ Address Part A. Document-weighted concern/benefit/condition mix and lens shares 
 This stage is **Address** of the Part A question. Access is a
 join of stores already assessed upstream.
 
-**Access.** Data: `info/records.parquet` (phrases, `doc_ids`,
-kinds) joined to `info/scores.yml` (lens responsibilities).
-Writes `info/part_a.yml` (type mix, lens mix, JSD).
+**Access.** Data: `_data/corpus/records.parquet` (phrases, `doc_ids`,
+kinds) joined to `_data/corpus/scores.yml` (lens responsibilities).
+Writes `_data/corpus/part_a.yml` (type mix, lens mix, JSD).
 
 **Assess.** Documents with fewer phrases than **min mass** are
 dropped (too thin to be a histogram). Intervals resample

@@ -7,7 +7,7 @@ permalink: /01_turns/
 #
 # Parallel to 01_chunk. Chunks stay ~150-word extract units. This page
 # rebuilds labelled workshop *speaker turns* (Jess Labels) into
-# info/turns.yml. 10_sequence reads that store; do not rerun 02–07.
+# _data/corpus/turns.yml. 10_sequence reads that store; do not rerun 02–07.
 # Markdown is coverage plus structure-only examples — no spoken text.
 # =============================================================================
 
@@ -19,13 +19,14 @@ description: >
   mid-paragraph split). Writes turns.yml for 10_sequence. Does not
   replace chunks.yml.
 date: 2026-10-30
+seq: 15
 
 display:
   layout: side_by_side
 
 parameters:
   type: yaml
-  directory: 01_turns
+  directory: _data/01_turns
   filename: parameters.yml
   index: index
   select: dialogue-v1
@@ -33,14 +34,14 @@ parameters:
 input:
   type: yaml
   filename: constants.yml
-  directory: info
+  directory: _data/corpus
   index: index
   select: dialogue-v1
 
 cache:
   type: yaml
   filename: _turns_cache.yml.gz
-  directory: 01_turns
+  directory: _data/01_turns
   index: index
   compress: gzip
   strict_columns: false
@@ -53,7 +54,7 @@ cache:
 output:
   type: yaml
   filename: turns.yml
-  directory: info
+  directory: _data/corpus
   index: turn_id
   strict_columns: false
   explode:
@@ -78,7 +79,7 @@ viewer:
       question is Address on `10_sequence`.
 
       **Access.** Data: workshop DOCX that carry Speaker N / S2 /
-      facilitator labels. Loaded as `info/turns.yml` (one row per
+      facilitator labels. Loaded as `_data/corpus/turns.yml` (one row per
       speaker turn: `turn_id`, `doc_id`, `turn_i`, `speaker`,
       `facilitator`, `round`, `filename`, `text`). This does not
       replace `chunks.yml`.
@@ -205,7 +206,7 @@ Nested loop: **Access** of labelled workshop speech, then
 question is Address on `10_sequence`.
 
 **Access.** Data: workshop DOCX that carry Speaker N / S2 /
-facilitator labels. Loaded as `info/turns.yml` (one row per
+facilitator labels. Loaded as `_data/corpus/turns.yml` (one row per
 speaker turn: `turn_id`, `doc_id`, `turn_i`, `speaker`,
 `facilitator`, `round`, `filename`, `text`). This does not
 replace `chunks.yml`.

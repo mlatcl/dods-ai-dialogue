@@ -43,5 +43,5 @@ exclude:
   - .bundle
   - .jekyll-cache
   - "**/parameters.yml"
-  - info
+  - _data
   - files
