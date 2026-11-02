@@ -20,7 +20,10 @@ display:
     _sort: seq:asc
 
 input:
-  type: yaml_directory
+  # markdown_directory (not yaml_directory): stage pages are .md with
+  # YAML frontmatter. yaml_directory defaults to *.yml and only reads .md
+  # correctly once lynguine's markdown-as-yaml bridge is on main.
+  type: markdown_directory
   index: configPath
   source:
     - directory: .
