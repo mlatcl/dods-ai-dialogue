@@ -23,10 +23,10 @@ permalink: /07_grounds/
 referia_config_version: 2
 title: "AI dialogue formats — Part B grounds"
 description: >
-  Address Part B (Access join + explode). For each unit, classify what
-  every extracted point rests on (experience, principle, professional
-  knowledge, …). Headline experience 17.7% vs 4.1% comes from this
-  stage, not from 04_grain.
+  Address Part B coding (Access join + explode). For each unit,
+  classify what every extracted point rests on (experience, principle,
+  professional knowledge, …). Document-weighted headlines (17.7% vs
+  4.1%) are computed on 07_part_b from this store.
 date: 2026-10-29
 seq: 70
 
@@ -67,8 +67,8 @@ data:
   filename: extracts.parquet
   directory: _data/corpus
   index: unit_id
+  # unit_id is the parquet index, not a column — do not list it in select_columns.
   select_columns:
-    - unit_id
     - extraction_phrases
 
 cache:
@@ -192,9 +192,10 @@ viewer:
       failed. Save explodes `grounds.yml` (one row per point). A
       one-row `grounds.yml` means a single Classify, not Classify all.
 
-      Paper headline **experience 17.7% vs 4.1%** (chatbot vs workshop)
-      is a document-weighted share of these codes. It does not come
-      from 04_grain.
+      Paper headline **experience 17.7% vs 4.1%** is a document-weighted
+      share of these codes, computed on **07_part_b** from
+      `grounds.yml` — not shown on this coding page, and not from
+      04_grain.
 
 review:
   - type: precompute
@@ -286,7 +287,7 @@ review:
 
 # AI dialogue formats — Part B grounds
 
-Address Part B (Access join + explode). For each unit, classify what every extracted point rests on (experience, principle, professional knowledge, …). Headline experience 17.7% vs 4.1% comes from this stage, not from 04_grain.
+Address Part B coding (Access join + explode). For each unit, classify what every extracted point rests on (experience, principle, professional knowledge, …). Document-weighted headlines (17.7% vs 4.1%) are computed on 07_part_b from this store.
 
 ## Access / Assess / Address
 
