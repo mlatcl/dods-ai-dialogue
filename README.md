@@ -159,16 +159,24 @@ on macOS) and use that interpreter for the steps below
 (`python3.12 -m venv .venv`, …).
 
 Create a virtualenv *in this study* and install
-[referia](https://github.com/lawrennd/referia) from GitHub `main` (not
-the PyPI package: current `pip install referia` is 0.2.0 and does not yet
-include the dialogue pipeline or permalink-tree serving). Referia’s LLM
-packages are a Poetry group upstream, not a pip extra, so install them
-in the same step:
+[referia](https://github.com/lawrennd/referia) from GitHub `main` with
+the ``llm`` extra (not the PyPI package: current `pip install referia` is
+0.2.0 and does not yet include the dialogue pipeline or permalink-tree
+serving). The extra pulls LangChain and the OpenAI/Anthropic clients —
+without it, Propose split, Name, extract, and grounds fail with
+`LangChain is not installed`:
 
 ```bash
 python3 -m venv .venv
 source .venv/bin/activate
 python --version   # confirm the venv is still 3.11+
+pip install "referia[llm] @ git+https://github.com/lawrennd/referia.git"
+```
+
+If you are on an older referia commit without the ``llm`` extra, install
+the same stack explicitly after referia:
+
+```bash
 pip install "git+https://github.com/lawrennd/referia.git"
 pip install langchain langchain-core langchain-openai langchain-anthropic \
   langchain-text-splitters openai anthropic tenacity diskcache python-dotenv
