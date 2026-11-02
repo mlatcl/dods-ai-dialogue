@@ -146,6 +146,18 @@ cd dods-ai-dialogue
 HTTPS works the same way if you prefer
 (`https://github.com/mlatcl/dods-ai-dialogue.git`).
 
+Referia needs **Python 3.11 or higher**. Check before creating the venv:
+
+```bash
+python3 --version
+```
+
+That should print something like `Python 3.11.x` or `3.12.x`. If it is
+3.10 or older, install a newer Python (for example via
+[python.org](https://www.python.org/downloads/) or `brew install python@3.12`
+on macOS) and use that interpreter for the steps below
+(`python3.12 -m venv .venv`, …).
+
 Create a virtualenv *in this study* and install
 [referia](https://github.com/lawrennd/referia) from GitHub `main` (not
 the PyPI package: current `pip install referia` is 0.2.0 and does not yet
@@ -156,6 +168,7 @@ in the same step:
 ```bash
 python3 -m venv .venv
 source .venv/bin/activate
+python --version   # confirm the venv is still 3.11+
 pip install "git+https://github.com/lawrennd/referia.git"
 pip install langchain langchain-core langchain-openai langchain-anthropic \
   langchain-text-splitters openai anthropic tenacity diskcache python-dotenv
