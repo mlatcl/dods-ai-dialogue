@@ -1,7 +1,7 @@
 ---
 layout: referia
 permalink: /
-# DODS study hub — stages in directory order. Shared stores: ./info/
+# DODS study hub — stages in seq order. Shared stores: ./_data/corpus/
 # Public configs only. Transcripts and facilitator names stay local.
 
 referia_config_version: 2
@@ -9,7 +9,7 @@ title: "AI dialogue formats — chatbot vs workshop"
 description: >
   Access of the pipeline map (sibling stage markdown pages as listing
   rows). Independent reconstruction of the experiments in “An elicitation
-  fallacy?” for Jess to tweak. Stages 01–11 in glob order. 05 is extra
+  fallacy?” for Jess to tweak. Stages 01–11 in seq order. 05 is extra
   EMD geometry (the paper uses JSD in 06). 11 is the analysis-choice
   product (not yet run). Sidings are not in the paper.
 date: 2026-10-29
@@ -17,7 +17,7 @@ date: 2026-10-29
 display:
   layout: inline_list
   filter_defaults:
-    _sort: sourceFile:asc
+    _sort: seq:asc
 
 input:
   type: yaml_directory
@@ -31,6 +31,7 @@ input:
     - title
     - description
     - date
+    - seq
     - referia_config_version
     - permalink
   store_fields:
@@ -84,7 +85,7 @@ filters:
     label: Title
 
 sort:
-  - field: sourceFile
+  - field: seq
     order: asc
 
 viewer:
@@ -113,22 +114,23 @@ viewer:
       elicited similar concerns, benefits, and conditions; workshop
       contributions were more often grounded in experience.
 
-      Run stages in directory order. Corpus stores live in `info/`.
+      Run stages in seq order. Corpus stores live in `_data/corpus/`.
       Transcripts stay out of this repo. Fill `local.yml` and
-      `info/documents.yml` from the private working copy.
+      `_data/corpus/documents.yml` from the private working copy.
 
       1. `01_chunk` — Access (+ Assess grain): catalog, segment, explode
       2. `01_turns` — Access (+ Assess coverage): labelled speaker turns
-      3. `02_embed` — nested Access / Address / Assess: extract, embed, pack
-      4. `03_vq` — Address topic cells (Assess codebook coverage)
-      5. `04_grain` — Assess codebook geometry, Address named lenses
-      6. `05_distance` — Access `P`, extra Assess geometry (not the paper)
-      7. `06_compare` — Address Part A (CBC mix, lens shares, JSD)
-      8. `07_grounds` — Address Part B (Access join + explode)
-      9. `08_questions` — Assess bot questions, Address the confound
-      10. `09_validate` — Assess word-list floor on Part B
-      11. `10_sequence` — Address stories-follow-stories
-      12. `11_multiverse` — Address analysis-choice product
+      3. `02_extract` — Address extract (+ Assess quote_support)
+      4. `02_embed` — Address embeddings (+ Access explode and pack)
+      5. `03_vq` — Address topic cells (Assess codebook coverage)
+      6. `04_grain` — Assess codebook geometry, Address named lenses
+      7. `05_distance` — Access `P`, extra Assess geometry (not the paper)
+      8. `06_compare` — Address Part A (CBC mix, lens shares, JSD)
+      9. `07_grounds` — Address Part B (Access join + explode)
+      10. `08_questions` — Assess bot questions, Address the confound
+      11. `09_validate` — Assess word-list floor on Part B
+      12. `10_sequence` — Address stories-follow-stories
+      13. `11_multiverse` — Address analysis-choice product
 
       Sidings (not stages): `siding_kind` (extract kinds), `siding_basis`
       (Part B bases; run 07 Classify all first), `siding_lens` (hard
@@ -141,7 +143,7 @@ viewer:
 
 # AI dialogue formats — chatbot vs workshop
 
-Access of the pipeline map (sibling stage markdown pages as listing rows). Independent reconstruction of the experiments in “An elicitation fallacy?” for Jess to tweak. Stages 01–11 in glob order. 05 is extra EMD geometry (the paper uses JSD in 06). 11 is the analysis-choice product (not yet run). Sidings are not in the paper.
+Access of the pipeline map (sibling stage markdown pages as listing rows). Independent reconstruction of the experiments in “An elicitation fallacy?” for Jess to tweak. Stages 01–11 in seq order. 05 is extra EMD geometry (the paper uses JSD in 06). 11 is the analysis-choice product (not yet run). Sidings are not in the paper.
 
 ## Access / Assess / Address
 
@@ -166,22 +168,23 @@ Paper story this pipeline is for: chatbot and workshop sessions
 elicited similar concerns, benefits, and conditions; workshop
 contributions were more often grounded in experience.
 
-Run stages in directory order. Corpus stores live in `info/`.
+Run stages in seq order. Corpus stores live in `_data/corpus/`.
 Transcripts stay out of this repo. Fill `local.yml` and
-`info/documents.yml` from the private working copy.
+`_data/corpus/documents.yml` from the private working copy.
 
 1. `01_chunk` — Access (+ Assess grain): catalog, segment, explode
 2. `01_turns` — Access (+ Assess coverage): labelled speaker turns
-3. `02_embed` — nested Access / Address / Assess: extract, embed, pack
-4. `03_vq` — Address topic cells (Assess codebook coverage)
-5. `04_grain` — Assess codebook geometry, Address named lenses
-6. `05_distance` — Access `P`, extra Assess geometry (not the paper)
-7. `06_compare` — Address Part A (CBC mix, lens shares, JSD)
-8. `07_grounds` — Address Part B (Access join + explode)
-9. `08_questions` — Assess bot questions, Address the confound
-10. `09_validate` — Assess word-list floor on Part B
-11. `10_sequence` — Address stories-follow-stories
-12. `11_multiverse` — Address analysis-choice product
+3. `02_extract` — Address extract (+ Assess quote_support)
+4. `02_embed` — Address embeddings (+ Access explode and pack)
+5. `03_vq` — Address topic cells (Assess codebook coverage)
+6. `04_grain` — Assess codebook geometry, Address named lenses
+7. `05_distance` — Access `P`, extra Assess geometry (not the paper)
+8. `06_compare` — Address Part A (CBC mix, lens shares, JSD)
+9. `07_grounds` — Address Part B (Access join + explode)
+10. `08_questions` — Assess bot questions, Address the confound
+11. `09_validate` — Assess word-list floor on Part B
+12. `10_sequence` — Address stories-follow-stories
+13. `11_multiverse` — Address analysis-choice product
 
 Sidings (not stages): `siding_kind` (extract kinds), `siding_basis`
 (Part B bases; run 07 Classify all first), `siding_lens` (hard

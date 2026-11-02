@@ -6,7 +6,7 @@ permalink: /siding_lens/
 # =============================================================================
 #
 # Grain diagnostic, not a check of Name strings. Hard label = argmax of
-# phrase-level QR. Writes info/lens_check.yml. Does not change 03/04.
+# phrase-level QR. Writes _data/corpus/lens_check.yml. Does not change 03/04.
 # =============================================================================
 
 referia_config_version: 2
@@ -18,13 +18,14 @@ description: >
   are lexical, not whether Name strings are good. Does not rerun VQ or
   grain.
 date: 2026-10-29
+seq: 220
 
 display:
   layout: side_by_side
 
 parameters:
   type: yaml
-  directory: siding_lens
+  directory: _data/siding_lens
   filename: parameters.yml
   index: index
   select: dialogue-v1
@@ -33,14 +34,14 @@ parameters:
 input:
   type: yaml
   filename: constants.yml
-  directory: info
+  directory: _data/corpus
   index: index
   select: dialogue-v1
 
 output:
   type: yaml
   filename: lens_check.yml
-  directory: info
+  directory: _data/corpus
   index: index
   strict_columns: false
   columns:
@@ -59,9 +60,9 @@ viewer:
       Siding: Access phrase text and hard QR labels, Assess whether
       lenses are lexical. Not in the paper.
 
-      **Access.** Data: `info/phrases.yml` plus hard lens = argmax of
+      **Access.** Data: `_data/corpus/phrases.yml` plus hard lens = argmax of
       phrase-level `QR` from the current grain. Does not load the
-      embedding pack. Writes `info/lens_check.yml`.
+      embedding pack. Writes `_data/corpus/lens_check.yml`.
 
       **Assess.** Five-fold BoW reconstruction of that hard label.
       Near-chance means the lenses are geometry, not cue words.
@@ -179,9 +180,9 @@ Assess hard-lens lexicality (siding Address). Off the main line. Five-fold bag-o
 Siding: Access phrase text and hard QR labels, Assess whether
 lenses are lexical. Not in the paper.
 
-**Access.** Data: `info/phrases.yml` plus hard lens = argmax of
+**Access.** Data: `_data/corpus/phrases.yml` plus hard lens = argmax of
 phrase-level `QR` from the current grain. Does not load the
-embedding pack. Writes `info/lens_check.yml`.
+embedding pack. Writes `_data/corpus/lens_check.yml`.
 
 **Assess.** Five-fold BoW reconstruction of that hard label.
 Near-chance means the lenses are geometry, not cue words.

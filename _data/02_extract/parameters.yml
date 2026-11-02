@@ -40,5 +40,3 @@
 
     Unit:
     <<TEXT>>
-  embed_model: text-embedding-3-large
-  embed_pca_dim: null

@@ -5,8 +5,8 @@ permalink: /siding_basis/
 # Dialogue analysis — siding: Part B basis reconstruction (CIP-001F)
 # =============================================================================
 #
-# Not a numbered pipeline stage. Joins info/grounds.yml onto phrases.yml;
-# writes info/basis_check.yml. Does not change 07_grounds coding.
+# Not a numbered pipeline stage. Joins _data/corpus/grounds.yml onto phrases.yml;
+# writes _data/corpus/basis_check.yml. Does not change 07_grounds coding.
 # =============================================================================
 
 referia_config_version: 2
@@ -18,13 +18,14 @@ description: >
   phrase. Seven-way bases remain a diagnostic. Does not rerun Classify
   all.
 date: 2026-10-30
+seq: 210
 
 display:
   layout: side_by_side
 
 parameters:
   type: yaml
-  directory: siding_basis
+  directory: _data/siding_basis
   filename: parameters.yml
   index: index
   select: dialogue-v1
@@ -33,14 +34,14 @@ parameters:
 input:
   type: yaml
   filename: constants.yml
-  directory: info
+  directory: _data/corpus
   index: index
   select: dialogue-v1
 
 output:
   type: yaml
   filename: basis_check.yml
-  directory: info
+  directory: _data/corpus
   index: index
   strict_columns: false
   columns:
@@ -59,9 +60,9 @@ viewer:
       Siding: Access 07 codes, Assess whether experience vs rest is
       recoverable from quote plus phrase. Not in the paper.
 
-      **Access.** Data: `info/grounds.yml` joined to `info/phrases.yml`
+      **Access.** Data: `_data/corpus/grounds.yml` joined to `_data/corpus/phrases.yml`
       by `phrase_id`. Does not load the embedding pack. Writes
-      `info/basis_check.yml`. Run 07 Classify all + Save first.
+      `_data/corpus/basis_check.yml`. Run 07 Classify all + Save first.
 
       **Assess.** Five-fold linear reconstruction. Default label is
       experience (personal + others) vs rest; seven-way is a dump-class
@@ -197,9 +198,9 @@ Assess 07 experience-code consistency (siding Address). Off the main line. Five-
 Siding: Access 07 codes, Assess whether experience vs rest is
 recoverable from quote plus phrase. Not in the paper.
 
-**Access.** Data: `info/grounds.yml` joined to `info/phrases.yml`
+**Access.** Data: `_data/corpus/grounds.yml` joined to `_data/corpus/phrases.yml`
 by `phrase_id`. Does not load the embedding pack. Writes
-`info/basis_check.yml`. Run 07 Classify all + Save first.
+`_data/corpus/basis_check.yml`. Run 07 Classify all + Save first.
 
 **Assess.** Five-fold linear reconstruction. Default label is
 experience (personal + others) vs rest; seven-way is a dump-class

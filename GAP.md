@@ -28,13 +28,13 @@ numbers until the P0 items are closed.
 
 | Analysis step | Jess notebook / package | Referia now | Paper uses it? | Status |
 |---------------|-------------------------|-------------|----------------|--------|
-| Catalog files + round / session / facilitator | `access.load_corpus` | `01_chunk` + `info/documents.yml` | Data section | Ready |
+| Catalog files + round / session / facilitator | `access.load_corpus` | `01_chunk` + `_data/corpus/documents.yml` | Data section | Ready |
 | Chatbot: one unit per answer; bot question as context | `access.parse_chatbot` | `docx_chatbot.v1` now splits Recollective packed-newline turns; extras: `participant_id`, `context`, `extract_text` | D3 | Ready; context not yet concatenated into extract `text` |
 | Workshop: ~150-word chunks, split at speaker labels; `[FACILITATOR]` context | `access` + `config/local.yaml` names | `docx_workshop.v1` + `facilitator_names` from gitignored `local.yml` / stage parameters | D3 | Ready |
-| Drop units &lt; 4 words | `run_units` `too_short` (2013 kept, 120 dropped) | `min_unit_words: 4` on chatbot and workshop; **2013** units in `info/chunks.yml` | D3 | Ready |
+| Drop units &lt; 4 words | `run_units` `too_short` (2013 kept, 120 dropped) | `min_unit_words: 4` on chatbot and workshop; **2013** units in `_data/corpus/chunks.yml` | D3 | Ready |
 | Assess diagnostics (no model) | `00_assess` | template deferred (chunk quality flags) | Methods (unitisation) | Missing |
-| Three-pass extract + `phrase \|\| quote` | `01_extract` | `02_embed` prompt + parser | Extracting CBC | Prompt ready |
-| `quote_support ≥ 0.8`; drop quotes from question / facilitator | `extract.py` | `llm_extract_phrases` scores quotes; `quote_support_threshold: 0.8` in `02_embed/parameters.yml` | D2; only verified points analysed | Ready (extracted; 27 unverified in pack) |
+| Three-pass extract + `phrase \|\| quote` | `01_extract` | `02_extract` prompt + parser | Extracting CBC | Prompt ready |
+| `quote_support ≥ 0.8`; drop quotes from question / facilitator | `extract.py` | `llm_extract_phrases` scores quotes; `quote_support_threshold: 0.8` in `_data/02_extract/parameters.yml` | D2; only verified points analysed | Ready (extracted; 27 unverified in pack) |
 | Format-conditional unit frame (bot asked / `[FACILITATOR]`) | `prompts.unit_frame` | single `<<TEXT>>`; workshop `text` has tags; chatbot `text` is the answer only | D2 / D3 | Partial |
 | Embed `text-embedding-3-large` | `02_cluster` | `02_embed` | Identifying themes | Ready |
 | Shared k=40 k-means, frozen assignments, k=25/60 | `02_cluster` / `robust` | `03_vq` `n_vq: 40` (VQ + later MPPCA lenses, not frozen k-means) | D4; sensitivity subsection | Analogue, not identical |
@@ -58,7 +58,7 @@ numbers until the P0 items are closed.
 
 ## P0 — paper numbers would be wrong
 
-1. **Chatbot document grain.** Closed in config and in `info/chunks.yml`.
+1. **Chatbot document grain.** Closed in config and in `_data/corpus/chunks.yml`.
    `segment_dialogue_units` stamps `doc_id` as `{round}::{participant_id}`
    on chatbot units (110 conversations) and `filename` on workshops (38).
    Recollective participant numbers overlap across rounds, so bare
@@ -69,7 +69,7 @@ numbers until the P0 items are closed.
    Do not claim CBC percentages until Extract all has been run.
 3. **Part B is 07_grounds, not 04_grain.** Experience 17.7% vs 4.1%,
    principle 91.6% vs 68.9%, others’ experience 4.7% vs 1.5% come from
-   basis coding. Classify all, then Save, then read `info/grounds.yml`.
+   basis coding. Classify all, then Save, then read `_data/corpus/grounds.yml`.
    Until that run, do not quote those percentages from this study.
 
 ## P1 — same question, different estimator

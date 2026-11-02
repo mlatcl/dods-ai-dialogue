@@ -17,13 +17,14 @@ description: >
   units whose preceding bot question matches each pattern (experience,
   example, why, safeguards, …). Local regex only.
 date: 2026-10-29
+seq: 80
 
 display:
   layout: side_by_side
 
 parameters:
   type: yaml
-  directory: 08_questions
+  directory: _data/08_questions
   filename: parameters.yml
   index: index
   select: dialogue-v1
@@ -31,13 +32,13 @@ parameters:
 input:
   type: parquet
   filename: records.parquet
-  directory: info
+  directory: _data/corpus
   index: Name
 
 output:
   type: yaml
   filename: question_types.yml
-  directory: info
+  directory: _data/corpus
   index: Name
   strict_columns: false
   columns:
@@ -55,7 +56,7 @@ viewer:
 
       **Access.** Data: preceding bot question on chatbot units
       (`chunks.yml` `context`, reached via the packed corpus row).
-      Writes `info/question_types.yml` (counts and shares). Local
+      Writes `_data/corpus/question_types.yml` (counts and shares). Local
       regex only.
 
       **Assess.** The type table characterises what the bot asked
@@ -141,7 +142,7 @@ coverage, Address the confound for Part B.
 
 **Access.** Data: preceding bot question on chatbot units
 (`chunks.yml` `context`, reached via the packed corpus row).
-Writes `info/question_types.yml` (counts and shares). Local
+Writes `_data/corpus/question_types.yml` (counts and shares). Local
 regex only.
 
 **Assess.** The type table characterises what the bot asked

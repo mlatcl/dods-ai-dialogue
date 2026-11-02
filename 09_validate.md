@@ -17,13 +17,14 @@ description: >
   first-person / family / work experience language. A floor, not the
   paper's 17.7 vs 4.1 (that is 07_grounds).
 date: 2026-10-29
+seq: 90
 
 display:
   layout: side_by_side
 
 parameters:
   type: yaml
-  directory: 09_validate
+  directory: _data/09_validate
   filename: parameters.yml
   index: index
   select: dialogue-v1
@@ -31,13 +32,13 @@ parameters:
 input:
   type: parquet
   filename: records.parquet
-  directory: info
+  directory: _data/corpus
   index: Name
 
 output:
   type: yaml
   filename: wordlist.yml
-  directory: info
+  directory: _data/corpus
   index: Name
   strict_columns: false
   columns:
@@ -54,7 +55,7 @@ viewer:
 
       **Access.** Data: each point's own supporting quote from the
       phrase store (via the packed corpus row). Writes
-      `info/wordlist.yml`. Local regex only.
+      `_data/corpus/wordlist.yml`. Local regex only.
 
       **Assess.** First-person / family / work markers in
       `parameters.yml` characterise how often experience language is
@@ -138,7 +139,7 @@ Address a floor on the Part B coding.
 
 **Access.** Data: each point's own supporting quote from the
 phrase store (via the packed corpus row). Writes
-`info/wordlist.yml`. Local regex only.
+`_data/corpus/wordlist.yml`. Local regex only.
 
 **Assess.** First-person / family / work markers in
 `parameters.yml` characterise how often experience language is

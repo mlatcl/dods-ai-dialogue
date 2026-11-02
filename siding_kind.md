@@ -5,8 +5,8 @@ permalink: /siding_kind/
 # Dialogue analysis — siding: extract kind reconstruction (CIP-001F)
 # =============================================================================
 #
-# Not a numbered pipeline stage. Reads info/phrases.yml; writes
-# info/kind_check.yml. Does not change extract, pack, or grain.
+# Not a numbered pipeline stage. Reads _data/corpus/phrases.yml; writes
+# _data/corpus/kind_check.yml. Does not change extract, pack, or grain.
 # =============================================================================
 
 referia_config_version: 2
@@ -17,13 +17,14 @@ description: >
   condition labels from phrase text (tf-idf + logistic regression).
   Chance vs collapse vs consistent. Does not rerun extract.
 date: 2026-10-29
+seq: 200
 
 display:
   layout: side_by_side
 
 parameters:
   type: yaml
-  directory: siding_kind
+  directory: _data/siding_kind
   filename: parameters.yml
   index: index
   select: dialogue-v1
@@ -32,14 +33,14 @@ parameters:
 input:
   type: yaml
   filename: constants.yml
-  directory: info
+  directory: _data/corpus
   index: index
   select: dialogue-v1
 
 output:
   type: yaml
   filename: kind_check.yml
-  directory: info
+  directory: _data/corpus
   index: index
   strict_columns: false
   columns:
@@ -58,9 +59,9 @@ viewer:
       Siding: Access the phrase table, Assess whether kinds are
       lexical, Address a reconstruction check. Not in the paper.
 
-      **Access.** Data: `info/phrases.yml` (phrase text and extract
+      **Access.** Data: `_data/corpus/phrases.yml` (phrase text and extract
       `kind`). Does not load the embedding pack. Writes
-      `info/kind_check.yml`.
+      `_data/corpus/kind_check.yml`.
 
       **Assess.** Five-fold tf-idf + linear model vs majority /
       shuffled-label / document-grouped baselines. Flags chance,
@@ -100,7 +101,7 @@ viewer:
       (concern / benefit / condition). Chance is ~0.33. Useful
       consistency is well above that and below 0.95.
 
-      This does not change 02_embed. Do not paste phrase text into git.
+      This does not change 02_extract. Do not paste phrase text into git.
       Out-of-fold errors are listed as `phrase_id`s only.
 
   - type: PopulateButton
@@ -178,9 +179,9 @@ Assess extract-kind consistency (siding Address). Off the main line. Five-fold b
 Siding: Access the phrase table, Assess whether kinds are
 lexical, Address a reconstruction check. Not in the paper.
 
-**Access.** Data: `info/phrases.yml` (phrase text and extract
+**Access.** Data: `_data/corpus/phrases.yml` (phrase text and extract
 `kind`). Does not load the embedding pack. Writes
-`info/kind_check.yml`.
+`_data/corpus/kind_check.yml`.
 
 **Assess.** Five-fold tf-idf + linear model vs majority /
 shuffled-label / document-grouped baselines. Flags chance,

@@ -2,7 +2,7 @@
 
 Put Recollective chatbot DOCX in `chatbot/` and workshop DOCX in
 `workshops/`. Paths are relative to this directory; the glob is in
-`info/constants.yml`.
+`_data/corpus/constants.yml`.
 
 Filename scheme (kebab-case inside a field, underscores between
 fields, general → specific):
@@ -27,6 +27,6 @@ The name map for `f01`–`f06` lives in `local.yml` (copy
 `facilitator_names` in that file and in the two stage
 `parameters.yml` files. Do not put names in committed YAML.
 
-The catalog `info/documents.yml` is gitignored. Start from
-`info/documents.example.yml`. Original zip archives stay in
+The catalog `_data/corpus/documents.yml` is gitignored. Start from
+`_data/corpus/documents.example.yml`. Original zip archives stay in
 `files/originals/` and are not renamed.

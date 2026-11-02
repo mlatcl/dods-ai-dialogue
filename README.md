@@ -24,30 +24,31 @@ Transcripts, facilitator names, quotes, embeddings, LLM caches, and
 derived stores that contain them are not stored, they would need to be
 provided by a private working copy. Copy `local.example.yml` to
 `local.yml` and paste the same name list into
-`01_chunk/parameters.yml` and `01_turns/parameters.yml`. Copy
-`info/documents.example.yml` to `info/documents.yml` and fill
+`_data/01_chunk/parameters.yml` and `_data/01_turns/parameters.yml`. Copy
+`_data/corpus/documents.example.yml` to `_data/corpus/documents.yml` and fill
 filenames from the private store. Put DOCX under `files/chatbot/` and
 `files/workshops/`.
 
-Do not commit `local.yml`, `info/documents.yml`, or anything under
+Do not commit `local.yml`, `_data/corpus/documents.yml`, or anything under
 `files/` except the empty directory keepers.
 
 ## Stages
 
-Run in directory order. Shared stores live in `info/`.
+Run in directory order. Shared stores live in `_data/corpus/`.
 
 1. `01_chunk` — catalog and segment units
 2. `01_turns` — labelled workshop speaker turns (Access grain for 10)
-3. `02_embed` — extract concern/benefit/condition phrases, embed, pack
-4. `03_vq` — vector quantisation (`n_vq: 40`)
-5. `04_grain` — lenses on the codebook
-6. `05_distance` — extra EMD / MDS (not in the paper; the paper uses JSD)
-7. `06_compare` — document-weighted CBC, lens shares, JSD (Part A)
-8. `07_grounds` — Part B basis coding
-9. `08_questions` — chatbot question-type stress test
-10. `09_validate` — word-list experience floor
-11. `10_sequence` — stories-follow-stories
-12. `11_multiverse` — analysis-choice product (page ready; not yet run)
+3. `02_extract` — extract concern/benefit/condition phrases
+4. `02_embed` — embed those phrases and pack the corpus
+5. `03_vq` — vector quantisation (`n_vq: 40`)
+6. `04_grain` — lenses on the codebook
+7. `05_distance` — extra EMD / MDS (not in the paper; the paper uses JSD)
+8. `06_compare` — document-weighted CBC, lens shares, JSD (Part A)
+9. `07_grounds` — Part B basis coding
+10. `08_questions` — chatbot question-type stress test
+11. `09_validate` — word-list experience floor
+12. `10_sequence` — stories-follow-stories
+13. `11_multiverse` — analysis-choice product (page ready; not yet run)
 
 Sidings (not in the paper): `siding_kind`, `siding_basis`, `siding_lens`.
 
@@ -60,10 +61,11 @@ reads `ghub` from it and treats those keys as constants on every stage
 (`github_edit_url`, `ghub_organization`, `ghub_repository`,
 `ghub_branch`). The page header then shows Giki’s `[edit]` link to the
 current markdown page on GitHub (`index.md`, `01_turns.md`, …). Analysis
-knobs stay in each leftover stage folder’s `parameters.yml` and in
-`info/constants.yml`. `_config.yml` also sets `referia.urls: permalink`
+knobs stay in `_data/<stage>/parameters.yml` and in
+`_data/corpus/constants.yml`. `_config.yml` also sets `referia.urls: permalink`
 so `/01_turns/` is `01_turns.md`, not a directory.
 
+## Data layout
 ## GitHub Pages
 
 The same markdown pages are a static site at
@@ -92,21 +94,92 @@ Open `http://127.0.0.1:4000/dods-ai-dialogue/`. Do not commit `_site/`.
 
 ## Install
 
-This study is a directory of top-level markdown pages (`index.md`,
-`01_turns.md`, …) with YAML frontmatter and a body that describes what
-the page does. Stage data (`parameters.yml`, caches) stays in a leftover
-folder of the same name. The compute they call lives in
+All writable analysis artefacts sit under `_data/`:
+
+- `_data/corpus/` — shared stores (was `info/`): documents, chunks, phrases,
+  extracts, codebook, Part A/B outputs, constants
+- `_data/01_chunk/`, `_data/02_embed/`, … — per-stage `parameters.yml`, caches,
+  and intermediate products
+
+Stage *pages* stay at the repo root (`01_chunk.md`, …) for permalink URLs.
+`_config.yml` excludes `_data` from the Pages build; only the small tracked
+files under `_data/corpus/` (constants + documents example) ship publicly.
+
+## GitHub Pages
+
+The same markdown pages are a static site at
+[mlatcl.github.io/dods-ai-dialogue](https://mlatcl.github.io/dods-ai-dialogue/).
+That render is the page body (what each stage does), not the live
+referia widgets. Personal stores are excluded from the build.
+
+CI is GitHub’s Jekyll Pages workflow
+(`.github/workflows/jekyll-gh-pages.yml`). Pushes to `main` run:
+
+```bash
+# equivalent of actions/jekyll-build-pages@v1
+jekyll build --source ./ --destination ./_site --future
+```
+
+`baseurl` is `/dods-ai-dialogue`. Repo Settings → Pages must use
+**GitHub Actions** as the source. Pull requests only build; they do
+not deploy.
+
+Locally:
+
+```bash
+jekyll serve --baseurl /dods-ai-dialogue
+```
+
+Open `http://127.0.0.1:4000/dods-ai-dialogue/`. Do not commit `_site/`.
+
+## Setup
+
+DODS studies are sibling clones under a shared parent (conventionally
+`mlatcl/`). Referia is the tool that runs them.
+
+```bash
+mkdir -p mlatcl
+cd mlatcl
+git clone git@github.com:mlatcl/dods-ai-dialogue.git
+git clone git@github.com:lawrennd/referia.git
+# optional: the approach docs
+git clone git@github.com:mlatcl/dods.git
+```
+
+HTTPS works the same way if you prefer
+(`https://github.com/mlatcl/dods-ai-dialogue.git`, …).
+
+You should end up with:
+
+```
+mlatcl/
+  dods-ai-dialogue/   # this study (pages at root, data under _data/)
+  referia/            # pipeline tool (install from here)
+  dods/               # optional: DODS approach docs
+```
+
+Then wire the private working copy inside the study:
+
+```bash
+cd dods-ai-dialogue
+cp local.example.yml local.yml
+cp _data/corpus/documents.example.yml _data/corpus/documents.yml
+# fill local.yml (facilitator names), documents.yml, and files/ from the private store
+```
+
+## Install referia
+
+The compute these pages call lives in
 [referia](https://github.com/lawrennd/referia). Use GitHub `main`, not
 the PyPI package: current `pip install referia` is 0.2.0 and does not yet
 include the dialogue pipeline (segment, extract, VQ, grounds, sequence,
 multiverse) or permalink-tree serving. Extract and grounds need the LLM
-stack (`02_embed`, `07_grounds`, lens labels in `04_grain`).
+stack (`02_extract`, `07_grounds`, lens labels in `04_grain`).
 
-Poetry from a clone (this is how referia ships the LLM group):
+Poetry from the referia clone (this is how it ships the LLM group):
 
 ```bash
-git clone https://github.com/lawrennd/referia.git
-cd referia
+cd ../referia
 poetry install --with llm
 ```
 
@@ -114,6 +187,7 @@ The same GitHub tree in a venv without Poetry. Referia’s LLM packages
 are a Poetry group, not a pip extra, so install them in the same step:
 
 ```bash
+cd ../referia
 python3 -m venv .venv
 source .venv/bin/activate
 pip install "git+https://github.com/lawrennd/referia.git"
@@ -151,14 +225,10 @@ page or in `parameters.yml`.
 
 This study is many configs, so use root-server mode (`--root`), not
 single-config `--directory`. Default host is `127.0.0.1`, default port
-`8000`.
+`8000`. From the study root (after Setup and Install):
 
 ```bash
-git clone https://github.com/mlatcl/dods-ai-dialogue.git
 cd dods-ai-dialogue
-cp local.example.yml local.yml
-cp info/documents.example.yml info/documents.yml
-# fill local.yml, documents.yml, and files/ from the private store
 referia serve --root . --host 127.0.0.1 --port 8000
 ```
 
@@ -166,11 +236,11 @@ referia serve --root . --host 127.0.0.1 --port 8000
 `--urls permalink` to force that mode. Do not serve this study in path
 mode: the pages are no longer `_referia.md` inside each stage folder.
 
-If referia was installed with Poetry from the clone, run it from that
-checkout:
+If referia was installed with Poetry, run it from that checkout:
 
 ```bash
-poetry run referia serve --root /path/to/dods-ai-dialogue --host 127.0.0.1 --port 8000
+cd ../referia
+poetry run referia serve --root ../dods-ai-dialogue --host 127.0.0.1 --port 8000
 ```
 
 Open `http://127.0.0.1:8000/`. Each stage is a filename at the study

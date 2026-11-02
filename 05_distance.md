@@ -6,9 +6,9 @@ permalink: /05_distance/
 # =============================================================================
 #
 # CIP-0016: run_document_distance_analysis. Reads packed corpus + grain scores from
-# shared info/. Writes P, EMD, MDS, tests, and Plotly specs to
+# shared _data/corpus/. Writes P, EMD, MDS, tests, and Plotly specs to
 # document_distance.yml. Click bindings write selected_doc to output.
-# Knobs (group_field, min_mass, n_perm, seed) live in 05_distance/parameters.yml, not cache.
+# Knobs (group_field, min_mass, n_perm, seed) live in _data/05_distance/parameters.yml, not cache.
 #
 # Requires optional extra referia[distance] (pot) for EMD.
 # =============================================================================
@@ -20,13 +20,14 @@ description: >
   (EMD / MDS / tests). Not the paper's Address (that is JSD in
   06_compare). See GAP.md.
 date: 2026-10-29
+seq: 50
 
 display:
   layout: side_by_side
 
 parameters:
   type: yaml
-  directory: 05_distance
+  directory: _data/05_distance
   filename: parameters.yml
   index: index
   select: dialogue-v1
@@ -35,7 +36,7 @@ parameters:
 input:
   type: parquet
   filename: records.parquet
-  directory: info
+  directory: _data/corpus
   index: Name
 
 # Grain catalogue — named store, not a sidecar. Joined on the corpus Name.
@@ -43,7 +44,7 @@ input:
 data:
   type: yaml
   filename: scores.yml
-  directory: info
+  directory: _data/corpus
   index: Name
 
 # Do not use a ``documents:`` store here. That key is reserved for
@@ -53,7 +54,7 @@ data:
 output:
   type: yaml
   filename: document_distance.yml
-  directory: info
+  directory: _data/corpus
   index: Name
   columns:
     - P
@@ -85,11 +86,11 @@ viewer:
       Nested loop: Access document histograms, Assess extra geometry
       on `P`. The paper's Address of format similarity is `06_compare`.
 
-      **Access.** Data: `info/records.parquet` (packed phrases) joined
-      to `info/scores.yml` (grain). Each document becomes a histogram
+      **Access.** Data: `_data/corpus/records.parquet` (packed phrases) joined
+      to `_data/corpus/scores.yml` (grain). Each document becomes a histogram
       over current lenses (`P`, phrase-level `QR` summed and
       normalised). Thin documents (below **min mass**) are dropped.
-      Writes `info/document_distance.yml`.
+      Writes `_data/corpus/document_distance.yml`.
 
       **Assess.** EMD, classical MDS, PERMANOVA / PERMDISP, and the
       radar / heatmaps are extra geometry on the same `P`. They
@@ -443,11 +444,11 @@ Access of document × lens histograms `P`, then extra Assess geometry (EMD / MDS
 Nested loop: Access document histograms, Assess extra geometry
 on `P`. The paper's Address of format similarity is `06_compare`.
 
-**Access.** Data: `info/records.parquet` (packed phrases) joined
-to `info/scores.yml` (grain). Each document becomes a histogram
+**Access.** Data: `_data/corpus/records.parquet` (packed phrases) joined
+to `_data/corpus/scores.yml` (grain). Each document becomes a histogram
 over current lenses (`P`, phrase-level `QR` summed and
 normalised). Thin documents (below **min mass**) are dropped.
-Writes `info/document_distance.yml`.
+Writes `_data/corpus/document_distance.yml`.
 
 **Assess.** EMD, classical MDS, PERMANOVA / PERMDISP, and the
 radar / heatmaps are extra geometry on the same `P`. They

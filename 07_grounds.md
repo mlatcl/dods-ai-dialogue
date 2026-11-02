@@ -6,17 +6,17 @@ permalink: /07_grounds/
 # =============================================================================
 #
 # One LLM JSON call per unit over that unit's extracted points. Explode to
-# info/grounds.yml. Layout is inline_list (CIP-0020): first GET paints
+# _data/corpus/grounds.yml. Layout is inline_list (CIP-0020): first GET paints
 # list_page_size rows, then Load more / scroll. Classify all still loops
 # the full working set (CIP-0021 batches). Save even if HTMX fails.
 #
 # Stores
 # ------
-#   parameters  07_grounds/parameters.yml
-#   input       info/chunks.yml
-#   data        02_embed/_extract_phrases.parquet  (extraction_phrases)
-#   cache       07_grounds/_grounds_cache.yml.gz
-#   output      info/grounds.yml
+#   parameters  _data/07_grounds/parameters.yml
+#   input       _data/corpus/chunks.yml
+#   data        _data/corpus/extracts.parquet  (extraction_phrases from 02_extract)
+#   cache       _data/07_grounds/_grounds_cache.yml.gz
+#   output      _data/corpus/grounds.yml
 # Access join on unit_id. row_args maps extraction_phrases → points.
 # =============================================================================
 
@@ -28,6 +28,7 @@ description: >
   knowledge, …). Headline experience 17.7% vs 4.1% comes from this
   stage, not from 04_grain.
 date: 2026-10-29
+seq: 70
 
 display:
   layout: inline_list
@@ -37,7 +38,7 @@ display:
 
 parameters:
   type: yaml
-  directory: 07_grounds
+  directory: _data/07_grounds
   filename: parameters.yml
   index: index
   select: dialogue-v1
@@ -45,7 +46,7 @@ parameters:
 input:
   type: yaml
   filename: chunks.yml
-  directory: info
+  directory: _data/corpus
   index: unit_id
   select_columns:
     - unit_id
@@ -59,13 +60,12 @@ input:
     - participant_id
     - doc_id
 
-# Projection of 02's unit-grained nest (CIP-0015). Do not join
-# _extract_cache.yml.gz here — PyYAML safe_load of that file is ~11s
-# (payloads + phrases). Phrase-grained phrases.yml is the VQ explode.
+# Unit-grained extract from 02_extract (output, not a cache).
+# Phrase-grained phrases.yml is the 02_embed explode.
 data:
   type: parquet
-  filename: _extract_phrases.parquet
-  directory: 02_embed
+  filename: extracts.parquet
+  directory: _data/corpus
   index: unit_id
   select_columns:
     - unit_id
@@ -74,7 +74,7 @@ data:
 cache:
   type: yaml
   filename: _grounds_cache.yml.gz
-  directory: 07_grounds
+  directory: _data/07_grounds
   index: unit_id
   compress: gzip
   strict_columns: false
@@ -86,7 +86,7 @@ cache:
 output:
   type: yaml
   filename: grounds.yml
-  directory: info
+  directory: _data/corpus
   index: phrase_id
   strict_columns: false
   explode:
@@ -118,10 +118,10 @@ viewer:
       Nested loop: Access the unit and its phrases, Address the
       grounding code, Access the exploded store.
 
-      **Access.** Data: `info/chunks.yml` (units) joined on `unit_id`
-      to `02_embed/_extract_phrases.parquet` (`extraction_phrases`).
+      **Access.** Data: `_data/corpus/chunks.yml` (units) joined on `unit_id`
+      to `_data/corpus/extracts.parquet` (`extraction_phrases` from `02_extract`).
       Classify writes `_grounds_cache.yml.gz`. Save explodes
-      `info/grounds.yml` (one row per point: `phrase_id`, `basis`,
+      `_data/corpus/grounds.yml` (one row per point: `phrase_id`, `basis`,
       `kind`, `format`, `doc_id`).
 
       **Assess.** Units with 0 points are not sent to the model
@@ -169,7 +169,7 @@ viewer:
       You are looking at a **vertical list** of dialogue units (2013
       in the working set). The first paint is 50 rows; **Load more**
       appends the next page (CIP-0020). Points are the unit's
-      `extraction_phrases` from 02's `_extract_phrases.parquet`, joined
+      `extraction_phrases` from `_data/corpus/extracts.parquet`, joined
       on `unit_id`. Expand a row to classify those points against seven
       bases:
       `personal_experience`, `others_experience`,
@@ -268,6 +268,7 @@ review:
       all: true
       once: true
       refresh_if: refresh_classification
+      once_blocked: Already classified. Check Refresh classification to run again.
       skip_empty: extraction_phrases
       target: grounds_payload
       compute: *grounds_compute
@@ -292,10 +293,10 @@ Address Part B (Access join + explode). For each unit, classify what every extra
 Nested loop: Access the unit and its phrases, Address the
 grounding code, Access the exploded store.
 
-**Access.** Data: `info/chunks.yml` (units) joined on `unit_id`
-to `02_embed/_extract_phrases.parquet` (`extraction_phrases`).
+**Access.** Data: `_data/corpus/chunks.yml` (units) joined on `unit_id`
+to `_data/corpus/extracts.parquet` (`extraction_phrases` from `02_extract`).
 Classify writes `_grounds_cache.yml.gz`. Save explodes
-`info/grounds.yml` (one row per point: `phrase_id`, `basis`,
+`_data/corpus/grounds.yml` (one row per point: `phrase_id`, `basis`,
 `kind`, `format`, `doc_id`).
 
 **Assess.** Units with 0 points are not sent to the model

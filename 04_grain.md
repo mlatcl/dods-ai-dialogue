@@ -5,7 +5,7 @@ permalink: /04_grain/
 # Dialogue analysis — 04 subject grain (steps 8–9)
 # =============================================================================
 #
-# Copy of examples/subject_grain_uq/_referia.md, retargeted at shared info/.
+# Copy of examples/subject_grain_uq/_referia.md, retargeted at shared _data/corpus/.
 # Seed fit is CIP-0015 subject_grain_seed_fit (replaces build_records.py Assess).
 # Split / Confirm / Undo / Reset / Name already exist (subject_grain_*).
 #
@@ -14,9 +14,9 @@ permalink: /04_grain/
 #
 # Stores
 # ------
-#   parameters  04_grain/parameters.yml         (σ², EM, n_exemplars, lens_weight)
-#   input       info/codebook.parquet (VQ centroids; CIP-001A)
-#   output      info/scores.yml       (R, planes, labels, cluster_ids)
+#   parameters  _data/04_grain/parameters.yml         (σ², EM, n_exemplars, lens_weight)
+#   input       _data/corpus/codebook.parquet (VQ centroids; CIP-001A)
+#   output      _data/corpus/scores.yml       (R, planes, labels, cluster_ids)
 # No named cache: seed fit writes output. Skip-if-R-present also requires
 # R rows == codebook m (leftover phrase-level scores do not skip).
 # Knobs must not land in cache or scores; Save writes parameters.yml.
@@ -29,13 +29,14 @@ description: >
   the VQ codebook (cluster centroids), then Propose split / Confirm /
   Undo / Reset / Name. Merge is not wired.
 date: 2026-10-22
+seq: 40
 
 display:
   layout: side_by_side
 
 parameters:
   type: yaml
-  directory: 04_grain
+  directory: _data/04_grain
   filename: parameters.yml
   index: index
   select: dialogue-v1
@@ -44,15 +45,14 @@ input:
   type: parquet
   index: Name
   filename: codebook.parquet
-  directory: info
-
+  directory: _data/corpus
 output:
   type: yaml
   index: Name
   filename: scores.yml
-  directory: info
+  directory: _data/corpus
   # Save writes *_modified / *_created; older scores.yml still has σ² knobs
-  # that now live in 04_grain/parameters.yml. strict_columns would 503 on reload.
+  # that now live in _data/04_grain/parameters.yml. strict_columns would 503 on reload.
   strict_columns: false
   columns:
     - focus_topic
@@ -77,8 +77,8 @@ viewer:
       Nested loop: Access the codebook, Assess its geometry with
       MPPCA splits, Address named lenses for Part A.
 
-      **Access.** Data: `info/codebook.parquet` (VQ centroids from
-      `03_vq`). Loaded as one grain row. Output is `info/scores.yml`
+      **Access.** Data: `_data/corpus/codebook.parquet` (VQ centroids from
+      `03_vq`). Loaded as one grain row. Output is `_data/corpus/scores.yml`
       (`R` responsibilities, planes, labels, `cluster_ids`).
 
       **Assess.** Seed fit is k=1. **Propose split** / Confirm / Undo
@@ -112,7 +112,7 @@ viewer:
   - liquid: |
       ## Store status
 
-      **Parameters** `{% if store_status.parameters.exists %}{{ store_status.parameters.path }}{% else %}absent — 04_grain/parameters.yml{% endif %}`
+      **Parameters** `{% if store_status.parameters.exists %}{{ store_status.parameters.path }}{% else %}absent — _data/04_grain/parameters.yml{% endif %}`
 
       **Input** `{% if store_status.input.exists %}{{ store_status.input.path }} · {{ store_status.input.size_human }}{% else %}absent — run 03_vq{% endif %}`
 
@@ -586,8 +586,8 @@ Assess codebook geometry, then Address named lenses. Fit lenses on the VQ codebo
 Nested loop: Access the codebook, Assess its geometry with
 MPPCA splits, Address named lenses for Part A.
 
-**Access.** Data: `info/codebook.parquet` (VQ centroids from
-`03_vq`). Loaded as one grain row. Output is `info/scores.yml`
+**Access.** Data: `_data/corpus/codebook.parquet` (VQ centroids from
+`03_vq`). Loaded as one grain row. Output is `_data/corpus/scores.yml`
 (`R` responsibilities, planes, labels, `cluster_ids`).
 
 **Assess.** Seed fit is k=1. **Propose split** / Confirm / Undo
