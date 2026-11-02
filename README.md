@@ -134,65 +134,41 @@ Open `http://127.0.0.1:4000/dods-ai-dialogue/`. Do not commit `_site/`.
 
 ## Setup
 
-DODS studies are sibling clones under a shared parent (conventionally
-`mlatcl/`). Referia is the tool that runs them.
+Clone this study under a parent directory (conventionally `mlatcl/`):
 
 ```bash
 mkdir -p mlatcl
 cd mlatcl
 git clone git@github.com:mlatcl/dods-ai-dialogue.git
-git clone git@github.com:lawrennd/referia.git
-# optional: the approach docs
-git clone git@github.com:mlatcl/dods.git
+cd dods-ai-dialogue
 ```
 
 HTTPS works the same way if you prefer
-(`https://github.com/mlatcl/dods-ai-dialogue.git`, …).
+(`https://github.com/mlatcl/dods-ai-dialogue.git`).
 
-You should end up with:
-
-```
-mlatcl/
-  dods-ai-dialogue/   # this study (pages at root, data under _data/)
-  referia/            # pipeline tool (install from here)
-  dods/               # optional: DODS approach docs
-```
-
-Then wire the private working copy inside the study:
-
-```bash
-cd dods-ai-dialogue
-cp local.example.yml local.yml
-cp _data/corpus/documents.example.yml _data/corpus/documents.yml
-# fill local.yml (facilitator names), documents.yml, and files/ from the private store
-```
-
-## Install referia
-
-The compute these pages call lives in
-[referia](https://github.com/lawrennd/referia). Use GitHub `main`, not
+Create a virtualenv *in this study* and install
+[referia](https://github.com/lawrennd/referia) from GitHub `main` (not
 the PyPI package: current `pip install referia` is 0.2.0 and does not yet
-include the dialogue pipeline (segment, extract, VQ, grounds, sequence,
-multiverse) or permalink-tree serving. Extract and grounds need the LLM
-stack (`02_extract`, `07_grounds`, lens labels in `04_grain`).
-
-Poetry from the referia clone (this is how it ships the LLM group):
+include the dialogue pipeline or permalink-tree serving). Referia’s LLM
+packages are a Poetry group upstream, not a pip extra, so install them
+in the same step:
 
 ```bash
-cd ../referia
-poetry install --with llm
-```
-
-The same GitHub tree in a venv without Poetry. Referia’s LLM packages
-are a Poetry group, not a pip extra, so install them in the same step:
-
-```bash
-cd ../referia
 python3 -m venv .venv
 source .venv/bin/activate
 pip install "git+https://github.com/lawrennd/referia.git"
 pip install langchain langchain-core langchain-openai langchain-anthropic \
   langchain-text-splitters openai anthropic tenacity diskcache python-dotenv
+```
+
+You do not need a local clone of `lawrennd/referia` or `mlatcl/dods`.
+
+Then wire the private working copy:
+
+```bash
+cp local.example.yml local.yml
+cp _data/corpus/documents.example.yml _data/corpus/documents.yml
+# fill local.yml (facilitator names), documents.yml, and files/ from the private store
 ```
 
 ## API key
@@ -204,7 +180,7 @@ reads `OPENAI_API_KEY` from the process environment after loading a
 a flow) is for named sources such as Google Sheets, not for this LLM
 path.
 
-Create a `.env` with:
+Create a `.env` in this study root:
 
 ```
 OPENAI_API_KEY=sk-...
@@ -213,35 +189,28 @@ OPENAI_API_KEY=sk-...
 Referia loads dotenv when the LLM module imports, in this order:
 
 1. A `.env` found by walking up from the current working directory
-   (put one in this study root if you `cd` here before `referia serve`,
-   or in the referia clone if you `poetry run` from there).
+   (the study root is the usual place when you `cd` here before
+   `referia serve`).
 2. Otherwise `~/.env`. Use that when the study sits on a network
    filesystem such as OneDrive: walking those trees can time out.
 
-This repo gitignores `.env`. Do not put the key in a stage markdown
-page or in `parameters.yml`.
+This repo gitignores `.env` and `.venv/`. Do not put the key in a stage
+markdown page or in `parameters.yml`.
 
 ## Serve
 
 This study is many configs, so use root-server mode (`--root`), not
 single-config `--directory`. Default host is `127.0.0.1`, default port
-`8000`. From the study root (after Setup and Install):
+`8000`. From the study root with the venv active:
 
 ```bash
-cd dods-ai-dialogue
+source .venv/bin/activate
 referia serve --root . --host 127.0.0.1 --port 8000
 ```
 
 `_config.yml` already sets `referia.urls: permalink`. You can pass
 `--urls permalink` to force that mode. Do not serve this study in path
 mode: the pages are no longer `_referia.md` inside each stage folder.
-
-If referia was installed with Poetry, run it from that checkout:
-
-```bash
-cd ../referia
-poetry run referia serve --root ../dods-ai-dialogue --host 127.0.0.1 --port 8000
-```
 
 Open `http://127.0.0.1:8000/`. Each stage is a filename at the study
 root (`/01_turns/` is `01_turns.md`).
