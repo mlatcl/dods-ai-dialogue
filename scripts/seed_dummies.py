@@ -25,6 +25,9 @@ import yaml
 ROOT = Path(__file__).resolve().parents[1]
 EXAMPLE = ROOT / "_data" / "corpus" / "documents.example.yml"
 DOCUMENTS = ROOT / "_data" / "corpus" / "documents.yml"
+RECORDS = ROOT / "_data" / "corpus" / "records.parquet"
+GROUNDS = ROOT / "_data" / "corpus" / "grounds.yml"
+SCORES = ROOT / "_data" / "corpus" / "scores.yml"
 LOCAL_EXAMPLE = ROOT / "local.example.yml"
 LOCAL = ROOT / "local.yml"
 PARAM_FILES = (
@@ -102,6 +105,58 @@ def _patch_facilitator_names() -> None:
         )
 
 
+def _ensure_minimal_corpus(*, force: bool) -> None:
+    """One-row packed corpus + empty grounds so later stages can open."""
+    import pandas as pd
+
+    RECORDS.parent.mkdir(parents=True, exist_ok=True)
+    if force or not RECORDS.is_file():
+        frame = pd.DataFrame(
+            [
+                {
+                    "Name": "corpus",
+                    "phrases": [],
+                    "embeddings": [],
+                    "doc_ids": [],
+                    "source_files": [],
+                    "groups": [],
+                }
+            ]
+        )
+        frame.to_parquet(RECORDS, index=False)
+        print(f"Wrote {RECORDS.relative_to(ROOT)} (empty pack)")
+    else:
+        print(f"Keeping {RECORDS.relative_to(ROOT)}")
+
+    if force or not GROUNDS.is_file():
+        GROUNDS.write_text("[]\n", encoding="utf-8")
+        print(f"Wrote {GROUNDS.relative_to(ROOT)} (empty)")
+    else:
+        print(f"Keeping {GROUNDS.relative_to(ROOT)}")
+
+    if force or not SCORES.is_file():
+        scores = [
+            {
+                "Name": "corpus",
+                "focus_topic": "",
+                "topic_keys": [],
+                "topic_labels": [],
+                "topic_parent": [],
+                "topic_tree": [],
+                "responsibilities": [],
+                "uq_by_topic": [],
+                "uq_spec": {},
+            }
+        ]
+        SCORES.write_text(
+            yaml.safe_dump(scores, sort_keys=False, allow_unicode=True),
+            encoding="utf-8",
+        )
+        print(f"Wrote {SCORES.relative_to(ROOT)} (empty lens scores)")
+    else:
+        print(f"Keeping {SCORES.relative_to(ROOT)}")
+
+
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument(
@@ -118,6 +173,11 @@ def main(argv: list[str] | None = None) -> int:
         "--skip-params",
         action="store_true",
         help="Do not touch facilitator_names in stage parameters.yml",
+    )
+    parser.add_argument(
+        "--force-corpus",
+        action="store_true",
+        help="Overwrite minimal records.parquet / grounds.yml placeholders",
     )
     args = parser.parse_args(argv)
 
@@ -145,6 +205,8 @@ def main(argv: list[str] | None = None) -> int:
             wrote += 1
         else:
             kept += 1
+
+    _ensure_minimal_corpus(force=args.force_corpus)
 
     if not args.skip_params:
         _patch_facilitator_names()

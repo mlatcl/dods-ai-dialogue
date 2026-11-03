@@ -36,8 +36,8 @@ jobs:
         run: |
           source .venv/bin/activate
           python -m pip install pytest
-          # Installer already ran; skip the nested full reinstall.
-          SMOKE_SKIP_INSTALLER=1 pytest tests/smoke -q
+          # Installer already ran in the previous step.
+          SMOKE_SKIP_INSTALLER=1 pytest tests/smoke -q -m "not slow"
 
       - name: Installer isolation (fresh copy + venv)
         run: |

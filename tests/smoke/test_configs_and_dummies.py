@@ -99,15 +99,15 @@ from fastapi.testclient import TestClient
 from referia.web.app import create_app
 
 root = Path(%r)
+assert (root / "_data/corpus/records.parquet").is_file(), "missing smoke records.parquet"
 app = create_app(root=str(root), urls="permalink")
 with TestClient(app) as client:
-    hub = client.get("/")
-    assert hub.status_code == 200, hub.text[:500]
-    chunk = client.get("/01_chunk/")
-    assert chunk.status_code == 200, chunk.text[:500]
-    assert "Config not found" not in chunk.text
-    part_b = client.get("/07_part_b/")
-    assert part_b.status_code == 200, part_b.text[:500]
+    # 06_compare precomputes lens mix and needs a real responsibilities
+    # matrix; smoke only opens pages that load on the empty pack.
+    for path in ("/", "/01_chunk/", "/07_part_b/"):
+        resp = client.get(path)
+        assert resp.status_code == 200, (path, resp.status_code, resp.text[:500])
+        assert "Config not found" not in resp.text, path
 print("http ok")
 """ % str(seeded_dummies)
     proc = subprocess.run(
