@@ -32,6 +32,7 @@ future: true
 exclude:
   - README.md
   - GAP.md
+  - METHODS_MAP.md
   - local.yml
   - local.example.yml
   - lynguine.log
@@ -42,6 +43,9 @@ exclude:
   - .github
   - .bundle
   - .jekyll-cache
+  - scripts
+  - tests
+  - pytest.ini
   - "**/parameters.yml"
   - _data
   - info

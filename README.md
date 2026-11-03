@@ -69,33 +69,6 @@ knobs stay in `_data/<stage>/parameters.yml` and in
 so `/01_turns/` is `01_turns.md`, not a directory.
 
 ## Data layout
-## GitHub Pages
-
-The same markdown pages are a static site at
-[mlatcl.github.io/dods-ai-dialogue](https://mlatcl.github.io/dods-ai-dialogue/).
-That render is the page body (what each stage does), not the live
-referia widgets. Personal stores are excluded from the build.
-
-CI is GitHub’s Jekyll Pages workflow
-(`.github/workflows/jekyll-gh-pages.yml`). Pushes to `main` run:
-
-```bash
-# equivalent of actions/jekyll-build-pages@v1
-jekyll build --source ./ --destination ./_site --future
-```
-
-`baseurl` is `/dods-ai-dialogue`. Repo Settings → Pages is **GitHub
-Actions**. Pull requests only build; they do not deploy.
-
-Locally:
-
-```bash
-jekyll serve --baseurl /dods-ai-dialogue
-```
-
-Open `http://127.0.0.1:4000/dods-ai-dialogue/`. Do not commit `_site/`.
-
-## Install
 
 All writable analysis artefacts sit under `_data/`:
 
@@ -149,31 +122,29 @@ cd dods-ai-dialogue
 HTTPS works the same way if you prefer
 (`https://github.com/mlatcl/dods-ai-dialogue.git`).
 
-Referia needs **Python 3.11 or higher**. Check before creating the venv:
+Referia needs **Python 3.11 or higher**. The installer checks that,
+creates `.venv`, installs referia from GitHub `main` with the ``llm``
+extra, and copies `local.example.yml` / `documents.example.yml` when
+those targets are missing (not the PyPI `referia` 0.2.0 package — that
+build does not yet include the dialogue pipeline or permalink-tree
+serving):
 
 ```bash
-python3 --version
+./scripts/install.sh
+# optional: ./scripts/install.sh --python python3.12
+# optional smoke grain: ./scripts/install.sh --with-dummies
 ```
 
-That should print something like `Python 3.11.x` or `3.12.x`. If it is
-3.10 or older, install a newer Python (for example via
-[python.org](https://www.python.org/downloads/) or `brew install python@3.12`
-on macOS) and use that interpreter for the steps below
-(`python3.12 -m venv .venv`, …).
-
-Create a virtualenv *in this study* and install
-[referia](https://github.com/lawrennd/referia) from GitHub `main` with
-the ``llm`` extra (not the PyPI package: current `pip install referia` is
-0.2.0 and does not yet include the dialogue pipeline or permalink-tree
-serving). The extra pulls LangChain and the OpenAI/Anthropic clients —
-without it, Propose split, Name, extract, and grounds fail with
-`LangChain is not installed`:
+Equivalent manual steps:
 
 ```bash
+python3 --version   # need 3.11+
 python3 -m venv .venv
 source .venv/bin/activate
-python --version   # confirm the venv is still 3.11+
+python --version
 pip install "referia[llm] @ git+https://github.com/lawrennd/referia.git"
+cp local.example.yml local.yml
+cp _data/corpus/documents.example.yml _data/corpus/documents.yml
 ```
 
 If you are on an older referia commit without the ``llm`` extra, install
@@ -187,13 +158,9 @@ pip install langchain langchain-core langchain-openai langchain-anthropic \
 
 You do not need a local clone of `lawrennd/referia` or `mlatcl/dods`.
 
-Then wire the private working copy:
-
-```bash
-cp local.example.yml local.yml
-cp _data/corpus/documents.example.yml _data/corpus/documents.yml
-# fill local.yml (facilitator names), documents.yml, and files/ from the private store
-```
+Then fill `local.yml`, `documents.yml`, and `files/` from the private
+store — or use `--with-dummies` for synthetic DOCX matching
+`documents.example.yml` (existing real DOCX are left alone).
 
 ## API key
 
@@ -238,6 +205,22 @@ mode: the pages are no longer `_referia.md` inside each stage folder.
 
 Open `http://127.0.0.1:8000/`. Each stage is a filename at the study
 root (`/01_turns/` is `01_turns.md`).
+
+## Smoke tests
+
+After install, lint the referia pages, segment the dummy DOCX, and hit
+the hub / `01_chunk` / `07_part_b` over the ASGI app:
+
+```bash
+./scripts/install.sh --with-dummies
+source .venv/bin/activate
+pip install pytest   # once, if needed
+SMOKE_SKIP_INSTALLER=1 pytest tests/smoke -q
+```
+
+`tests/smoke/test_installer.py` (marker `slow`) re-runs the installer in
+an isolated copy of the study. CI runs both paths in
+`.github/workflows/smoke.yml`.
 
 ## Related
 
