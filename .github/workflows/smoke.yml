@@ -1,0 +1,44 @@
+# Install the study per README and exercise referia configs with dummy DOCX.
+name: Smoke
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: smoke-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Install study (README Setup + dummies)
+        run: ./scripts/install.sh --python python3 --with-dummies
+
+      - name: Config / segment / HTTP smoke
+        run: |
+          source .venv/bin/activate
+          python -m pip install pytest
+          # Installer already ran; skip the nested full reinstall.
+          SMOKE_SKIP_INSTALLER=1 pytest tests/smoke -q
+
+      - name: Installer isolation (fresh copy + venv)
+        run: |
+          source .venv/bin/activate
+          SMOKE_PYTHON="$(command -v python3)" pytest tests/smoke/test_installer.py -q -m slow
