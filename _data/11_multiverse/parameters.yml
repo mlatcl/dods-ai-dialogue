@@ -1,3 +1,11 @@
 - index: dialogue-v1
   n_jsd_shuffles: 100
   seed: 0
+  # CIP-0023 Phase 1 paper axes (aggregate). Off ⇒ canonical level only.
+  axis_definitions: true
+  axis_weightings: true
+  axis_exclusions: true
+  axis_thresholds: true
+  axis_rounds: true
+  # Focus a pipeline node to list its declared parameters.
+  focus_stage: 11_multiverse

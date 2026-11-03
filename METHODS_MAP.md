@@ -158,7 +158,7 @@ to hand back as yours.
 | Your method | This stage | Status |
 |-------------|------------|--------|
 | k=25/60 and multi-run lens stability | Refit `03_vq` → `04_grain` → `06_compare` | Waiting |
-| Analysis-choice product over definitions / weights / exclusions | `11_multiverse` | Page ready; **not yet run** |
+| Analysis-choice product over definitions / weights / exclusions | `11_multiverse` (CIP-0023 DAG + axis ticks) | Page ready; **not yet run** on this corpus |
 
 ---
 

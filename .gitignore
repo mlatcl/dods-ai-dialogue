@@ -26,6 +26,7 @@ files/originals/
 _data/corpus/*
 !_data/corpus/constants.yml
 !_data/corpus/documents.example.yml
+!_data/corpus/pipeline.yml
 
 # Per-stage caches and listing scores
 **/_chunk_cache.yml.gz

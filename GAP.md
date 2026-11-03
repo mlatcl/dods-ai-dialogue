@@ -54,7 +54,7 @@ numbers until the P0 items are closed.
 | Own-words recode (format-blind; same / reworded / gpt-4.1) | `validate.py` | waits on a later coding pass (09 is word-list only) | D6 | Waiting |
 | Blind hand-check sheets | `validation_playbook.md` | waits on human review | Human validation | Waiting |
 | k=25/60 + 3 lens runs | `06_multiverse` / `robust` | refit `03_vq` → `04_grain` → `06_compare` | Stability of thematic analysis | Waiting (other stages) |
-| Analysis-choice product (main-run codes) | `06_multiverse` | `11_multiverse` `run_analysis_multiverse` | Sensitivity across definitions / weights / exclusions | Page ready; **not yet run** (216 configs on main-run 07; not 1080 LLM jobs) |
+| Analysis-choice product (main-run codes) | `06_multiverse` | `11_multiverse` `run_analysis_multiverse` + CIP-0023 axis picker | Sensitivity across definitions / weights / exclusions | Page ready; **not yet run** (216 configs when all five axis boxes on; not 1080 LLM jobs) |
 | Qualitative chatbot-reflection coding | not in `Run` (manual in paper) | not a stage | “Experiences with the chatbot…” | Out of band |
 | Fingerprinted checkpoints / replay | `llm.StageRunner` | LLM diskcache is cost-only | Reproducibility of canonical run | Different contract |
 
