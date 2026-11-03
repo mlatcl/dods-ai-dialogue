@@ -1,0 +1,217 @@
+# CIP-0023 Option A — analysis-as-done graph for the formats study.
+# Nodes are referia stages; edges are named stores. cost_class values:
+#   aggregate | refit | llm | display
+# Phase 1 multiverse Run executes paper axes (aggregate) only.
+
+nodes:
+  - id: 01_chunk
+    permalink: /01_chunk/
+    title: Catalog & segment
+    parameters_path: _data/01_chunk/parameters.yml
+    parameters:
+      - key: min_chunk_words
+        cost_class: display
+        multiverse_eligible: false
+      - key: workshop_chunk_words
+        cost_class: refit
+        multiverse_eligible: true
+      - key: workshop_max_words
+        cost_class: refit
+        multiverse_eligible: true
+
+  - id: 01_turns
+    permalink: /01_turns/
+    title: Speaker turns
+    parameters_path: _data/01_turns/parameters.yml
+    parameters:
+      - key: labelled_min_share
+        cost_class: display
+        multiverse_eligible: false
+
+  - id: 02_extract
+    permalink: /02_extract/
+    title: Extract phrases
+    parameters_path: _data/02_extract/parameters.yml
+    parameters:
+      - key: quote_support_threshold
+        cost_class: aggregate
+        multiverse_eligible: true
+        paper_axis: thresholds
+        label: Quote-support threshold (paper axis)
+      - key: extract_model
+        cost_class: llm
+        multiverse_eligible: true
+      - key: extract_max_items
+        cost_class: llm
+        multiverse_eligible: true
+
+  - id: 02_embed
+    permalink: /02_embed/
+    title: Embed & pack
+    parameters_path: _data/02_embed/parameters.yml
+    parameters:
+      - key: embed_model
+        cost_class: llm
+        multiverse_eligible: true
+
+  - id: 03_vq
+    permalink: /03_vq/
+    title: Vector quantisation
+    parameters_path: _data/03_vq/parameters.yml
+    parameters:
+      - key: n_vq
+        cost_class: refit
+        multiverse_eligible: true
+        label: Codebook size (refit 03→04→06)
+      - key: vq_walk_speed
+        cost_class: display
+        multiverse_eligible: false
+
+  - id: 04_grain
+    permalink: /04_grain/
+    title: Lenses
+    parameters_path: _data/04_grain/parameters.yml
+    parameters:
+      - key: n_clusters
+        cost_class: refit
+        multiverse_eligible: true
+      - key: cluster_method
+        cost_class: refit
+        multiverse_eligible: true
+
+  - id: 05_distance
+    permalink: /05_distance/
+    title: EMD / MDS (extra)
+    parameters_path: _data/05_distance/parameters.yml
+    parameters:
+      - key: n_perm
+        cost_class: display
+        multiverse_eligible: false
+
+  - id: 06_compare
+    permalink: /06_compare/
+    title: Part A shares
+    parameters_path: _data/06_compare/parameters.yml
+    parameters:
+      - key: n_boot
+        cost_class: aggregate
+        multiverse_eligible: true
+      - key: min_gap
+        cost_class: aggregate
+        multiverse_eligible: true
+
+  - id: 07_grounds
+    permalink: /07_grounds/
+    title: Basis coding
+    parameters_path: _data/07_grounds/parameters.yml
+    parameters:
+      - key: grounds_model
+        cost_class: llm
+        multiverse_eligible: true
+
+  - id: 07_part_b
+    permalink: /07_part_b/
+    title: Part B shares
+    parameters_path: _data/07_part_b/parameters.yml
+    parameters:
+      - key: experience_bases
+        cost_class: aggregate
+        multiverse_eligible: true
+        paper_axis: definitions
+      - key: n_boot
+        cost_class: aggregate
+        multiverse_eligible: true
+      - key: min_gap
+        cost_class: aggregate
+        multiverse_eligible: true
+
+  - id: 08_questions
+    permalink: /08_questions/
+    title: Question-type stress
+    parameters_path: _data/08_questions/parameters.yml
+    parameters: []
+
+  - id: 09_validate
+    permalink: /09_validate/
+    title: Word-list floor
+    parameters_path: _data/09_validate/parameters.yml
+    parameters: []
+
+  - id: 10_sequence
+    permalink: /10_sequence/
+    title: Stories-follow-stories
+    parameters_path: _data/10_sequence/parameters.yml
+    parameters: []
+
+  - id: 11_multiverse
+    permalink: /11_multiverse/
+    title: Analysis-choice product
+    parameters_path: _data/11_multiverse/parameters.yml
+    parameters:
+      - key: axis_definitions
+        cost_class: aggregate
+        multiverse_eligible: true
+        paper_axis: definitions
+      - key: axis_weightings
+        cost_class: aggregate
+        multiverse_eligible: true
+        paper_axis: weightings
+      - key: axis_exclusions
+        cost_class: aggregate
+        multiverse_eligible: true
+        paper_axis: exclusions
+      - key: axis_thresholds
+        cost_class: aggregate
+        multiverse_eligible: true
+        paper_axis: thresholds
+      - key: axis_rounds
+        cost_class: aggregate
+        multiverse_eligible: true
+        paper_axis: rounds
+
+edges:
+  - from: 01_chunk
+    to: 02_extract
+    via: _data/corpus/chunks.yml
+  - from: 01_chunk
+    to: 01_turns
+    via: files/ (DOCX)
+  - from: 02_extract
+    to: 02_embed
+    via: _data/corpus/extracts
+  - from: 02_embed
+    to: 03_vq
+    via: _data/corpus/records.parquet
+  - from: 03_vq
+    to: 04_grain
+    via: codebook.parquet
+  - from: 04_grain
+    to: 05_distance
+    via: scores.yml
+  - from: 04_grain
+    to: 06_compare
+    via: scores.yml + records.parquet
+  - from: 02_extract
+    to: 07_grounds
+    via: extraction phrases
+  - from: 07_grounds
+    to: 07_part_b
+    via: _data/corpus/grounds.yml
+  - from: 07_grounds
+    to: 08_questions
+    via: grounds + chunks
+  - from: 07_grounds
+    to: 09_validate
+    via: grounds + phrases
+  - from: 01_turns
+    to: 10_sequence
+    via: turns.yml
+  - from: 07_grounds
+    to: 10_sequence
+    via: grounds.yml
+  - from: 07_grounds
+    to: 11_multiverse
+    via: grounds.yml (main-run codes)
+  - from: 07_part_b
+    to: 11_multiverse
+    via: Part B estimator knobs (aggregate)
