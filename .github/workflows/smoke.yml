@@ -25,8 +25,9 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
+          # No requirements.txt / pyproject.toml in this study; install.sh
+          # pulls referia from git, so skip setup-python's pip cache.
           python-version: "3.12"
-          cache: pip
 
       - name: Install study (README Setup + dummies)
         run: ./scripts/install.sh --python python3 --with-dummies
