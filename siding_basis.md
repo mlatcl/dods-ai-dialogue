@@ -38,6 +38,19 @@ input:
   index: index
   select: dialogue-v1
 
+# CIP-0024 Class B
+phrases:
+  type: yaml
+  filename: phrases.yml
+  directory: _data/corpus
+  index: phrase_id
+
+grounds:
+  type: yaml
+  filename: grounds.yml
+  directory: _data/corpus
+  index: phrase_id
+
 output:
   type: yaml
   filename: basis_check.yml

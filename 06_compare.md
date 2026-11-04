@@ -50,6 +50,19 @@ data:
   directory: _data/corpus
   index: Name
 
+# CIP-0024 Class B fillers when pack kinds / VQ ids are absent on the row.
+phrases:
+  type: yaml
+  filename: phrases.yml
+  directory: _data/corpus
+  index: phrase_id
+
+codebook:
+  type: parquet
+  filename: codebook.parquet
+  directory: _data/corpus
+  index: Name
+
 output:
   type: yaml
   filename: part_a.yml

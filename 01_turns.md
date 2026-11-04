@@ -38,6 +38,13 @@ input:
   index: index
   select: dialogue-v1
 
+# CIP-0024: hand roster for rebuild (not ``documents:`` — reserved).
+roster:
+  type: yaml
+  filename: documents.yml
+  directory: _data/corpus
+  index: Name
+
 cache:
   type: yaml
   filename: _turns_cache.yml.gz
