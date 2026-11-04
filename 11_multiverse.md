@@ -93,15 +93,16 @@ viewer:
       03→04→06 refit, not this page.
 
   - liquid: |
-      ## Pipeline (CIP-0023)
+      ## Pipeline (CIP-0023 / CIP-0024)
 
-      Graph of the reconstruction as done (`_data/corpus/pipeline.yml`).
-      Nodes are stages; edges are stores. Expand a stage via
-      **focus_stage** to see declared parameters and cost classes
-      (`aggregate` / `refit` / `llm` / `display`). Phase 1 **Run** only
-      products the five paper **aggregate** axes below — ticking a
-      whole refit/LLM stage is recorded on the graph for later, not
-      executed here.
+      Graph of the reconstruction as done — edges discovered from
+      declared interface stores on each stage; `_data/corpus/pipeline.yml`
+      only overlays titles and multiverse cost / paper-axis metadata.
+      Expand a stage via **focus_stage** to see declared parameters and
+      cost classes (`aggregate` / `refit` / `llm` / `display`). Phase 1
+      **Run** only products the five paper **aggregate** axes below —
+      ticking a whole refit/LLM stage is recorded on the graph for later,
+      not executed here.
 
   - type: PlotlyFigure
     field: pipeline_dag

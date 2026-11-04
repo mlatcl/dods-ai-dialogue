@@ -1,8 +1,7 @@
-# CIP-0023 Option A — analysis-as-done graph for the formats study.
-# Nodes are referia stages; edges are named stores. cost_class values:
-#   aggregate | refit | llm | display
-# Phase 1 multiverse Run executes paper axes (aggregate) only.
-
+# CIP-0023 / CIP-0024 — multiverse picker overlay (not the graph).
+# Topology comes from declared interface stores on stage frontmatter
+# (referia compose_pipeline_manifest / discover_pipeline_edges).
+# Nodes below supply titles, permalinks, cost classes, and paper axes.
 nodes:
   - id: 01_chunk
     permalink: /01_chunk/
@@ -168,50 +167,3 @@ nodes:
         cost_class: aggregate
         multiverse_eligible: true
         paper_axis: rounds
-
-edges:
-  - from: 01_chunk
-    to: 02_extract
-    via: _data/corpus/chunks.yml
-  - from: 01_chunk
-    to: 01_turns
-    via: files/ (DOCX)
-  - from: 02_extract
-    to: 02_embed
-    via: _data/corpus/extracts
-  - from: 02_embed
-    to: 03_vq
-    via: _data/corpus/records.parquet
-  - from: 03_vq
-    to: 04_grain
-    via: codebook.parquet
-  - from: 04_grain
-    to: 05_distance
-    via: scores.yml
-  - from: 04_grain
-    to: 06_compare
-    via: scores.yml + records.parquet
-  - from: 02_extract
-    to: 07_grounds
-    via: extraction phrases
-  - from: 07_grounds
-    to: 07_part_b
-    via: _data/corpus/grounds.yml
-  - from: 07_grounds
-    to: 08_questions
-    via: grounds + chunks
-  - from: 07_grounds
-    to: 09_validate
-    via: grounds + phrases
-  - from: 01_turns
-    to: 10_sequence
-    via: turns.yml
-  - from: 07_grounds
-    to: 10_sequence
-    via: grounds.yml
-  - from: 07_grounds
-    to: 11_multiverse
-    via: grounds.yml (main-run codes)
-  - from: 07_part_b
-    to: 11_multiverse
-    via: Part B estimator knobs (aggregate)
