@@ -35,6 +35,13 @@ input:
   directory: _data/corpus
   index: Name
 
+# CIP-0024 Class B — chatbot context lives on chunks, not the pack row.
+chunks:
+  type: yaml
+  filename: chunks.yml
+  directory: _data/corpus
+  index: unit_id
+
 output:
   type: yaml
   filename: question_types.yml

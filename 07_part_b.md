@@ -43,6 +43,13 @@ input:
   directory: _data/corpus
   index: Name
 
+# CIP-0024 Class B sidecar — phrase grain; not joined onto corpus Name.
+grounds:
+  type: yaml
+  filename: grounds.yml
+  directory: _data/corpus
+  index: phrase_id
+
 output:
   type: yaml
   filename: part_b.yml

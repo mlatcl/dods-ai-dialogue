@@ -35,6 +35,19 @@ input:
   directory: _data/corpus
   index: Name
 
+# CIP-0024 Class B sidecars.
+phrases:
+  type: yaml
+  filename: phrases.yml
+  directory: _data/corpus
+  index: phrase_id
+
+grounds:
+  type: yaml
+  filename: grounds.yml
+  directory: _data/corpus
+  index: phrase_id
+
 output:
   type: yaml
   filename: wordlist.yml

@@ -38,6 +38,25 @@ input:
   index: index
   select: dialogue-v1
 
+# CIP-0024 Class B (grain ≠ Name; do not use data: scores here).
+phrases:
+  type: yaml
+  filename: phrases.yml
+  directory: _data/corpus
+  index: phrase_id
+
+grain:
+  type: yaml
+  filename: scores.yml
+  directory: _data/corpus
+  index: Name
+
+codebook:
+  type: parquet
+  filename: codebook.parquet
+  directory: _data/corpus
+  index: Name
+
 output:
   type: yaml
   filename: lens_check.yml

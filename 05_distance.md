@@ -50,6 +50,18 @@ data:
 # Do not use a ``documents:`` store here. That key is reserved for
 # generate-document actions (Create docx / Create yaml). Group labels
 # already sit on the packed corpus row (``groups`` from 02_embed).
+# CIP-0024: optional fillers for VQ ids / chapter titles.
+codebook:
+  type: parquet
+  filename: codebook.parquet
+  directory: _data/corpus
+  index: Name
+
+roster:
+  type: yaml
+  filename: documents.yml
+  directory: _data/corpus
+  index: Name
 
 output:
   type: yaml
